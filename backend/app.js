@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -9,7 +10,6 @@ const weatherRoutes = require("./routes/weatherRoutes");
 const pool = require("./config/db");
 
 const PORT = 5000;
-
 
 // routes
 app.use("/", weatherRoutes);

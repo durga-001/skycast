@@ -4,7 +4,7 @@ const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "weather_app",
-  password: "BhavyaDurgaDRDO",
+  password: process.env.password,
   port: 5432,
 });
 
