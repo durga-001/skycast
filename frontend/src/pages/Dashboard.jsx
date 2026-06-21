@@ -16,10 +16,10 @@ import { WiHumidity } from "react-icons/wi";
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { MdOutlineVisibility } from "react-icons/md";
 import { GiPressureCooker } from "react-icons/gi";
-import getBackgroundImage from "../src/utils/getBackgroundImage"
-import WeatherMap from "../src/components/WeatherMap";
-import WeatherNews from "../src/components/WeatherNews";
-import Footer from "../src/components/Footer";
+import getBackgroundImage from "../utils/getBackgroundImage";
+import WeatherMap from "../components/WeatherMap";
+import WeatherNews from "../components/WeatherNews";
+import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {

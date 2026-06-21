@@ -1,24 +1,36 @@
-
-import "react-toastify/dist/ReactToastify.css";
-import "./App.css";
-import Dashboard from "../pages/Dashboard";
-
+// App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import WeatherMapPage from "../pages/WeatherMapPage";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import WeatherMapPage from "./pages/WeatherMapPage";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/weather-map"
-          element={<WeatherMapPage />}
+          element={
+            <ProtectedRoute>
+              <WeatherMapPage />
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;

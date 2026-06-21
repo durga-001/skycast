@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import LargeWeatherMap from "../src/components/LargeWeatherMap";
+import LargeWeatherMap from "../components/LargeWeatherMap";
 import { useState } from "react";
 import {
   WiThermometer,
