@@ -1,12 +1,15 @@
+@import "tailwindcss";
+
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: 'Helvetica Neue';
-}
-			
-html, body {
-  height: 100%;
-	width: 100%;
+  font-family: "Inter", sans-serif;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
