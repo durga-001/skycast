@@ -1,227 +1,445 @@
-// pages/Home.jsx
-import { useState } from "react";
-import axios from "axios";
-import { motion } from "framer-motion";
-import { FiDroplet, FiWind, FiMapPin } from "react-icons/fi";
-import Navbar from "../components/Navbar";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
+import {
+  WiDaySunny,
+  WiHumidity,
+  WiStrongWind,
+  WiBarometer,
+  WiRain,
+  WiThermometer,
+} from "react-icons/wi";
+import {
+  HiArrowRight,
+  HiGlobeAlt,
+  HiLightningBolt,
+  HiShieldCheck,
+  HiChartBar,
+  HiDeviceMobile,
+  HiBell,
+} from "react-icons/hi";
+import { MdAutoGraph } from "react-icons/md";
 import Hero from "../components/Hero";
 import Globe from "../components/Globe";
-import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
-export default function Home() {
-  const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+/* ─────────────────────────────────────────────
+   UTILITIES
+───────────────────────────────────────────── */
+function FadeUp({ children, delay = 0, className = "" }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
-  const handleLocationSelect = async ({ lat, lng }) => {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await axios.get("/weather", { params: { lat, lon: lng } });
-      setWeather(res.data);
-    } catch (err) {
-      setError("Unable to fetch weather for this location");
-    } finally {
-      setLoading(false);
-    }
+function SectionEyebrow({ text }) {
+  return (
+    <div className="inline-flex items-center gap-2 mb-5 px-5 py-2 rounded-full bg-white/6 border border-orange-400/25 text-xs font-semibold text-orange-300 uppercase tracking-widest">
+      <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
+      {text}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   FEATURES SECTION
+───────────────────────────────────────────── */
+const features = [
+  {
+    icon: HiGlobeAlt,
+    title: "Global Coverage",
+    desc: "Access real-time weather data for every coordinate on Earth — from major cities to remote wilderness.",
+    accent: "from-orange-500/20 to-orange-500/5",
+    border: "border-orange-500/20",
+    iconColor: "text-orange-400",
+    glow: "bg-orange-500/10",
+  },
+  {
+    icon: HiLightningBolt,
+    title: "Instant Results",
+    desc: "Sub-100ms response times powered by distributed edge infrastructure. No waiting, no loading skeletons.",
+    accent: "from-amber-500/20 to-amber-500/5",
+    border: "border-amber-500/20",
+    iconColor: "text-amber-400",
+    glow: "bg-amber-500/10",
+  },
+  {
+    icon: HiShieldCheck,
+    title: "Reliable Uptime",
+    desc: "99.9% SLA backed by redundant data sources. Your app stays live even when the weather gets wild.",
+    accent: "from-emerald-500/20 to-emerald-500/5",
+    border: "border-emerald-500/20",
+    iconColor: "text-emerald-400",
+    glow: "bg-emerald-500/10",
+  },
+  {
+    icon: HiChartBar,
+    title: "Rich Data Points",
+    desc: "Temperature, humidity, wind, UV index, visibility, pressure, dew point — every metric you need.",
+    accent: "from-rose-500/20 to-rose-500/5",
+    border: "border-rose-500/20",
+    iconColor: "text-rose-400",
+    glow: "bg-rose-500/10",
+  },
+  {
+    icon: HiDeviceMobile,
+    title: "Mobile First",
+    desc: "Fully responsive dashboard that works beautifully on every screen size, from watch to widescreen.",
+    accent: "from-sky-500/20 to-sky-500/5",
+    border: "border-sky-500/20",
+    iconColor: "text-sky-400",
+    glow: "bg-sky-500/10",
+  },
+  {
+    icon: HiBell,
+    title: "Smart Alerts",
+    desc: "Get notified before severe weather hits your saved locations — storms, frost, heat waves and more.",
+    accent: "from-violet-500/20 to-violet-500/5",
+    border: "border-violet-500/20",
+    iconColor: "text-violet-400",
+    glow: "bg-violet-500/10",
+  },
+];
+
+function FeatureCard({ feature, index }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const Icon = feature.icon;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 32 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 0.6,
+        delay: (index % 3) * 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className={`group relative flex flex-col gap-4 p-7 rounded-3xl
+        bg-gradient-to-br ${feature.accent}
+        border ${feature.border}
+        backdrop-blur-sm hover:scale-[1.02] transition-transform duration-300`}
+    >
+      {/* icon */}
+      <div
+        className={`w-12 h-12 rounded-2xl ${feature.glow} flex items-center justify-center`}
+      >
+        <Icon className={`text-2xl ${feature.iconColor}`} />
+      </div>
+      <div>
+        <h3 className="text-base font-bold text-white mb-1.5">
+          {feature.title}
+        </h3>
+        <p className="text-sm text-slate-400 leading-relaxed">{feature.desc}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function FeaturesSection() {
+  return (
+    <section
+      id="features"
+      className="relative py-24 md:py-32 bg-slate-950 overflow-hidden"
+    >
+      {/* background accents */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/6 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-500/6 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+        <div className="text-center mb-16">
+          <FadeUp>
+            <SectionEyebrow text="Features" />
+          </FadeUp>
+          <FadeUp delay={0.08}>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Everything weather.{" "}
+              <span className="bg-gradient-to-r from-orange-400 to-rose-500 bg-clip-text text-transparent">
+                Nothing extra.
+              </span>
+            </h2>
+          </FadeUp>
+          <FadeUp delay={0.16}>
+            <p className="mt-4 text-base md:text-lg text-slate-400 max-w-xl mx-auto">
+              SkyCast is built for developers and enthusiasts who want precise,
+              beautiful weather data without the bloat.
+            </p>
+          </FadeUp>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {features.map((f, i) => (
+            <FeatureCard key={f.title} feature={f} index={i} />
+          ))}
+        </div>
+
+        {/* Stats row */}
+        <FadeUp delay={0.2} className="mt-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/8 rounded-3xl overflow-hidden border border-white/8">
+            {[
+              { icon: WiDaySunny, value: "190+", label: "Countries" },
+              { icon: WiThermometer, value: "50+", label: "Data points" },
+              { icon: MdAutoGraph, value: "99.9%", label: "Uptime" },
+              { icon: WiBarometer, value: "<100ms", label: "Response" },
+            ].map(({ icon: Icon, value, label }) => (
+              <div
+                key={label}
+                className="flex flex-col items-center gap-2 py-8 px-4 bg-slate-950"
+              >
+                <Icon className="text-3xl text-orange-400" />
+                <span className="text-2xl md:text-3xl font-extrabold text-white">
+                  {value}
+                </span>
+                <span className="text-xs text-slate-500 uppercase tracking-widest font-medium">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </FadeUp>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   HOW IT WORKS
+───────────────────────────────────────────── */
+const steps = [
+  {
+    step: "01",
+    title: "Spin the Globe",
+    desc: "Drag to rotate the interactive 3D globe and explore any region of the world.",
+  },
+  {
+    step: "02",
+    title: "Click a Location",
+    desc: "Tap any point on the globe. Coordinates are instantly captured and sent to our weather engine.",
+  },
+  {
+    step: "03",
+    title: "Get Instant Weather",
+    desc: "Real-time temperature, humidity, wind speed, and conditions appear in under a second.",
+  },
+];
+
+function HowItWorksSection() {
+  return (
+    <section className="relative py-24 md:py-32 bg-slate-950 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-orange-500/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
+        <div className="text-center mb-16">
+          <FadeUp>
+            <SectionEyebrow text="How it works" />
+          </FadeUp>
+          <FadeUp delay={0.08}>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+              Three steps to{" "}
+              <span className="bg-gradient-to-r from-orange-400 to-rose-500 bg-clip-text text-transparent">
+                any forecast.
+              </span>
+            </h2>
+          </FadeUp>
+        </div>
+
+        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* connecting line desktop */}
+          <div className="hidden md:block absolute top-8 left-[16.67%] right-[16.67%] h-px bg-gradient-to-r from-orange-500/0 via-orange-500/40 to-orange-500/0 pointer-events-none" />
+
+          {steps.map((s, i) => (
+            <FadeUp key={s.step} delay={i * 0.15}>
+              <div className="relative flex flex-col items-center text-center gap-4">
+                {/* step number bubble */}
+                <div
+                  className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center
+                  bg-gradient-to-br from-orange-500/30 to-rose-500/20
+                  border border-orange-500/30 shadow-lg shadow-orange-500/10"
+                >
+                  <span className="text-xl font-black text-orange-400">
+                    {s.step}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white">{s.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
+                  {s.desc}
+                </p>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   CTA SECTION
+───────────────────────────────────────────── */
+function CTASection() {
+  return (
+    <section className="relative py-24 md:py-32 bg-slate-950 overflow-hidden">
+      <div className="relative max-w-4xl mx-auto px-6 md:px-10 lg:px-16">
+        <FadeUp>
+          <div
+            className="relative flex flex-col items-center text-center gap-8
+            bg-gradient-to-br from-orange-500/12 via-white/4 to-rose-500/12
+            border border-white/10 rounded-[2.5rem]
+            px-8 py-16 md:px-16 md:py-20
+            shadow-2xl shadow-black/40 overflow-hidden"
+          >
+            {/* corner glows */}
+            <div className="absolute -top-16 -left-16 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-rose-500/20 rounded-full blur-3xl pointer-events-none" />
+
+            {/* dot grid */}
+            <div
+              className="absolute inset-0 opacity-[0.035] pointer-events-none"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle, #fff 1px, transparent 1px)",
+                backgroundSize: "32px 32px",
+              }}
+            />
+
+            <div className="relative z-10 flex flex-col items-center gap-6">
+              <SectionEyebrow text="Get started free" />
+
+              {/* mini trust badges */}
+              <div className="flex flex-wrap items-center justify-center gap-6 mt-4 text-xs text-slate-500 font-medium">
+                {[
+                  "No credit card required",
+                  "Free forever plan",
+                  "190+ countries",
+                ].map((t) => (
+                  <span key={t} className="flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-orange-400" />
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </FadeUp>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+function Footer() {
+  const links = {
+    Product: ["Features", "Globe", "Dashboard", "Changelog"],
+    Company: ["About", "Blog", "Careers", "Press"],
+    Legal: ["Privacy", "Terms", "Cookies"],
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] relative overflow-hidden">
-      <div className="pointer-events-none absolute top-[-10%] left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-cyan-500/10 rounded-full blur-[120px]" />
-      <div className="pointer-events-none absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 left-[-10%] w-[500px] h-[500px] bg-cyan-400/5 rounded-full blur-[120px]" />
+    <footer className="relative bg-slate-950 border-t border-white/8 mt-24 py-12 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-40 bg-orange-500/5 rounded-full blur-3xl" />
+      </div>
 
-      <div className="relative z-10">
-        <Navbar />
-        <Hero />
-
-        <section
-          id="globe"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center"
-        >
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent mb-4"
-          >
-            Click Anywhere on the Globe
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-slate-400 mb-14 text-base md:text-lg max-w-2xl mx-auto"
-          >
-            Get instant weather data for any location on Earth
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="max-w-3xl mx-auto rounded-3xl p-4 sm:p-6 md:p-8 bg-white/[0.02] border border-white/5 backdrop-blur-sm shadow-[0_0_60px_-15px_rgba(34,211,238,0.15)]"
-          >
-            <Globe onLocationSelect={handleLocationSelect} />
-          </motion.div>
-
-          {loading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center justify-center gap-2 mt-10"
-            >
-              <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-              <p className="text-cyan-400 text-sm font-medium tracking-wide">
-                Fetching weather...
-              </p>
-            </motion.div>
-          )}
-
-          {error && (
-            <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-red-400 mt-10 text-sm font-medium bg-red-500/10 border border-red-500/20 rounded-full px-4 py-2 inline-block"
-            >
-              {error}
-            </motion.p>
-          )}
-
-          {weather && (
-            <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="mt-14 max-w-md mx-auto backdrop-blur-2xl bg-white/[0.04] border border-cyan-500/20 rounded-3xl p-8 md:p-10 shadow-[0_0_50px_-12px_rgba(34,211,238,0.25)] text-left hover:border-cyan-500/40 transition-colors duration-300"
-            >
-              <div className="flex items-center gap-2 text-cyan-400 mb-3">
-                <FiMapPin className="text-lg" />
-                <h3 className="text-xl font-semibold text-white tracking-tight">
-                  {weather.city}
-                </h3>
+      <div className="relative max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
+            <Link to="/" className="flex items-center gap-2 group w-fit">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full bg-orange-500/30 blur-md" />
+                <WiDaySunny className="relative text-3xl text-orange-400" />
               </div>
-              <p className="text-6xl md:text-7xl font-bold bg-gradient-to-br from-white to-slate-300 bg-clip-text text-transparent mt-4 leading-none">
-                {weather.temperature}°C
-              </p>
-              <p className="text-slate-400 mt-3 text-base">
-                {weather.condition}
-              </p>
-
-              <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
-                <div className="flex items-center gap-3 text-slate-300">
-                  <span className="p-2.5 rounded-lg bg-cyan-500/10">
-                    <FiDroplet className="text-cyan-400" />
+              <span className="text-lg font-bold">
+                <span className="text-white">Sky</span>
+                <span className="bg-gradient-to-r from-orange-400 to-rose-500 bg-clip-text text-transparent">
+                  Cast
+                </span>
+              </span>
+            </Link>
+            <p className="text-sm text-slate-500 leading-relaxed max-w-xs">
+              Premium weather intelligence for every corner of the globe.
+            </p>
+            {/* mini weather strip */}
+            <div className="flex items-center gap-3 mt-1">
+              {[
+                { icon: WiDaySunny, v: "24°" },
+                { icon: WiHumidity, v: "61%" },
+                { icon: WiStrongWind, v: "12 km/h" },
+                { icon: WiRain, v: "10%" },
+              ].map(({ icon: Icon, v }) => (
+                <div key={v} className="flex flex-col items-center gap-0.5">
+                  <Icon className="text-lg text-orange-400/70" />
+                  <span className="text-[10px] text-slate-600 font-medium">
+                    {v}
                   </span>
-                  <span className="text-sm">{weather.humidity}% Humidity</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-300">
-                  <span className="p-2.5 rounded-lg bg-cyan-500/10">
-                    <FiWind className="text-cyan-400" />
-                  </span>
-                  <span className="text-sm">{weather.windSpeed} km/h</span>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </section>
+              ))}
+            </div>
+          </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          {/* Link columns */}
+          {Object.entries(links).map(([group, items]) => (
+            <div key={group} className="flex flex-col gap-3">
+              <p className="text-xs font-semibold text-slate-300 uppercase tracking-widest mb-1">
+                {group}
+              </p>
+              {items.map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-sm text-slate-500 hover:text-slate-200 transition-colors duration-200"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          ))}
         </div>
 
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent mb-16"
-          >
-            Why SkyCast
-          </motion.h2>
-
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Live Weather Maps",
-                desc: "Visualize precipitation, temperature and wind patterns in real time.",
-              },
-              {
-                title: "Global Coverage",
-                desc: "Get accurate forecasts for any city or coordinate worldwide.",
-              },
-              {
-                title: "Smart Dashboard",
-                desc: "Personalized insights with a clean, premium dashboard experience.",
-              },
-            ].map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4 }}
-                className="group relative backdrop-blur-xl bg-white/[0.03] border border-white/10 rounded-2xl p-8 md:p-10 hover:border-cyan-500/40 hover:bg-white/[0.05] transition-all duration-300 shadow-lg shadow-black/20"
-              >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/5 group-hover:to-blue-500/5 transition-all duration-300 pointer-events-none" />
-                <h3 className="text-lg md:text-xl font-semibold text-white tracking-tight">
-                  {f.title}
-                </h3>
-                <p className="text-slate-400 mt-3 text-sm leading-relaxed">
-                  {f.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center relative">
-          <div className="pointer-events-none absolute inset-0 flex justify-center items-center">
-            <div className="w-[400px] h-[200px] bg-cyan-500/10 rounded-full blur-[100px]" />
-          </div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent"
-          >
-            Ready to explore the skies?
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative text-slate-400 mt-4 text-base md:text-lg max-w-xl mx-auto"
-          >
-            Sign up now and unlock the full SkyCast dashboard.
-          </motion.p>
-
-          <motion.a
-            href="/signup"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="relative inline-block mt-10 px-9 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 font-semibold shadow-[0_0_30px_-5px_rgba(34,211,238,0.5)] hover:shadow-[0_0_40px_-5px_rgba(34,211,238,0.7)] transition-shadow duration-300"
-          >
-            Get Started
-          </motion.a>
-        </section>
-
-        <Footer />
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/8">
+          <p className="text-xs text-slate-600">
+            © {new Date().getFullYear()} SkyCast. All rights reserved.
+          </p>
+          <p className="text-xs text-slate-600">
+            Built with <span className="text-orange-400">♥</span> using React +
+            Open-Meteo
+          </p>
+        </div>
       </div>
+    </footer>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   HOME PAGE (assembles all sections)
+───────────────────────────────────────────── */
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-slate-950 flex flex-col items-center text-center space-y-24">
+      <Navbar />
+      <Hero />
+      <Globe />
+      <FeaturesSection />
+      <HowItWorksSection />
+      <Footer />
     </div>
   );
 }
