@@ -217,7 +217,7 @@ export default function Navbar() {
                     <Link
                       to="/signup"
                       onClick={() => setMenuOpen(false)}
-                      className="w-full px-5 py-3 text-sm font-semibold text-center text-slate-950 rounded-xl bg-gradient-to-r from-orange-400 to-rose-500 hover:from-orange-300 hover:to-rose-400 shadow-lg shadow-orange-500/20 transition-all duration-200"
+                      className="w-full px-10 py-5 text-sm font-semibold text-center text-slate-950 rounded-xl bg-gradient-to-r from-orange-400 to-rose-500 hover:from-orange-300 hover:to-rose-400 shadow-lg shadow-orange-500/20 transition-all duration-200"
                     >
                       Get Started
                     </Link>
