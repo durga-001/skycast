@@ -337,12 +337,6 @@ export default function Login() {
               Sign up free
             </Link>
           </p>
-
-          {/* Demo hint */}
-          <p className="text-center text-xs text-slate-600 mt-3">
-            Demo: <span className="text-slate-400">demo@skycast.app</span> /{" "}
-            <span className="text-slate-400">password123</span>
-          </p>
         </div>
       </motion.div>
     </div>

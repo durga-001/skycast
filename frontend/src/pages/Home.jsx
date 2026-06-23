@@ -50,66 +50,10 @@ function SectionEyebrow({ text }) {
     </div>
   );
 }
-
 /* ─────────────────────────────────────────────
    FEATURES SECTION
 ───────────────────────────────────────────── */
-const features = [
-  {
-    icon: HiGlobeAlt,
-    title: "Global Coverage",
-    desc: "Access real-time weather data for every coordinate on Earth — from major cities to remote wilderness.",
-    accent: "from-orange-500/20 to-orange-500/5",
-    border: "border-orange-500/20",
-    iconColor: "text-orange-400",
-    glow: "bg-orange-500/10",
-  },
-  {
-    icon: HiLightningBolt,
-    title: "Instant Results",
-    desc: "Sub-100ms response times powered by distributed edge infrastructure. No waiting, no loading skeletons.",
-    accent: "from-amber-500/20 to-amber-500/5",
-    border: "border-amber-500/20",
-    iconColor: "text-amber-400",
-    glow: "bg-amber-500/10",
-  },
-  {
-    icon: HiShieldCheck,
-    title: "Reliable Uptime",
-    desc: "99.9% SLA backed by redundant data sources. Your app stays live even when the weather gets wild.",
-    accent: "from-emerald-500/20 to-emerald-500/5",
-    border: "border-emerald-500/20",
-    iconColor: "text-emerald-400",
-    glow: "bg-emerald-500/10",
-  },
-  {
-    icon: HiChartBar,
-    title: "Rich Data Points",
-    desc: "Temperature, humidity, wind, UV index, visibility, pressure, dew point — every metric you need.",
-    accent: "from-rose-500/20 to-rose-500/5",
-    border: "border-rose-500/20",
-    iconColor: "text-rose-400",
-    glow: "bg-rose-500/10",
-  },
-  {
-    icon: HiDeviceMobile,
-    title: "Mobile First",
-    desc: "Fully responsive dashboard that works beautifully on every screen size, from watch to widescreen.",
-    accent: "from-sky-500/20 to-sky-500/5",
-    border: "border-sky-500/20",
-    iconColor: "text-sky-400",
-    glow: "bg-sky-500/10",
-  },
-  {
-    icon: HiBell,
-    title: "Smart Alerts",
-    desc: "Get notified before severe weather hits your saved locations — storms, frost, heat waves and more.",
-    accent: "from-violet-500/20 to-violet-500/5",
-    border: "border-violet-500/20",
-    iconColor: "text-violet-400",
-    glow: "bg-violet-500/10",
-  },
-];
+const features = [];
 
 function FeatureCard({ feature, index }) {
   const ref = useRef(null);
@@ -159,7 +103,7 @@ function FeaturesSection() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-500/6 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 md:px-10 lg:px-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <FadeUp>
             <SectionEyebrow text="Features" />
@@ -172,20 +116,13 @@ function FeaturesSection() {
               </span>
             </h2>
           </FadeUp>
-          <FadeUp delay={0.16}>
-            <p className="mt-4 text-base md:text-lg text-slate-400 max-w-xl mx-auto">
-              SkyCast is built for developers and enthusiasts who want precise,
-              beautiful weather data without the bloat.
-            </p>
-          </FadeUp>
+          <FadeUp delay={0.16}></FadeUp>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((f, i) => (
             <FeatureCard key={f.title} feature={f} index={i} />
           ))}
         </div>
-
         {/* Stats row */}
         <FadeUp delay={0.2} className="mt-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/8 rounded-3xl overflow-hidden border border-white/8">
@@ -210,79 +147,6 @@ function FeaturesSection() {
             ))}
           </div>
         </FadeUp>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────────────────────────────────
-   HOW IT WORKS
-───────────────────────────────────────────── */
-const steps = [
-  {
-    step: "01",
-    title: "Spin the Globe",
-    desc: "Drag to rotate the interactive 3D globe and explore any region of the world.",
-  },
-  {
-    step: "02",
-    title: "Click a Location",
-    desc: "Tap any point on the globe. Coordinates are instantly captured and sent to our weather engine.",
-  },
-  {
-    step: "03",
-    title: "Get Instant Weather",
-    desc: "Real-time temperature, humidity, wind speed, and conditions appear in under a second.",
-  },
-];
-
-function HowItWorksSection() {
-  return (
-    <section className="relative py-24 md:py-32 bg-slate-950 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-orange-500/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative max-w-5xl mx-auto px-6 md:px-10 lg:px-16">
-        <div className="text-center mb-16">
-          <FadeUp>
-            <SectionEyebrow text="How it works" />
-          </FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
-              Three steps to{" "}
-              <span className="bg-gradient-to-r from-orange-400 to-rose-500 bg-clip-text text-transparent">
-                any forecast.
-              </span>
-            </h2>
-          </FadeUp>
-        </div>
-
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* connecting line desktop */}
-          <div className="hidden md:block absolute top-8 left-[16.67%] right-[16.67%] h-px bg-gradient-to-r from-orange-500/0 via-orange-500/40 to-orange-500/0 pointer-events-none" />
-
-          {steps.map((s, i) => (
-            <FadeUp key={s.step} delay={i * 0.15}>
-              <div className="relative flex flex-col items-center text-center gap-4">
-                {/* step number bubble */}
-                <div
-                  className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center
-                  bg-gradient-to-br from-orange-500/30 to-rose-500/20
-                  border border-orange-500/30 shadow-lg shadow-orange-500/10"
-                >
-                  <span className="text-xl font-black text-orange-400">
-                    {s.step}
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold text-white">{s.title}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
-                  {s.desc}
-                </p>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -376,41 +240,7 @@ function Footer() {
             <p className="text-sm text-slate-500 leading-relaxed max-w-xs">
               Premium weather intelligence for every corner of the globe.
             </p>
-            {/* mini weather strip */}
-            <div className="flex items-center gap-3 mt-1">
-              {[
-                { icon: WiDaySunny, v: "24°" },
-                { icon: WiHumidity, v: "61%" },
-                { icon: WiStrongWind, v: "12 km/h" },
-                { icon: WiRain, v: "10%" },
-              ].map(({ icon: Icon, v }) => (
-                <div key={v} className="flex flex-col items-center gap-0.5">
-                  <Icon className="text-lg text-orange-400/70" />
-                  <span className="text-[10px] text-slate-600 font-medium">
-                    {v}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
-
-          {/* Link columns */}
-          {Object.entries(links).map(([group, items]) => (
-            <div key={group} className="flex flex-col gap-3">
-              <p className="text-xs font-semibold text-slate-300 uppercase tracking-widest mb-1">
-                {group}
-              </p>
-              {items.map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="text-sm text-slate-500 hover:text-slate-200 transition-colors duration-200"
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-          ))}
         </div>
 
         {/* Bottom bar */}
@@ -418,27 +248,29 @@ function Footer() {
           <p className="text-xs text-slate-600">
             © {new Date().getFullYear()} SkyCast. All rights reserved.
           </p>
-          <p className="text-xs text-slate-600">
-            Built with <span className="text-orange-400">♥</span> using React +
-            Open-Meteo
-          </p>
         </div>
       </div>
     </footer>
   );
 }
 
-/* ─────────────────────────────────────────────
-   HOME PAGE (assembles all sections)
-───────────────────────────────────────────── */
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center text-center space-y-24">
+    <div className="min-h-screen bg-slate-950 overflow-x-hidden">
       <Navbar />
-      <Hero />
-      <Globe />
-      <FeaturesSection />
-      <HowItWorksSection />
+
+      <main className="flex flex-col">
+        <Hero />
+
+        <div className="py-24">
+          <Globe />
+        </div>
+
+        <div className="py-32">
+          <FeaturesSection />
+        </div>
+      </main>
+
       <Footer />
     </div>
   );

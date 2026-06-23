@@ -1,5 +1,4 @@
 .app {
-  
   padding: 20px;
 
   min-height: 100vh;
@@ -36,10 +35,10 @@
   border-radius: 12px;
 
   padding: 25px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
 }
 .saved-cities {
@@ -48,11 +47,11 @@
   border-radius: 12px;
 
   padding: 20px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .saved-cities h2 {
   margin-top: 0;
@@ -91,14 +90,13 @@
 }
 
 .weather-card {
-  
   border-radius: 12px;
   padding: 25px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .temperature {
@@ -166,11 +164,11 @@
 }
 
 .map-card {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 15px;
 }
@@ -204,7 +202,7 @@
 }
 
 .stat-card {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
 
   backdrop-filter: blur(10px);
 
@@ -242,11 +240,11 @@
   margin-bottom: 20px;
 
   border-radius: 12px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .city-name {
@@ -277,27 +275,25 @@
 }
 
 .hourly-forecast {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
-  
 }
 
 .local-weather-card {
   flex: 1;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 20px;
-  
 
   display: flex;
   flex-direction: column;
@@ -406,17 +402,17 @@
   flex: 2;
   height: 380px;
 }
-.hourly-forecast h3{
+.hourly-forecast h3 {
   font-size: 23px;
   padding-bottom: 25px;
 }
 
 .weekly-forecast {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
 
   padding: 20px;
@@ -465,11 +461,11 @@
 
 .news-section {
   margin-top: 40px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .news-section h2 {
@@ -585,11 +581,11 @@
 
   padding: 25px;
 
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   text-align: center;
 
@@ -634,11 +630,11 @@
 
   padding: 20px;
 
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 
   backdrop-filter: blur(20px);
 
-  border-left: 1px solid rgba(255,255,255,0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
 
   overflow-y: auto;
 
@@ -650,11 +646,11 @@
 }
 
 .weather-stat-card {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   border-radius: 16px;
 
@@ -668,7 +664,7 @@
 .weather-stat-card:hover {
   transform: translateY(-4px);
 
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .weather-stat-card h3 {
@@ -679,8 +675,8 @@
   border: 2px solid #4da3ff;
 
   box-shadow:
-    0 0 12px rgba(77,163,255,0.5),
-    0 0 25px rgba(77,163,255,0.2);
+    0 0 12px rgba(77, 163, 255, 0.5),
+    0 0 25px rgba(77, 163, 255, 0.2);
 
   transform: translateY(-2px);
 }
@@ -720,11 +716,11 @@
 
   border-radius: 12px;
 
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
 
   backdrop-filter: blur(10px);
 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .map-legend h4 {
@@ -885,11 +881,11 @@
 
   border-radius: 12px;
 
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
 
   backdrop-filter: blur(10px);
 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .location-info h4 {

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
@@ -9,7 +9,6 @@ import {
 } from "react-icons/wi";
 import { HiArrowRight } from "react-icons/hi";
 
-/* ── Floating weather stat pill ───────────────────────────── */
 function StatPill({ icon: Icon, label, value, delay, className }) {
   return (
     <motion.div
@@ -31,7 +30,6 @@ function StatPill({ icon: Icon, label, value, delay, className }) {
   );
 }
 
-/* ── Animated background orbs ─────────────────────────────── */
 function Orb({ className }) {
   return (
     <div
@@ -40,7 +38,6 @@ function Orb({ className }) {
   );
 }
 
-/* ── Drifting particle dots ───────────────────────────────── */
 function Particle({ style }) {
   return (
     <motion.div
@@ -64,14 +61,12 @@ const particles = Array.from({ length: 18 }, (_, i) => ({
   delay: Math.random() * 3,
 }));
 
-/* ── Main Hero ─────────────────────────────────────────────── */
 export default function Hero() {
   const containerRef = useRef(null);
   const { scrollY } = useScroll();
   const yParallax = useTransform(scrollY, [0, 500], [0, -80]);
   const opacityFade = useTransform(scrollY, [0, 400], [1, 0]);
 
-  /* staggered word reveal */
   const titleWords = ["Weather,", "Reimagined", "for the", "Modern World."];
 
   return (
@@ -79,12 +74,11 @@ export default function Hero() {
       ref={containerRef}
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-950 pt-20"
     >
-      {/* ── Background atmosphere ── */}
+      {/* Background atmosphere */}
       <Orb className="w-[600px] h-[600px] bg-orange-500 -top-32 -left-48" />
       <Orb className="w-[500px] h-[500px] bg-rose-600 top-1/3 -right-40" />
       <Orb className="w-[400px] h-[400px] bg-amber-400 bottom-0 left-1/3" />
 
-      {/* subtle radial grid */}
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{
@@ -93,15 +87,14 @@ export default function Hero() {
         }}
       />
 
-      {/* drifting particles */}
       {particles.map((p, i) => (
         <Particle key={i} style={p} />
       ))}
 
-      {/* ── Hero content ── */}
+      {/* Hero content */}
       <motion.div
         style={{ y: yParallax, opacity: opacityFade }}
-        className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto"
+        className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto w-full"
       >
         {/* Eyebrow badge */}
         <motion.div
@@ -155,16 +148,16 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row items-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
             to="/signup"
-            className="group inline-flex items-center gap-2 px-12 py-6 rounded-2xl
-    font-semibold text-slate-950 text-base
-    bg-gradient-to-r from-orange-400 to-rose-500
-    hover:from-orange-300 hover:to-rose-400
-    shadow-xl shadow-orange-500/25 hover:shadow-orange-500/50
-    transition-all duration-300"
+            className="group inline-flex items-center gap-2 px-12 py-4 rounded-2xl
+              font-semibold text-slate-950 text-base
+              bg-gradient-to-r from-orange-400 to-rose-500
+              hover:from-orange-300 hover:to-rose-400
+              shadow-xl shadow-orange-500/25 hover:shadow-orange-500/50
+              transition-all duration-300"
           >
             Start Exploring
             <HiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -176,10 +169,10 @@ export default function Hero() {
                 .getElementById("globe")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="inline-flex items-center gap-2 px-12 py-6 rounded-2xl
-    font-semibold text-white text-base
-    bg-white/8 hover:bg-white/14 border border-white/12 hover:border-white/22
-    backdrop-blur-sm transition-all duration-300"
+            className="inline-flex items-center gap-2 px-12 py-4 rounded-2xl
+              font-semibold text-white text-base
+              bg-white/8 hover:bg-white/14 border border-white/12 hover:border-white/22
+              backdrop-blur-sm transition-all duration-300"
           >
             Try the Globe
           </button>
