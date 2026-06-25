@@ -27,9 +27,7 @@ export default function Footer() {
           </p>
         </div>
       </div>
-      <div className="mt-24 mb-8">
-        <Footer />
-      </div>
+      
     </footer>
   );
 }

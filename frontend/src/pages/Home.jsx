@@ -262,7 +262,7 @@ export default function Home() {
       <main className="flex flex-col">
         <Hero />
 
-        <div className="py-24">
+        <div id = "globe" className="py-24">
           <Globe />
         </div>
 

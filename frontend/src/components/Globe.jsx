@@ -8,7 +8,6 @@ import { WiDaySunny } from "react-icons/wi";
    react-globe.gl uses Three.js internally and
    must be loaded client-side only.
 ───────────────────────────────────────────── */
-let GlobeGL = null;
 
 /* ─────────────────────────────────────────────
    HELPERS
@@ -147,10 +146,14 @@ export default function Globe({ onLocationSelect }) {
 
   /* ── Dynamic import of react-globe.gl ── */
   useEffect(() => {
-    import("react-globe.gl").then((mod) => {
-      setGlobeComponent(() => mod.default);
-      setIsLibReady(true);
-    });
+    import("react-globe.gl")
+      .then((mod) => {
+        setGlobeComponent(() => mod.default);
+        setIsLibReady(true);
+      })
+      .catch((err) => {
+        console.error("Failed to load globe:", err);
+      });
   }, []);
 
   /* ── Auto-rotate setup ── */
@@ -178,7 +181,9 @@ export default function Globe({ onLocationSelect }) {
   /* ── Click handler ── */
   const handleGlobeClick = useCallback(
     ({ lat, lng }) => {
-      const point = { lat: +lat.toFixed(4), lng: +lng.toFixed(4) };
+      const point = {
+        lat: +lat.toFixed(4), lng: +lng.toFixed(4)
+      };
       setSelectedPoint(point);
       if (onLocationSelect) onLocationSelect(point);
 
@@ -199,10 +204,8 @@ export default function Globe({ onLocationSelect }) {
   /* ── Globe config ── */
   const globeConfig = {
     /* Earth textures — high quality NASA Blue Marble */
-    globeImageUrl:
-      "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg",
-    bumpImageUrl:
-      "https://unpkg.com/three-globe/example/img/earth-topology.png",
+    globeImageUrl: "/earth-blue-marble.jpg",
+    bumpImageUrl: "/earth-topology.png",
 
     /* Atmosphere */
     showAtmosphere: true,

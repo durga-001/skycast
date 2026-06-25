@@ -39,9 +39,13 @@ export default function Navbar() {
       const id = to.replace("/#", "");
       if (location.pathname !== "/") {
         navigate("/");
+
         setTimeout(() => {
-          document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 300);
       } else {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
       }
