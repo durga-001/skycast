@@ -613,15 +613,13 @@
 
 .weather-map-page {
   display: flex;
-
-  height: 100vh;
-
+  min-height: 100vh;
   width: 100%;
 }
 
 .map-area {
   flex: 7;
-  height: 100vh;
+  height: 150vh;
   background: #e9ecef;
 }
 
@@ -906,4 +904,45 @@
   align-items: center;
 
   gap: 8px;
+}
+/* ==========================
+   ANALYTICS SECTION
+========================== */
+
+.weather-analytics-wrapper {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 24px;
+
+  margin: 30px 20px;
+}
+
+.analytics-card {
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 16px;
+
+  padding: 20px;
+
+  min-height: 340px;
+}
+
+.analytics-card h3 {
+  margin-bottom: 15px;
+
+  font-size: 18px;
+
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .weather-analytics-wrapper {
+    grid-template-columns: 1fr;
+  }
 }

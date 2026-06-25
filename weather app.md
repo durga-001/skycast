@@ -36,6 +36,8 @@ weather app
 | | | |\_Protected Route.jsx done
 | | | |\_WeatherMap.jsx
 | | | |\_WeatherNews.jsx
+| | | |\_WeatherAnalytics.jsx
+| | | |\_AnalyticsChart.jsx
 | | |\_pages
 | | | |\_Dashboard.jsx
 | | | |\_Home.jsx
