@@ -6,9 +6,8 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <div className="bg-slate-950 min-h-screen text-white">
+    <div className=" min-h-screen">
       <Navbar />
-
       <Hero />
 
       {/* <section id="globe" className="py-20">
@@ -18,7 +17,6 @@ export default function Home() {
       </section> */}
 
       <Features />
-
       <Footer />
     </div>
   );

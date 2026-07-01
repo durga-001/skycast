@@ -3,51 +3,50 @@ import { HiArrowRight } from "react-icons/hi";
 
 export default function Hero() {
   const scrollToGlobe = () => {
-    const globeSection = document.getElementById("globe");
-    if (globeSection) {
-      globeSection.scrollIntoView({ behavior: "smooth" });
+    const globe = document.getElementById("globe");
+
+    if (globe) {
+      globe.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   };
 
   return (
-    <section className="bg-slate-100 py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col items-center text-center">
-          <div className="mb-6 px-4 py-2 rounded-full bg-orange-100 text-orange-600 text-sm font-medium">
-            Real-Time Weather Dashboard
-          </div>
-
-          {/* Heading */}
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight max-w-4xl">
+    <section className="bg-white w-full pt-10 pb-10 mb-10 ">
+      {/* mx-auto handles the horizontal center-alignment of the text container */}
+      <div className="max-w-6xl mx-auto px-8 lg:px-12">
+        <div className="flex flex-col items-center justify-center text-center">
+          <h1 className="max-w-5xl text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
             Explore Weather
-            <span className="text-orange-500"> Anywhere </span>
+            <span className="text-blue-600"> Anywhere </span>
             in the World
           </h1>
 
           {/* Description */}
-          <p className="mt-6 max-w-2xl text-lg text-slate-600 leading-8">
-            SkyCast lets you explore weather conditions across the globe. Click
-            anywhere on the interactive globe to instantly view temperature,
-            humidity, wind speed, pressure, and much more using live OpenWeather
-            API data.
+          <p className="mt-12 max-w-3xl text-xl leading-9 text-gray-600">
+            SkyCast allows you to explore live weather information from anywhere
+            in the world. Click on the interactive globe to view temperature,
+            humidity, wind speed, pressure, and weather forecast using the
+            OpenWeather API.
           </p>
 
           {/* Buttons */}
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+          <div className="mt-14 flex flex-wrap justify-center gap-6">
             <Link
               to="/signup"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-500 px-8 py-3 text-white font-semibold hover:bg-orange-600 transition"
+              className="inline-flex items-center justify-center h-14 min-w-[190px] rounded-lg bg-blue-600 text-white text-lg font-semibold hover:bg-blue-700 transition"
             >
               Get Started
-              <HiArrowRight />
+              <HiArrowRight className="ml-2" />
             </Link>
 
-            <button
+            {/* <button
               onClick={scrollToGlobe}
-              className="rounded-lg border border-slate-300 bg-white px-8 py-3 font-semibold text-slate-700 hover:bg-slate-100 transition"
+              className="inline-flex items-center justify-center h-14 min-w-[190px] rounded-lg border border-blue-600 text-blue-600 text-lg font-semibold hover:bg-blue-50 transition"
             >
               Explore Globe
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -38,12 +38,11 @@ export default function Navbar() {
 
     if (location.pathname !== "/") {
       navigate("/");
-
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({
           behavior: "smooth",
         });
-      }, 200);
+      }, 300);
     } else {
       document.getElementById(id)?.scrollIntoView({
         behavior: "smooth",
@@ -52,26 +51,26 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-10">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <WiDaySunny className="text-4xl text-orange-500" />
+          <Link to="/" className="flex items-center gap-3">
+            <WiDaySunny className="text-5xl text-blue-600" />
 
-            <span className="text-2xl font-bold">
-              <span className="text-slate-800">Sky</span>
-              <span className="text-orange-500">Cast</span>
-            </span>
+            <h1 className="text-3xl font-bold">
+              <span className="text-gray-900">Sky</span>
+              <span className="text-blue-600">Cast</span>
+            </h1>
           </Link>
 
-          {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((item) => (
               <button
                 key={item.label}
                 onClick={() => scrollToSection(item.id)}
-                className="text-gray-700 hover:text-orange-500 font-medium transition"
+                className="text-gray-700 font-medium hover:text-blue-600"
               >
                 {item.label}
               </button>
@@ -80,7 +79,7 @@ export default function Navbar() {
             {isAuthenticated && (
               <Link
                 to="/dashboard"
-                className="text-gray-700 hover:text-orange-500 font-medium transition"
+                className="text-gray-700 font-medium hover:text-blue-600"
               >
                 Dashboard
               </Link>
@@ -88,11 +87,11 @@ export default function Navbar() {
           </nav>
 
           {/* Desktop Buttons */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center space-x-5">
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="px-5 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+                className="inline-flex items-center justify-center h-12 px-7 rounded-lg bg-red-500 text-white hover:bg-red-600"
               >
                 Logout
               </button>
@@ -100,14 +99,14 @@ export default function Navbar() {
               <>
                 <Link
                   to="/login"
-                  className="px-5 py-2 rounded-lg border border-orange-500 text-orange-500 hover:bg-orange-50 transition"
+                  className="inline-flex items-center justify-center h-12 min-w-[120px] rounded-lg border border-blue-600 text-blue-600 font-medium hover:bg-blue-50"
                 >
                   Login
                 </Link>
 
                 <Link
                   to="/signup"
-                  className="px-5 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition"
+                  className="inline-flex items-center justify-center h-12 min-w-[130px] rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700"
                 >
                   Sign Up
                 </Link>
@@ -115,21 +114,24 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Button */}
-          <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <HiX size={28} /> : <HiMenuAlt3 size={28} />}
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-gray-700"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <HiX size={30} /> : <HiMenuAlt3 size={30} />}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden border-t py-4">
+          <div className="md:hidden border-t border-gray-200 py-6">
             <div className="flex flex-col gap-4">
               {navLinks.map((item) => (
                 <button
                   key={item.label}
                   onClick={() => scrollToSection(item.id)}
-                  className="text-left text-gray-700 hover:text-orange-500"
+                  className="text-left text-gray-700 hover:text-blue-600"
                 >
                   {item.label}
                 </button>
@@ -139,7 +141,7 @@ export default function Navbar() {
                 <Link
                   to="/dashboard"
                   onClick={() => setMenuOpen(false)}
-                  className="text-gray-700 hover:text-orange-500"
+                  className="text-gray-700 hover:text-blue-600"
                 >
                   Dashboard
                 </Link>
@@ -150,7 +152,7 @@ export default function Navbar() {
               {isAuthenticated ? (
                 <button
                   onClick={handleLogout}
-                  className="rounded-lg bg-red-500 py-2 text-white"
+                  className="w-full h-12 rounded-lg bg-red-500 text-white hover:bg-red-600"
                 >
                   Logout
                 </button>
@@ -159,7 +161,7 @@ export default function Navbar() {
                   <Link
                     to="/login"
                     onClick={() => setMenuOpen(false)}
-                    className="rounded-lg border border-orange-500 py-2 text-center text-orange-500"
+                    className="flex items-center justify-center h-12 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-50"
                   >
                     Login
                   </Link>
@@ -167,7 +169,7 @@ export default function Navbar() {
                   <Link
                     to="/signup"
                     onClick={() => setMenuOpen(false)}
-                    className="rounded-lg bg-orange-500 py-2 text-center text-white"
+                    className="flex items-center justify-center h-12 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
                   >
                     Sign Up
                   </Link>

@@ -9,53 +9,55 @@ const features = [
   {
     title: "Real-Time Weather",
     desc: "Get live weather updates from the OpenWeather API.",
-    icon: <WiDaySunny size={50} />,
+    icon: <WiDaySunny size={60} />,
   },
   {
     title: "Humidity",
     desc: "Check the current humidity level of any location.",
-    icon: <WiHumidity size={50} />,
+    icon: <WiHumidity size={60} />,
   },
   {
     title: "Wind Speed",
     desc: "View accurate wind speed and wind direction.",
-    icon: <WiStrongWind size={50} />,
+    icon: <WiStrongWind size={60} />,
   },
   {
     title: "Air Pressure",
     desc: "Monitor atmospheric pressure in real time.",
-    icon: <WiBarometer size={50} />,
+    icon: <WiBarometer size={60} />,
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-20 px-6 bg-slate-900 text-white">
-      <div className="max-w-7xl mx-auto">
+    <section id="features" className="bg-gray-50 py-2">
+      <div className="container mx-auto px-8 lg:px-12">
         {/* Heading */}
-        <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold mb-3">Features</h2>
+        <div className="flex flex-col items-center text-center mb-20">
+          <h2 className="text-5xl font-bold text-gray-900">Features</h2>
 
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <p className="mt-3 max-w-3xl text-xl leading-9 text-gray-600">
             SkyCast provides accurate weather information using the OpenWeather
-            API with a clean and interactive interface.
+            API with a clean and user-friendly interface.
           </p>
         </div>
 
-        {/* Feature Cards */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
           {features.map((item) => (
             <div
               key={item.title}
-              className="bg-slate-800 rounded-xl p-8 text-center border border-slate-700 hover:border-orange-400 transition duration-300"
+              className="w-full max-w-xs bg-white rounded-xl border border-gray-200 p-10 text-center shadow"
             >
-              <div className="flex justify-center text-orange-400 mb-5">
+              <div className="flex justify-center mb-8 text-blue-600">
                 {item.icon}
               </div>
 
-              <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-5">
+                {item.title}
+              </h3>
 
-              <p className="text-gray-400 text-sm leading-6">{item.desc}</p>
+              <p className="text-gray-600 leading-7">{item.desc}</p>
             </div>
           ))}
         </div>

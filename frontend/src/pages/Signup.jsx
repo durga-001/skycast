@@ -40,13 +40,13 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-8 py-8">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg px-10 py-6">
         <h1 className="text-3xl font-bold text-center text-blue-600">
           SkyCast
         </h1>
 
-        <p className="text-center text-gray-600 mt-2 mb-8">
+        <p className="text-center text-gray-600 mt-2 mb-2">
           Create your account
         </p>
 
@@ -58,7 +58,7 @@ export default function Signup() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block mb-2 font-medium text-gray-700">
+            <label className="block mb-1 font-medium text-gray-700">
               Full Name
             </label>
 
@@ -76,7 +76,7 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block mb-2 font-medium text-gray-700">
+            <label className="block mb-1 font-medium text-gray-700">
               Email
             </label>
 
@@ -94,7 +94,7 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block mb-2 font-medium text-gray-700">
+            <label className="block mb-1 font-medium text-gray-700">
               Password
             </label>
 
@@ -112,7 +112,7 @@ export default function Signup() {
           </div>
 
           <div>
-            <label className="block mb-2 font-medium text-gray-700">
+            <label className="block mb-1 font-medium text-gray-700">
               Confirm Password
             </label>
 
@@ -137,7 +137,7 @@ export default function Signup() {
           </button>
         </form>
 
-        <p className="text-center mt-6 text-gray-600">
+        <p className="text-center mt-2 text-gray-600">
           Already have an account?{" "}
           <Link
             to="/login"
