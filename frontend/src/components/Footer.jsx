@@ -1,33 +1,27 @@
 // components/Footer.jsx
+
 import { Link } from "react-router-dom";
-import { FiCloud } from "react-icons/fi";
+import { WiDaySunny } from "react-icons/wi";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
-              <FiCloud className="text-white text-xs" />
-            </div>
-            <span className="text-white font-bold text-lg tracking-tight">
-              Sky
-              <span className="bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent">
-                Cast
-              </span>
-            </span>
+    <footer className="bg-white border-t border-gray-200 mt-30 py-8">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-3">
+            <WiDaySunny className="text-5xl text-blue-600" />
+
+            <h2 className="text-3xl font-bold">
+              <span className="text-gray-900">Sky</span>
+              <span className="text-blue-600">Cast</span>
+            </h2>
           </Link>
 
-          {/* Attribution */}
-          <p className="text-xs text-slate-600 text-center md:text-right">
-            © 2026 SkyCast · Powered by{" "}
-            <span className="text-slate-500">OpenWeather & NewsAPI</span>
+          <p className="text-gray-600 text-sm">
+            © 2026 SkyCast. All Rights Reserved.
           </p>
         </div>
       </div>
-      
     </footer>
   );
 }
