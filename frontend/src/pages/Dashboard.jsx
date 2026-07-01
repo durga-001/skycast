@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -21,7 +22,7 @@ import WeatherMap from "../components/WeatherMap";
 import WeatherNews from "../components/WeatherNews";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css"
+import "./Dashboard.css";
 function Dashboard() {
   const [weather, setWeather] = useState(null);
   const [city, setCity] = useState("Delhi");
@@ -189,7 +190,7 @@ function Dashboard() {
         backgroundImage: `url(${backgroundImage})`,
       }}
     >
-      <h1>SkyCast</h1>
+      <Navbar />
 
       <div className="dashboard-layout">
         {/* Left Panel */}
@@ -413,7 +414,6 @@ function Dashboard() {
 
       <ToastContainer />
     </div>
-    
   );
 }
 export default Dashboard;
