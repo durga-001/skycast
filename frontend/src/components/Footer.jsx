@@ -1,33 +1,35 @@
 // components/Footer.jsx
+
 import { Link } from "react-router-dom";
 import { FiCloud } from "react-icons/fi";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-slate-900 border-t border-gray-700 mt-20">
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        {/* Footer Content */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
-              <FiCloud className="text-white text-xs" />
-            </div>
-            <span className="text-white font-bold text-lg tracking-tight">
-              Sky
-              <span className="bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent">
-                Cast
-              </span>
-            </span>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <FiCloud className="text-3xl text-orange-400" />
+
+            <h2 className="text-2xl font-bold text-white">
+              Sky<span className="text-orange-400">Cast</span>
+            </h2>
           </Link>
 
-          {/* Attribution */}
-          <p className="text-xs text-slate-600 text-center md:text-right">
-            © 2026 SkyCast · Powered by{" "}
-            <span className="text-slate-500">OpenWeather & NewsAPI</span>
-          </p>
+          {/* Copyright */}
+          <div className="text-center md:text-right">
+            <p className="text-gray-400 text-sm">
+              © 2026 SkyCast. All Rights Reserved.
+            </p>
+
+            <p className="text-gray-500 text-sm mt-1">
+              Powered by OpenWeather API & NewsAPI
+            </p>
+          </div>
         </div>
       </div>
-      
     </footer>
   );
 }
