@@ -70,6 +70,10 @@ function AnalyticsChart({ title, data, dataKey, strokeColor, unit }) {
       },
 
       y: {
+        title: {
+          display: true,
+          text: unit,
+        },
         beginAtZero: false,
       },
     },

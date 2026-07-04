@@ -1,5 +1,9 @@
-const pool = require("../config/db");
-const { getWeatherByCity } = require("../services/weatherService");
+const Location = require("../models/Location");
+const {
+  getWeatherByCity,
+  getWeatherByCoordsService,
+} = require("../services/weatherService");
+
 const { getForecastByCity } = require("../services/forecastService");
 const { getWeatherNews } = require("../services/newsService");
 
@@ -7,25 +11,32 @@ const addLocation = async (req, res) => {
   try {
     const { city_name, country } = req.body;
 
-    const result = await pool.query(
-      "INSERT INTO locations (city_name, country) VALUES ($1, $2) RETURNING *",
-      [city_name, country],
-    );
+    const location = await Location.create({
+      city_name,
+      country,
+      user: req.user._id,
+    });
 
-    res.json(result.rows[0]);
+    res.status(201).json(location);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500);
+    throw new Error(err.message);
   }
 };
 
 const getLocations = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM locations ORDER BY id DESC");
-    res.json(result.rows);
+    const locations = await Location.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+
+    res.json(locations);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500);
+    throw new Error(err.message);
   }
 };
+
 const getWeather = async (req, res) => {
   try {
     const city = req.params.city;
@@ -34,8 +45,8 @@ const getWeather = async (req, res) => {
 
     res.json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).send(err.message);
+    res.status(500);
+    throw new Error(err.message);
   }
 };
 const getForecast = async (req, res) => {
@@ -46,8 +57,8 @@ const getForecast = async (req, res) => {
 
     res.json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).send(err.message);
+    res.status(500);
+    throw new Error(err.message);
   }
 };
 const fetchWeatherNews = async (req, res) => {
@@ -56,13 +67,50 @@ const fetchWeatherNews = async (req, res) => {
 
     res.json(news);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500);
+    throw new Error(err.message);
   }
 };
+
+const deleteLocation = async (req, res) => {
+  try {
+    const location = await Location.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!location) {
+      return res.status(404).json({ message: "Location not found" });
+    }
+
+    await Location.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "Location deleted successfully" });
+  } catch (err) {
+    res.status(500);
+    throw new Error(err.message);
+  }
+};
+
+const getWeatherByCoords = async (req, res) => {
+  try {
+    const { lat, lon } = req.query;
+
+    const data = await getWeatherByCoordsService(lat, lon);
+
+    res.json(data);
+  } catch (err) {
+    res.status(500);
+    throw new Error(err.message);
+  }
+};
+
 module.exports = {
   addLocation,
   getLocations,
   getWeather,
   getForecast,
   fetchWeatherNews,
+  deleteLocation,
+  getWeatherByCoords,
 };

@@ -1,26 +1,41 @@
-// components/Footer.jsx
-
-import { Link } from "react-router-dom";
-import { WiDaySunny } from "react-icons/wi";
+import { FiCloud, FiGithub, FiGlobe, FiHeart } from "react-icons/fi";
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 mt-30 py-8">
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-3">
-            <WiDaySunny className="text-5xl text-blue-600" />
+    <footer className="footer">
+      <div className="footer-content">
+        <div className="footer-brand">
+          <div className="footer-logo">
+            <FiCloud />
+          </div>
 
-            <h2 className="text-3xl font-bold">
-              <span className="text-gray-900">Sky</span>
-              <span className="text-blue-600">Cast</span>
-            </h2>
-          </Link>
-
-          <p className="text-gray-600 text-sm">
-            © 2026 SkyCast. All Rights Reserved.
-          </p>
+          <div>
+            <h3>SkyCast</h3>
+            <p>Premium Weather Intelligence</p>
+          </div>
         </div>
+
+        <div className="footer-center">
+          <span>Powered by OpenWeather</span>
+          <span>•</span>
+          <span>NewsAPI</span>
+        </div>
+
+        <div className="footer-right">
+          <button className="footer-icon">
+            <a href="https://github.com/durga-001/skycast" target="_blank">
+              <FiGithub />
+            </a>
+          </button>
+
+          <span className="footer-copy">© 2026 SkyCast</span>
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <FiHeart />
+
+        <span>Built with React • Express • PostgreSQL</span>
       </div>
     </footer>
   );

@@ -1,7 +1,15 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Navbar from "../components/Navbar";
+import { useEffect, useRef, useState } from "react";
+import {
+  getWeather,
+  getForecast,
+} from "../services/weatherService";
 
+import {
+  getSavedLocations,
+  saveLocation,
+  deleteLocation,
+} from "../services/locationService";
+import { FiSearch, FiMapPin, FiTrash2 } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import {
   WiDaySunny,
@@ -10,19 +18,18 @@ import {
   WiThunderstorm,
   WiSunrise,
   WiSunset,
+  WiHumidity,
 } from "react-icons/wi";
-import { FiMapPin } from "react-icons/fi";
 import { FaWind } from "react-icons/fa";
-import { WiHumidity } from "react-icons/wi";
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { MdOutlineVisibility } from "react-icons/md";
 import { GiPressureCooker } from "react-icons/gi";
 import getBackgroundImage from "../utils/getBackgroundImage";
 import WeatherMap from "../components/WeatherMap";
 import WeatherNews from "../components/WeatherNews";
-import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
+
 function Dashboard() {
   const [weather, setWeather] = useState(null);
   const [city, setCity] = useState("Delhi");
@@ -30,51 +37,82 @@ function Dashboard() {
   const [forecast, setForecast] = useState([]);
   const [dailyForecast, setDailyForecast] = useState([]);
   const navigate = useNavigate();
+  const debounceRef = useRef(null);
 
   const fetchWeather = async (cityName = city) => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/weather/${cityName}`,
-      );
+      console.log("Fetching weather for:", cityName);
 
-      setWeather(response.data);
+      const data = await getWeather(cityName);
+
+      console.log(data);
+
+      setWeather(data);
     } catch (error) {
-      console.error(error);
+      console.log(error.response);
+      console.log(error.response?.data);
+
+      toast.error("City not found");
     }
   };
+
   const fetchSavedCities = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/locations");
+      const locations = await getSavedLocations();
 
-      setSavedCities(response.data);
+      const uniqueCities = [
+        ...new Map(
+          locations.map((city) => [city.city_name.toLowerCase(), city]),
+        ).values(),
+      ];
+      console.log(uniqueCities);
+      setSavedCities(uniqueCities);
     } catch (error) {
       console.error(error);
+
+      toast.error("City not found");
     }
   };
-  const saveLocation = async () => {
-    try {
-      await axios.post("http://localhost:5000/locations", {
-        city_name: city,
-        country: "Unknown",
-      });
 
-      toast.success("City Saved!");
+  const handleSaveLocation = async () => {
+    try {
+      await saveLocation(city);
+
+      toast.success("City saved successfully!");
+
       fetchSavedCities();
     } catch (error) {
-      toast.error("Failed to save city");
-      console.error(error);
+      if (error.response?.status === 409) {
+        toast.info("City already exists in your saved list.");
+      } else {
+        toast.error("Failed to save city.");
+        console.error(error);
+      }
     }
   };
+
+  const handleDeleteLocation = async (id) => {
+    try {
+      await deleteLocation(id);
+
+      toast.success("City removed successfully!");
+
+      fetchSavedCities();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete city.");
+    }
+  };
+
   const fetchForecast = async (cityName = city) => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/forecast/${cityName}`,
-      );
+      console.log("Fetching weather for:", cityName);
+      const data = await getForecast(cityName);
       const dailyData = [];
 
       const uniqueDays = new Set();
 
-      response.data.list.forEach((item) => {
+      data.list.forEach((item) => {
         const date = item.dt_txt.split(" ")[0];
 
         if (!uniqueDays.has(date) && item.dt_txt.includes("12:00:00")) {
@@ -95,82 +133,43 @@ function Dashboard() {
       });
 
       setDailyForecast(dailyData);
-      setForecast(response.data.list);
+      setForecast(data.list);
     } catch (error) {
       console.error(error);
+      toast.error("City not found");
     }
   };
 
   useEffect(() => {
-    fetchWeather();
-    fetchForecast();
+    fetchWeather(city);
+    fetchForecast(city);
     fetchSavedCities();
   }, []);
 
-  const getWeatherIcon = () => {
-    switch (weather?.weather?.toLowerCase()) {
-      case "clear":
-        return <WiDaySunny size={80} color="#FDB813" />;
-
-      case "clouds":
-        return <WiCloud size={80} color="#7f8c8d" />;
-
-      case "rain":
-        return <WiRain size={80} color="#3498db" />;
-
-      case "thunderstorm":
-        return <WiThunderstorm size={80} color="#f1c40f" />;
-
-      default:
-        return <WiDaySunny size={80} color="#FDB813" />;
-    }
-  };
-
-  const getForecastIcon = (condition) => {
-    switch (condition.toLowerCase()) {
-      case "clear":
-        return <WiDaySunny size={35} color="#FDB813" />;
-
-      case "clouds":
-        return <WiCloud size={35} color="#7f8c8d" />;
-
-      case "rain":
-        return <WiRain size={35} color="#3498db" />;
-
-      case "thunderstorm":
-        return <WiThunderstorm size={35} color="#f1c40f" />;
-
-      default:
-        return <WiDaySunny size={35} color="#FDB813" />;
-    }
-  };
-
-  const getForecastIconDays = (condition) => {
-    switch (condition.toLowerCase()) {
-      case "clear":
-        return <WiDaySunny size={70} color="#FDB813" />;
-
-      case "clouds":
-        return <WiCloud size={70} color="#7f8c8d" />;
-
-      case "rain":
-        return <WiRain size={70} color="#3498db" />;
-
-      case "thunderstorm":
-        return <WiThunderstorm size={70} color="#f1c40f" />;
-
-      default:
-        return <WiDaySunny size={70} color="#FDB813" />;
-    }
-  };
-
-  const backgroundImage = getBackgroundImage(weather?.weather, weather?.icon);
-
   useEffect(() => {
-    if (!backgroundImage) return;
+    return () => clearTimeout(debounceRef.current);
+  }, []);
 
-    document.body.style.backgroundImage = `url(${backgroundImage})`;
-  }, [backgroundImage]);
+  const getWeatherIcon = (condition, size) => {
+    switch (condition?.toLowerCase()) {
+      case "clear":
+        return <WiDaySunny size={size} color="#FDB813" />;
+
+      case "clouds":
+        return <WiCloud size={size} color="#7f8c8d" />;
+
+      case "rain":
+        return <WiRain size={size} color="#3498db" />;
+
+      case "thunderstorm":
+        return <WiThunderstorm size={size} color="#f1c40f" />;
+
+      default:
+        return <WiDaySunny size={size} color="#FDB813" />;
+    }
+  };
+  
+  const weatherTheme = getBackgroundImage(weather?.weather);
 
   const formatTime = (timestamp) => {
     return new Date(timestamp * 1000).toLocaleTimeString([], {
@@ -184,25 +183,21 @@ function Dashboard() {
   };
 
   return (
-    <div
-      className="app"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-      }}
-    >
-      <Navbar />
-
+    <div className={`app ${weatherTheme}`}>
       <div className="dashboard-layout">
         {/* Left Panel */}
         <div className="left-panel">
-          <div className="map-card">
+          <div className="map-card glass-card">
             {weather && (
               <>
-                <div className="map-header">
-                  <FiMapPin /> Current Location
-                </div>
+                <div className="section-header">
+                  <div>
+                    <p className="map-label">Current Location</p>
+                    <h3 className="map-city">{weather.city}</h3>
+                  </div>
 
-                <div className="map-city">{weather.city}</div>
+                  <FiMapPin className="map-pin-icon" />
+                </div>
 
                 <div
                   className="map-section"
@@ -222,21 +217,40 @@ function Dashboard() {
             )}
           </div>
 
-          <div className="saved-cities">
-            <h2>Saved Cities</h2>
+          <div className="saved-cities glass-card">
+            <div className="section-header">
+              <h2 className="section-title">Saved Cities</h2>
+            </div>
 
             {savedCities.map((savedCity) => (
               <div
                 className="city-item"
-                key={savedCity.id}
+                key={savedCity._id}
                 onClick={() => {
                   setCity(savedCity.city_name);
+                  
                   fetchWeather(savedCity.city_name);
                   fetchForecast(savedCity.city_name);
                 }}
               >
-                {savedCity.city_name.charAt(0).toUpperCase() +
-                  savedCity.city_name.slice(1).toLowerCase()}
+                <div className="city-left">
+                  <FiMapPin className="city-item-icon" />
+
+                  <span className="city-item-name">
+                    {savedCity.city_name.charAt(0).toUpperCase() +
+                      savedCity.city_name.slice(1).toLowerCase()}
+                  </span>
+                </div>
+
+                <button
+                  className="delete-city-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteLocation(savedCity._id);
+                  }}
+                >
+                  <FiTrash2 />
+                </button>
               </div>
             ))}
           </div>
@@ -246,58 +260,77 @@ function Dashboard() {
 
         <div className="right-panel">
           <div className="search-section">
-            <input
-              type="text"
-              placeholder="Enter City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
+            <div className="search-box">
+              <FiSearch className="search-icon" />
 
+              <input
+                type="text"
+                placeholder="Search city..."
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
             <button
+              className="btn btn-primary"
               onClick={() => {
-                fetchWeather();
-                fetchForecast();
+                if (!city.trim()) {
+                  toast.error("Please enter a city.");
+                  return;
+                }
+
+                fetchWeather(city);
+                fetchForecast(city);
+                
               }}
             >
               Search
             </button>
 
-            <button onClick={saveLocation}>Save City</button>
+            <button className="btn btn-secondary" onClick={handleSaveLocation}>
+              + Save City
+            </button>
           </div>
           {weather && (
             <>
               <div className="city-header">
                 <div className="city-info">
+                  <div className="hero-chip">
+                    <FiMapPin />
+                    <span>{weather.country}</span>
+                  </div>
+
                   <h1 className="city-name">{weather.city}</h1>
 
-                  <p className="country-name">{weather.country}</p>
+                  <p className="city-meta">
+                    {new Date().toLocaleDateString("en-US", {
+                      weekday: "long",
+                    })}
+                    {" • "}
+                    {weather.weather}
+                  </p>
                 </div>
 
-                <button className="change-location-btn">
+                <button
+                  className="change-location-btn"
+                  onClick={() =>
+                    navigate("/weather-map", {
+                      state: { weather },
+                    })
+                  }
+                >
                   <FiMapPin />
-                  Change Location
+                  Explore Map
                 </button>
               </div>
               <div className="weather-row">
-                <div className="local-weather-card">
-                  <h3>LOCAL WEATHER REPORT</h3>
+                <div className="local-weather-card glass-card">
+                  <div className="section-header">
+                    <h3 className="section-title">Local Weather</h3>
+                  </div>
 
                   <div className="local-weather-content">
-                    <div className="weather-icon">{getWeatherIcon()}</div>
-
-                    <div className="weather-info">
-                      <h2 className="day-name">
-                        {new Date().toLocaleDateString("en-US", {
-                          weekday: "long",
-                        })}
-                      </h2>
-
-                      <p className="condition-text">{weather.weather}</p>
-
-                      <div className="wind-info">
-                        <FaWind />
-                        <span>{weather.wind_speed} m/s</span>
-                      </div>
+                    <div className="weather-icon">
+                      {getWeatherIcon(weather.weather, 80)}
                     </div>
 
                     <div className="temp-info">
@@ -309,10 +342,27 @@ function Dashboard() {
                         {Math.round(weather.temperature * 1.8 + 32)}°F
                       </div>
                     </div>
+
+                    <div className="weather-info">
+                      <p className="condition-text">{weather.weather}</p>
+
+                      <h2 className="day-name">
+                        {new Date().toLocaleDateString("en-US", {
+                          weekday: "long",
+                        })}
+                      </h2>
+
+                      <div className="wind-info">
+                        <FaWind />
+                        <span>{weather.wind_speed} m/s</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="hourly-forecast">
-                  <h3>Today's Forecast</h3>
+                <div className="hourly-forecast glass-card">
+                  <div className="section-header">
+                    <h3 className="section-title">Today</h3>
+                  </div>
 
                   <div className="forecast-scroll">
                     {forecast.slice(0, 6).map((item, index) => (
@@ -324,7 +374,7 @@ function Dashboard() {
                         </p>
 
                         <div className="forecast-icon">
-                          {getForecastIcon(item.weather[0].main)}
+                          {getWeatherIcon(item.weather[0].main, 35)}
                         </div>
 
                         <p className="forecast-temp">
@@ -335,83 +385,87 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="weekly-forecast">
-                <h3>Weather Outlook</h3>
+              <div className="dashboard-row">
+                <div className="weekly-forecast glass-card">
+                  <div className="section-header">
+                    <h3 className="section-title">Weather Outlook</h3>
+                  </div>
 
-                <div className="weekly-grid">
-                  {dailyForecast.map((day, index) => (
-                    <div key={index} className="weekly-card">
-                      <p className="forecast-day">{day.day}</p>
+                  <div className="weekly-grid">
+                    {dailyForecast.map((day, index) => (
+                      <div key={index} className="weekly-card">
+                        <p className="forecast-day">{day.day}</p>
 
-                      <span className="forecast-date">{day.date}</span>
+                        <span className="forecast-date">{day.date}</span>
 
-                      {getForecastIconDays(day.weather)}
+                        <div className="weekly-icon">
+                          {getWeatherIcon(day.weather, 70)}
+                        </div>
 
-                      <h4>{day.temp}°C</h4>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {weather && (
-                <div className="weather-card">
-                  <h2>{weather.city}</h2>
-                  <h5>{weather.country}</h5>
-
-                  <div className="stats-grid">
-                    <div className="stat-card">
-                      <h3>
-                        <FaTemperatureHalf /> Feels Like
-                      </h3>
-                      <p>{Math.round(weather.feels_like)}°C</p>
-                    </div>
-
-                    <div className="stat-card">
-                      <h3>
-                        <WiHumidity /> Humidity
-                      </h3>
-                      <p>{weather.humidity}%</p>
-                    </div>
-
-                    <div className="stat-card">
-                      <h3>
-                        <MdOutlineVisibility />
-                        Visibility
-                      </h3>
-                      <p>{formatVisibility(weather.visibility)} km</p>
-                    </div>
-
-                    <div className="stat-card">
-                      <h3>
-                        <GiPressureCooker /> Pressure
-                      </h3>
-                      <p>{weather.pressure} hPa</p>
-                    </div>
-
-                    <div className="stat-card">
-                      <h3>
-                        <WiSunrise /> Sunrise
-                      </h3>
-                      <p>{formatTime(weather.sunrise)}</p>
-                    </div>
-
-                    <div className="stat-card">
-                      <h3>
-                        <WiSunset />
-                        Sunset
-                      </h3>
-                      <p>{formatTime(weather.sunset)}</p>
-                    </div>
+                        <h4>{day.temp}°</h4>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              )}
+
+                {weather && (
+                  <div className="weather-card glass-card">
+                    <div className="section-header">
+                      <h2 className="section-title">Today's Highlights</h2>
+                    </div>
+                    <div className="stats-grid">
+                      <div className="stat-card">
+                        <h3>
+                          <FaTemperatureHalf /> Feels Like
+                        </h3>
+                        <p>{Math.round(weather.feels_like)}°C</p>
+                      </div>
+
+                      <div className="stat-card">
+                        <h3>
+                          <WiHumidity /> Humidity
+                        </h3>
+                        <p>{weather.humidity}%</p>
+                      </div>
+
+                      <div className="stat-card">
+                        <h3>
+                          <MdOutlineVisibility />
+                          Visibility
+                        </h3>
+                        <p>{formatVisibility(weather.visibility)} km</p>
+                      </div>
+
+                      <div className="stat-card">
+                        <h3>
+                          <GiPressureCooker /> Pressure
+                        </h3>
+                        <p>{weather.pressure} hPa</p>
+                      </div>
+
+                      <div className="stat-card">
+                        <h3>
+                          <WiSunrise /> Sunrise
+                        </h3>
+                        <p>{formatTime(weather.sunrise)}</p>
+                      </div>
+
+                      <div className="stat-card">
+                        <h3>
+                          <WiSunset />
+                          Sunset
+                        </h3>
+                        <p>{formatTime(weather.sunset)}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>
       </div>
       <WeatherNews />
-      <Footer />
-
       <ToastContainer />
     </div>
   );

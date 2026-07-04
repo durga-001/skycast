@@ -1,58 +1,38 @@
-const getBackgroundImage = (weatherMain, icon) => {
-  const isNight = icon?.includes("n");
-
+const getBackgroundImage = (weatherMain) => {
   switch (weatherMain?.toLowerCase()) {
     case "clear":
-      return isNight
-        ? "/backgrounds/night-clear.jpg"
-        : "/backgrounds/day-clear.jpg";
+      return "sunny";
 
     case "clouds":
-      return isNight
-        ? "/backgrounds/night-cloudy.png"
-        : "/backgrounds/day-cloudy.jpg";
+      return "clouds";
 
     case "rain":
     case "drizzle":
-      return isNight
-        ? "/backgrounds/night-rain.jpg"
-        : "/backgrounds/day-rain.jpg";
+      return "rain";
 
     case "thunderstorm":
-      return isNight
-        ? "/backgrounds/night-thunderstorm.jpg"
-        : "/backgrounds/day-thunderstorm.jpg";
+      return "thunderstorm";
 
     case "snow":
-      return isNight
-        ? "/backgrounds/night-snow.jpg"
-        : "/backgrounds/day-snow.jpg";
+      return "snow";
 
     case "mist":
     case "fog":
-      return isNight
-        ? "/backgrounds/night-fog.jpg"
-        : "/backgrounds/day-fog.jpg";
+      return "clouds";
 
     case "haze":
     case "smoke":
     case "dust":
     case "sand":
     case "ash":
-      return isNight
-        ? "/backgrounds/night-haze.jpg"
-        : "/backgrounds/day-haze.jpg";
+      return "clouds";
 
     case "squall":
     case "tornado":
-      return isNight
-        ? "/backgrounds/night-storm.jpg"
-        : "/backgrounds/day-storm.png";
+      return "thunderstorm";
 
     default:
-      return isNight
-        ? "/backgrounds/night-clear.jpg"
-        : "/backgrounds/day-clear.jpg";
+      return "sunny";
   }
 };
 

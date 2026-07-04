@@ -53,7 +53,7 @@ function LargeWeatherMap({ weather, selectedLayer }) {
     popupAnchor: [0, -50],
   });
   return (
-    <div className="map-wrapper">
+    <div className="map-wrapper map-container">
       <MapContainer
         center={[latitude, longitude]}
         zoom={7}
@@ -66,8 +66,8 @@ function LargeWeatherMap({ weather, selectedLayer }) {
 
         {/* Base Map */}
         <TileLayer
-          attribution="&copy; OpenStreetMap contributors"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution="&copy; OpenStreetMap & CARTO"
         />
 
         {/* Temperature Overlay */}
@@ -109,14 +109,14 @@ function LargeWeatherMap({ weather, selectedLayer }) {
           </Popup>
         </Marker>
       </MapContainer>
-      <MapLegend selectedLayer={selectedLayer} />
-
       <LocationInfo
         city={city}
         latitude={latitude}
         longitude={longitude}
         selectedLayer={selectedLayer}
       />
+
+      <MapLegend selectedLayer={selectedLayer} />
     </div>
   );
 }

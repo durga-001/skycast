@@ -1,3 +1,5 @@
+// weatherroutes.js (FIX)
+
 const express = require("express");
 const router = express.Router();
 
@@ -7,16 +9,24 @@ const {
   getWeather,
   getForecast,
   fetchWeatherNews,
+  deleteLocation,
+  getWeatherByCoords, 
 } = require("../controllers/weatherController");
 
-router.post("/locations", addLocation);
+const protect = require("../middleware/authMiddleware");
 
-router.get("/locations", getLocations);
+router.post("/locations", protect, addLocation);
+
+router.get("/locations", protect, getLocations);
+
+router.delete("/locations/:id", protect, deleteLocation);
 
 router.get("/weather/:city", getWeather);
 
 router.get("/forecast/:city", getForecast);
 
 router.get("/news", fetchWeatherNews);
+
+router.get("/coords", getWeatherByCoords);
 
 module.exports = router;

@@ -2,7 +2,7 @@ import AnalyticsChart from "./AnalyticsChart";
 
 function WeatherAnalytics({ forecastData }) {
   return (
-    <div className="weather-analytics-wrapper">
+    <>
       <AnalyticsChart
         title="Temperature Trend"
         data={forecastData}
@@ -34,7 +34,7 @@ function WeatherAnalytics({ forecastData }) {
         strokeColor="#7c3aed"
         unit=" hPa"
       />
-    </div>
+    </>
   );
 }
 

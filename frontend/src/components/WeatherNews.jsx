@@ -9,7 +9,7 @@ function WeatherNews() {
 
   const fetchNews = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/news");
+      const response = await axios.get("http://localhost:5000/api/news");
 
       setNews(response.data);
     } catch (error) {
@@ -35,9 +35,12 @@ function WeatherNews() {
   }, []);
 
   return (
-    <div className="news-section">
+    <section className="news-section glass-card">
       <div className="news-header">
-        <h2>Latest Weather News</h2>
+        <div>
+          <p className="section-subtitle">LATEST UPDATES</p>
+          <h2 className="section-title">Weather News</h2>
+        </div>
 
         <div className="news-controls">
           <button onClick={scrollLeft}>
@@ -67,13 +70,17 @@ function WeatherNews() {
             <h3>{article.title}</h3>
 
             <p>{article.description}</p>
-            <p className="news-date">
-              {new Date(article.publishedAt).toLocaleDateString()}
-            </p>
+            <div className="news-footer">
+              <span className="news-date">
+                {new Date(article.publishedAt).toLocaleDateString()}
+              </span>
+
+              <span className="news-read">Read →</span>
+            </div>
           </a>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 

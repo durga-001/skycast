@@ -1,6 +1,4 @@
-import {
-  WiThermometer,
-} from "react-icons/wi";
+import { WiThermometer } from "react-icons/wi";
 
 import { FaTemperatureLow, FaTemperatureHigh } from "react-icons/fa";
 

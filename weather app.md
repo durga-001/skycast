@@ -1,64 +1,85 @@
-weather app
-|_backend
-| |\_config
-| | |\_db.js
-| |\_controllers
-| | |\_weatherController.js
-| |\_node_modules
-| |\_routes
-| | |\_weatherRoutes.js
-| |\_services
-| | |\_forecastService.js
-| | |\_newsService.js
-| | |\_weatherService.js
-| |_.env
-| |_app.js
-| |\_package-lock.json
-| |\_package.json
-|\_frontend
-| |\_node_modules
-| |\_public
-| | |\_backgrounds (contains all the backgrounds)
-| | |\_favicon.svg
-| | |\_icons.svg
-| | |\_news-placeholder.jpg
-| |\_src
-| | |\_assets
-| | |\_components
-| | | |\_AuthForm.jsx
-| | | |\_Footer.jsx
-| | | |\_Globe.jsx
-| | | |\_Hero.jsx
-| | | |\_LargeWeatherMap.jsx
-| | | |\_LocationInfo.jsx
-| | | |\_MapLegend.jsx
-| | | |\_Navbar.jsx
-| | | |\_Protected Route.jsx done
-| | | |\_WeatherMap.jsx
-| | | |\_WeatherNews.jsx
-| | | |\_WeatherAnalytics.jsx
-| | | |\_AnalyticsChart.jsx
-| | |\_pages
-| | | |\_Dashboard.jsx
-| | | |\_Home.jsx
-| | | |\_Login.jsx done
-| | | |\_Signup.jsx done 
-| | | |\_WeatherMapPage.jsx
-| | |\_utils
-| | | |\_getBackgroundImage.js
-| | |\_App.css
-| | |\_App.jsx done 
-| | |\_index.css
-| | |\_main.jsx
-| |_.env
-| |_.gitignore
-| |\_eslint.config.js
-| |\_index.html
-| |\_package-lock.json
-| |\_package.json
-| |\_README.md
-| |\_vite.config.js
-|_.gitignore
-|\_package-lock.json
-|\_package.json
-|\_README.md
+weather-app/
+├── backend/
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   └── weatherController.js
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   ├── errorMiddleware.js
+│   │   └── validate.js
+│   ├── models/
+│   │   ├── Location.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   └── weatherRoutes.js
+│   ├── services/
+│   │   ├── forecastService.js
+│   │   ├── newsService.js
+│   │   └── weatherService.js
+│   ├── utils/
+│   │   └── generateToken.js
+│   └── node_modules/
+│
+├── .env
+├── app.js
+├── package.json
+├── package-lock.json
+├── frontend/
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── AnalyticsChart.jsx
+│   │   │   ├── AuthForm.jsx
+│   │   │   ├── Features.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Hero.jsx
+│   │   │   ├── LargeWeatherMap.jsx
+│   │   │   ├── Layout.jsx
+│   │   │   ├── LocationInfo.jsx
+│   │   │   ├── MapLegend.jsx
+│   │   │   ├── MapSection.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── ProtectedRoute.jsx
+│   │   │   ├── WeatherAnalytics.jsx
+│   │   │   ├── WeatherMap.jsx
+│   │   │   └── WeatherNews.jsx
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   └── WeatherMapPage.jsx
+│   │   ├── services/
+│   │   │   ├── api.js
+│   │   │   ├── authService.js
+│   │   │   ├── locationService.js
+│   │   │   └── weatherService.js
+│   │   ├── styles/
+│   │   │   ├── auth.css
+│   │   │   ├── Dashboard.css
+│   │   │   ├── WeatherMap.css
+│   │   │   └── home.css
+│   │   ├── utils/
+│   │   │   └── getBackgroundImage.js
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── .env
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── vite.config.js
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── weather app.md

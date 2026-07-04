@@ -1,23 +1,15 @@
-import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import Globe from "../components/Globe";
 import Features from "../components/Features";
-import Footer from "../components/Footer";
+import MapSection from "../components/MapSection";
 
 export default function Home() {
   return (
-    <div className=" min-h-screen">
-      <Navbar />
+    <main className="home">
       <Hero />
-
-      {/* <section id="globe" className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <Globe />
-        </div>
-      </section> */}
-
+      <div id="map">
+        <MapSection />
+      </div>
       <Features />
-      <Footer />
-    </div>
+    </main>
   );
 }
