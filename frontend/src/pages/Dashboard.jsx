@@ -24,11 +24,13 @@ import { FaWind } from "react-icons/fa";
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { MdOutlineVisibility } from "react-icons/md";
 import { GiPressureCooker } from "react-icons/gi";
-import getBackgroundImage from "../utils/getBackgroundImage";
+
 import WeatherMap from "../components/WeatherMap";
 import WeatherNews from "../components/WeatherNews";
 import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
+import { FiArrowRight } from "react-icons/fi";
+import WeatherLayout from "../components/WeatherLayout";
 
 function Dashboard() {
   const [weather, setWeather] = useState(null);
@@ -169,8 +171,6 @@ function Dashboard() {
     }
   };
   
-  const weatherTheme = getBackgroundImage(weather?.weather);
-
   const formatTime = (timestamp) => {
     return new Date(timestamp * 1000).toLocaleTimeString([], {
       hour: "2-digit",
@@ -183,7 +183,7 @@ function Dashboard() {
   };
 
   return (
-    <div className={`app ${weatherTheme}`}>
+    <WeatherLayout weather={weather}>
       <div className="dashboard-layout">
         {/* Left Panel */}
         <div className="left-panel">
@@ -228,7 +228,7 @@ function Dashboard() {
                 key={savedCity._id}
                 onClick={() => {
                   setCity(savedCity.city_name);
-                  
+
                   fetchWeather(savedCity.city_name);
                   fetchForecast(savedCity.city_name);
                 }}
@@ -280,7 +280,6 @@ function Dashboard() {
 
                 fetchWeather(city);
                 fetchForecast(city);
-                
               }}
             >
               Search
@@ -460,6 +459,38 @@ function Dashboard() {
                     </div>
                   </div>
                 )}
+                {weather && (
+                  <div className="outfit-preview glass-card">
+                    <div className="outfit-preview-content">
+                      <div>
+                        <p className="outfit-preview-label">
+                          Smart Outfit Assistant
+                        </p>
+
+                        <h2 className="outfit-preview-title">
+                          Dress according to today's weather
+                        </h2>
+
+                        <p className="outfit-preview-text">
+                          Get personalized clothing, footwear, accessories and
+                          weather tips based on the current conditions.
+                        </p>
+                      </div>
+
+                      <button
+                        className="outfit-preview-btn"
+                        onClick={() =>
+                          navigate("/outfit", {
+                            state: { weather },
+                          })
+                        }
+                      >
+                        Explore
+                        <FiArrowRight />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           )}
@@ -467,7 +498,7 @@ function Dashboard() {
       </div>
       <WeatherNews />
       <ToastContainer />
-    </div>
+    </WeatherLayout>
   );
 }
 export default Dashboard;

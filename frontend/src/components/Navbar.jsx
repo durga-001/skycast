@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { FiCloud } from "react-icons/fi";
-
+import { getCurrentUser, logoutUser } from "../services/authService";
 const navLinks = [
   { label: "Home", id: null },
   { label: "Map", id: "map" },
@@ -20,20 +20,10 @@ export default function Navbar() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          setUser(null);
-          return;
-        }
-
-        const data = await res.json();
+        const data = await getCurrentUser();
         setUser(data);
       } catch (err) {
         setUser(null);
-        toast.error("Unable to fetch user");
       }
     };
 
@@ -42,20 +32,17 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      await logoutUser();
 
-      if (res.ok) {
-        setUser(null);
-        toast.success("Logged out successfully");
+      setUser(null);
+
+      toast.success("Logged out successfully");
+
+      setTimeout(() => {
         navigate("/");
-      } else {
-        toast.error("Logout failed");
-      }
+      }, 500);
     } catch (err) {
-      toast.error("Server error");
+      toast.error("Logout failed");
     }
   };
 

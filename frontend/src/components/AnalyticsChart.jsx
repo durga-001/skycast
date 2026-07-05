@@ -52,7 +52,7 @@ function AnalyticsChart({ title, data, dataKey, strokeColor, unit }) {
         display: false,
       },
 
-      tooltip: {
+      tooltip: { //for degree celsius, %for humidity - resuable function 
         callbacks: {
           label: function (context) {
             return `${context.parsed.y}${unit}`;

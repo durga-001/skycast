@@ -162,7 +162,11 @@ export default function AuthForm({ mode = "login" }) {
         toast.success("Account created successfully!");
       }
 
-      navigate("/dashboard");
+      toast.success("Login successful!");
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
     } catch (error) {
       // Backend validation errors
       if (error.response?.data?.errors) {
@@ -196,8 +200,6 @@ export default function AuthForm({ mode = "login" }) {
       <div className="auth-glow"></div>
 
       <div className="auth-card">
-        {/* Logo */}
-
         <div className="auth-logo">
           <div className="auth-logo-icon">
             <WiDaySunny />
@@ -207,8 +209,6 @@ export default function AuthForm({ mode = "login" }) {
             Sky<span>Cast</span>
           </h1>
         </div>
-
-        {/* Heading */}
 
         <div className="auth-header">
           <h2>{isLogin ? "Welcome Back" : "Create Account"}</h2>

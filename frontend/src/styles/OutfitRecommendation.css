@@ -1,0 +1,258 @@
+/* ============================= */
+/* PAGE */
+/* ============================= */
+
+.outfit-page {
+  min-height: 100vh;
+  color: var(--text);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.outfit-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  filter: blur(70px);
+  transition: .6s ease;
+}
+
+/* ============================= */
+/* Dynamic Weather Background */
+/* ============================= */
+
+.outfit-page.sunny::before{
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255,193,7,.22), transparent 28%),
+    radial-gradient(circle at 85% 85%, rgba(255,152,0,.16), transparent 38%);
+}
+
+.outfit-page.clouds::before{
+  background:
+    radial-gradient(circle at 15% 15%, rgba(180,190,210,.16), transparent 30%),
+    radial-gradient(circle at 80% 85%, rgba(120,140,160,.12), transparent 40%);
+}
+
+.outfit-page.rain::before{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(59,130,246,.18), transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(14,165,233,.14), transparent 38%);
+}
+
+.outfit-page.thunderstorm::before{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(139,92,246,.18), transparent 30%),
+    radial-gradient(circle at 85% 85%, rgba(250,204,21,.12), transparent 35%);
+}
+
+.outfit-page.snow::before{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.14), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(226,232,240,.10), transparent 40%);
+}
+
+/* ============================= */
+
+.outfit-container{
+    max-width:1200px;
+    margin:auto;
+    padding:40px 20px 80px;
+}
+
+.outfit-hero{
+    margin-bottom:35px;
+    padding:42px;
+}
+
+.outfit-hero-content{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:50px;
+}
+
+.outfit-badge{
+    display:inline-flex;
+    padding:8px 16px;
+    border-radius:999px;
+    background:rgba(var(--accent-rgb),.12);
+    color:var(--accent);
+    border:1px solid rgba(var(--accent-rgb),.25);
+    font-size:.9rem;
+    font-weight:600;
+}
+
+.outfit-title{
+    margin-top:18px;
+    font-size:3rem;
+    font-weight:800;
+    line-height:1.1;
+}
+
+.outfit-subtitle{
+    margin-top:18px;
+    max-width:620px;
+    color:var(--text-secondary);
+    line-height:1.8;
+}
+
+.outfit-weather-info{
+    display:flex;
+    gap:12px;
+    margin-top:22px;
+    color:var(--text-secondary);
+}
+
+.outfit-weather-icon{
+    color:var(--accent);
+}
+
+/* ============================= */
+
+.outfit-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+}
+
+.outfit-card{
+    padding:28px;
+}
+
+.outfit-card-full{
+    grid-column:1/-1;
+}
+
+.outfit-card-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:1.25rem;
+    font-weight:700;
+
+    margin-bottom:22px;
+}
+
+.outfit-card-title svg{
+    color:var(--accent);
+}
+
+.outfit-list{
+    list-style:none;
+}
+
+.outfit-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:12px 0;
+
+    color:var(--text-secondary);
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.outfit-item:last-child{
+    border-bottom:none;
+}
+
+/* ============================= */
+/* Weather Accent */
+/* ============================= */
+
+.outfit-page.sunny{
+    --accent:#FDB813;
+    --accent-rgb:253,184,19;
+}
+
+.outfit-page.clouds{
+    --accent:#94A3B8;
+    --accent-rgb:148,163,184;
+}
+
+.outfit-page.rain{
+    --accent:#38BDF8;
+    --accent-rgb:56,189,248;
+}
+
+.outfit-page.thunderstorm{
+    --accent:#A855F7;
+    --accent-rgb:168,85,247;
+}
+
+.outfit-page.snow{
+    --accent:#E2E8F0;
+    --accent-rgb:226,232,240;
+}
+
+@media(max-width:900px){
+
+.outfit-grid{
+    grid-template-columns:1fr;
+}
+
+.outfit-card-full{
+    grid-column:auto;
+}
+
+.outfit-hero-content{
+    flex-direction:column;
+    text-align:center;
+}
+
+.outfit-weather-info{
+    justify-content:center;
+}
+
+.outfit-title{
+    font-size:2.2rem;
+}
+
+}
+
+.outfit-color-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.color-dot {
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(255,255,255,0.25);
+
+  flex-shrink: 0;
+
+  box-shadow: 0 0 10px rgba(255,255,255,0.12);
+}
+
+.outfit-card-footer{
+    margin-top:22px;
+    padding-top:16px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    color:var(--accent);
+
+    font-size:.9rem;
+    font-weight:600;
+}
+
+.outfit-item-icon{
+    color:var(--accent);
+    font-size:1.1rem;
+    flex-shrink:0;
+}
+
+.outfit-item:hover .outfit-item-icon{
+    transform:scale(1.15);
+    transition:.25s ease;
+}

@@ -1,11 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+
 import "./index.css";
 import "leaflet/dist/leaflet.css";
 
+// ADD THESE
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <>
+      <App />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
+    </>
   </React.StrictMode>,
 );

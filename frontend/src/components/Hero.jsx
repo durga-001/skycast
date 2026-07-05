@@ -20,13 +20,6 @@ export default function Hero() {
           <Link to="/signup" className="hero-btn hero-btn-primary">
             Get Started <HiArrowRight />
           </Link>
-
-          {/* optional button kept commented */}
-          {/*
-          <button className="hero-btn hero-btn-outline">
-            Explore Globe
-          </button>
-          */}
         </div>
       </div>
     </section>

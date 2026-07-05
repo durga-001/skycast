@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WeatherMapPage from "./pages/WeatherMapPage";
-
+import OutfitPage from "./pages/OutfitPage";
 import "./index.css";
 import "./styles/home.css";
 
@@ -34,6 +34,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <WeatherMapPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/outfit"
+            element={
+              <ProtectedRoute>
+                <OutfitPage />
               </ProtectedRoute>
             }
           />

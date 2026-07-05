@@ -32,7 +32,6 @@ export default function Features() {
   return (
     <section id="features" className="features">
       <div className="features-container">
-        {/* Heading */}
         <div className="features-header">
           <h2 className="features-title">Features</h2>
 
@@ -41,8 +40,6 @@ export default function Features() {
             with a clean and modern interface.
           </p>
         </div>
-
-        {/* Cards */}
         <div className="features-grid">
           {features.map((item) => (
             <div key={item.title} className="feature-card glass-card">

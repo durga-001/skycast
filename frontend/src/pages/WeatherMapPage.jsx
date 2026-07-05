@@ -4,7 +4,6 @@ import axios from "axios";
 
 import LargeWeatherMap from "../components/LargeWeatherMap";
 import WeatherAnalytics from "../components/WeatherAnalytics";
-import getBackgroundImage from "../utils/getBackgroundImage";
 
 import {
   WiThermometer,
@@ -15,6 +14,7 @@ import {
 import { FiMaximize, FiMinimize } from "react-icons/fi";
 
 import "../styles/WeatherMap.css";
+import WeatherLayout from "../components/WeatherLayout";
 
 function WeatherMapPage() {
   const { state } = useLocation();
@@ -58,11 +58,8 @@ function WeatherMapPage() {
   if (!weather) {
     return <h2>No weather data available.</h2>;
   }
-
-  const weatherTheme = getBackgroundImage(weather?.weather?.[0]?.main);
-
   return (
-    <div className={`app ${weatherTheme}`}>
+    <WeatherLayout weather={weather}>
       <div className="weather-map-page">
         {/* ================= TOP SECTION ================= */}
 
@@ -184,7 +181,7 @@ function WeatherMapPage() {
           <LargeWeatherMap weather={weather} selectedLayer={selectedLayer} />
         </div>
       )}
-    </div>
+    </WeatherLayout>
   );
 }
 
