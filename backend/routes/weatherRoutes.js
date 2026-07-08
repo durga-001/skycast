@@ -10,7 +10,8 @@ const {
   getForecast,
   fetchWeatherNews,
   deleteLocation,
-  getWeatherByCoords, 
+  getWeatherByCoords,
+  getAQI,
 } = require("../controllers/weatherController");
 
 const protect = require("../middleware/authMiddleware");
@@ -28,5 +29,7 @@ router.get("/forecast/:city", getForecast);
 router.get("/news", fetchWeatherNews);
 
 router.get("/coords", getWeatherByCoords);
+
+router.get("/air-quality", getAQI);
 
 module.exports = router;

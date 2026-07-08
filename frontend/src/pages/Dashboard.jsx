@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import {
   getWeather,
   getForecast,
+  getAirQuality,
 } from "../services/weatherService";
-
 import {
   getSavedLocations,
   saveLocation,
@@ -31,6 +31,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
 import { FiArrowRight } from "react-icons/fi";
 import WeatherLayout from "../components/WeatherLayout";
+import AQICard from "../components/AQICard";
 
 function Dashboard() {
   const [weather, setWeather] = useState(null);
@@ -38,6 +39,7 @@ function Dashboard() {
   const [savedCities, setSavedCities] = useState([]);
   const [forecast, setForecast] = useState([]);
   const [dailyForecast, setDailyForecast] = useState([]);
+  const [aqi, setAqi] = useState(null);
   const navigate = useNavigate();
   const debounceRef = useRef(null);
 
@@ -50,6 +52,7 @@ function Dashboard() {
       console.log(data);
 
       setWeather(data);
+      fetchAQI(data.latitude, data.longitude);
     } catch (error) {
       console.log(error.response);
       console.log(error.response?.data);
@@ -139,6 +142,25 @@ function Dashboard() {
     } catch (error) {
       console.error(error);
       toast.error("City not found");
+    }
+  };
+
+  const fetchAQI = async (lat, lon) => {
+    try {
+      const data = await getAirQuality(lat, lon);
+
+      // OpenWeather returns AQI from 1–5
+      const aqiLevels = {
+        1: 30,
+        2: 75,
+        3: 125,
+        4: 175,
+        5: 250,
+      };
+
+      setAqi(aqiLevels[data.list[0].main.aqi]);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -459,6 +481,7 @@ function Dashboard() {
                     </div>
                   </div>
                 )}
+                {aqi && <AQICard aqi={aqi} />}
                 {weather && (
                   <div className="outfit-preview glass-card">
                     <div className="outfit-preview-content">

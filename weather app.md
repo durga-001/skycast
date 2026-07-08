@@ -18,6 +18,7 @@ weather-app/
 │   ├── services/
 │   │   ├── forecastService.js
 │   │   ├── newsService.js
+│   │   ├── aurQualityService.js
 │   │   └── weatherService.js
 │   ├── utils/
 │   │   └── generateToken.js
@@ -34,6 +35,7 @@ weather-app/
 │   │   ├── assets/
 │   │   ├── components/
 │   │   │   ├── AnalyticsChart.jsx
+│   │   |   ├── AQICard.jsx
 │   │   │   ├── AuthForm.jsx
 │   │   │   ├── Features.jsx
 │   │   │   ├── Footer.jsx
@@ -44,27 +46,35 @@ weather-app/
 │   │   │   ├── MapLegend.jsx
 │   │   │   ├── MapSection.jsx
 │   │   │   ├── Navbar.jsx
+│   │   │   ├── OutfitHero.jsx
+│   │   │   ├── OutfitRecommendation.jsx
 │   │   │   ├── ProtectedRoute.jsx
 │   │   │   ├── WeatherAnalytics.jsx
+│   │   │   ├── WeatherLayout.jsx
 │   │   │   ├── WeatherMap.jsx
 │   │   │   └── WeatherNews.jsx
 │   │   ├── pages/
 │   │   │   ├── Dashboard.jsx
 │   │   │   ├── Home.jsx
 │   │   │   ├── Login.jsx
+│   │   │   ├── OutfitPage.jsx
 │   │   │   ├── Signup.jsx
 │   │   │   └── WeatherMapPage.jsx
 │   │   ├── services/
 │   │   │   ├── api.js
 │   │   │   ├── authService.js
 │   │   │   ├── locationService.js
+│   │   │   ├── outfitService.js
 │   │   │   └── weatherService.js
 │   │   ├── styles/
+│   │   |   ├── AQICard.css
 │   │   │   ├── auth.css
 │   │   │   ├── Dashboard.css
+│   │   │   ├── OutfitRecommendation.css
 │   │   │   ├── WeatherMap.css
 │   │   │   └── home.css
 │   │   ├── utils/
+│   │   │   ├── outfitRules.js
 │   │   │   └── getBackgroundImage.js
 │   │   ├── App.jsx
 │   │   ├── index.css

@@ -6,6 +6,7 @@ const {
 
 const { getForecastByCity } = require("../services/forecastService");
 const { getWeatherNews } = require("../services/newsService");
+const { getAirQuality } = require("../services/airQualityService");
 
 const addLocation = async (req, res) => {
   try {
@@ -105,6 +106,28 @@ const getWeatherByCoords = async (req, res) => {
   }
 };
 
+const getAQI = async (req, res) => {
+  try {
+    const { lat, lon } = req.query;
+
+    if (!lat || !lon) {
+      return res.status(400).json({
+        message: "Latitude and longitude are required.",
+      });
+    }
+
+    const data = await getAirQuality(lat, lon);
+
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to fetch air quality.",
+    });
+  }
+};
+
 module.exports = {
   addLocation,
   getLocations,
@@ -113,4 +136,5 @@ module.exports = {
   fetchWeatherNews,
   deleteLocation,
   getWeatherByCoords,
+  getAQI,
 };
