@@ -32,6 +32,8 @@ import "../styles/Dashboard.css";
 import { FiArrowRight } from "react-icons/fi";
 import WeatherLayout from "../components/WeatherLayout";
 import AQICard from "../components/AQICard";
+import WeatherAlert from "../components/WeatherAlert";
+import { generateWeatherAlerts } from "../utils/weatherAlerts";
 
 function Dashboard() {
   const [weather, setWeather] = useState(null);
@@ -42,6 +44,7 @@ function Dashboard() {
   const [aqi, setAqi] = useState(null);
   const navigate = useNavigate();
   const debounceRef = useRef(null);
+  const [alerts, setAlerts] = useState([]);
 
   const fetchWeather = async (cityName = city) => {
     try {
@@ -139,6 +142,20 @@ function Dashboard() {
 
       setDailyForecast(dailyData);
       setForecast(data.list);
+      const generatedAlerts = generateWeatherAlerts(data.list);
+
+      setAlerts(generatedAlerts);
+
+      // Toast only for severe weather
+      const severeAlert = generatedAlerts.find(
+        (alert) => alert.severity === "danger",
+      );
+
+      if (severeAlert) {
+        toast.warning(severeAlert.message, {
+          toastId: severeAlert.message, // prevents duplicate toasts
+        });
+      }
     } catch (error) {
       console.error(error);
       toast.error("City not found");
@@ -313,6 +330,7 @@ function Dashboard() {
           </div>
           {weather && (
             <>
+              <WeatherAlert alerts={alerts} />
               <div className="city-header">
                 <div className="city-info">
                   <div className="hero-chip">

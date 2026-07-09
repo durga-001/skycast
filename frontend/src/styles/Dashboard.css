@@ -1393,3 +1393,63 @@ border-color:rgba(var(--accent-rgb),.18);
     justify-content: center;
   }
 }
+
+.weather-alert{
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    padding:18px 22px;
+
+    border-radius:18px;
+
+    background:rgba(255,193,7,.12);
+
+    border:1px solid rgba(255,193,7,.35);
+
+    margin-bottom:24px;
+}
+
+.weather-alert.danger{
+    background:rgba(239,68,68,.12);
+    border-color:rgba(239,68,68,.35);
+}
+
+.alert-icon{
+    font-size:34px;
+    color:#facc15;
+}
+
+.weather-alert.danger .alert-icon{
+    color:#ef4444;
+}
+
+.alert-content h3{
+    margin:0 0 6px;
+    font-size:18px;
+}
+
+.alert-content p{
+    margin:0;
+    color:var(--text-secondary);
+}
+
+.weather-alert-wrapper{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.weather-alert-title{
+    margin-bottom:6px;
+    font-size:1.15rem;
+    font-weight:700;
+}
+
+.weather-alert{
+    transition:.25s;
+}
+
+.weather-alert:hover{
+    transform:translateY(-2px);
+}

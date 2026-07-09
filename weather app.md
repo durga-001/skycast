@@ -36,6 +36,7 @@ weather-app/
 │   │   ├── components/
 │   │   │   ├── AnalyticsChart.jsx
 │   │   |   ├── AQICard.jsx
+│   │   |   ├── WeatherAlert.jsx
 │   │   │   ├── AuthForm.jsx
 │   │   │   ├── Features.jsx
 │   │   │   ├── Footer.jsx
@@ -75,6 +76,7 @@ weather-app/
 │   │   │   └── home.css
 │   │   ├── utils/
 │   │   │   ├── outfitRules.js
+│   │   |   ├── weatherAlert.js
 │   │   │   └── getBackgroundImage.js
 │   │   ├── App.jsx
 │   │   ├── index.css
