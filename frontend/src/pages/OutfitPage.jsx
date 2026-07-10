@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getWeather } from "../services/weatherService";
 import { getOutfitRecommendation } from "../services/outfitService";
-
 import OutfitHero from "../components/OutfitHero";
 import OutfitRecommendation from "../components/OutfitRecommendation";
-
+import { getCurrentUser } from "../services/authService";
 import "../styles/OutfitRecommendation.css";
 import WeatherLayout from "../components/WeatherLayout";
 
@@ -13,6 +12,7 @@ export default function OutfitPage() {
   const [weather, setWeather] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
   const location = useLocation();
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const passedWeather = location.state?.weather;
   useEffect(() => {
@@ -30,7 +30,20 @@ export default function OutfitPage() {
     };
 
     fetchData();
-  }, [passedWeather]);<WeatherLayout weather={weather}></WeatherLayout>
+  }, [passedWeather]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await getCurrentUser();
+        setLoggedIn(true);
+      } catch {
+        setLoggedIn(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   return (
     <WeatherLayout weather={weather}>
@@ -38,10 +51,13 @@ export default function OutfitPage() {
         <OutfitHero weather={weather} />
 
         {recommendation && (
-          <OutfitRecommendation
-            recommendation={recommendation}
-            weather={weather}
-          />
+          <>
+            <OutfitRecommendation
+              recommendation={recommendation}
+              weather={weather}
+              loggedIn={loggedIn}
+            />
+          </>
         )}
       </div>
     </WeatherLayout>

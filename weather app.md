@@ -4,6 +4,7 @@ weather-app/
 │   │   └── db.js
 │   ├── controllers/
 │   │   ├── authController.js
+│   │   ├── wardrobeController.js
 │   │   └── weatherController.js
 │   ├── middleware/
 │   │   ├── authMiddleware.js
@@ -11,9 +12,11 @@ weather-app/
 │   │   └── validate.js
 │   ├── models/
 │   │   ├── Location.js
+│   │   ├── Wardrobe.js
 │   │   └── User.js
 │   ├── routes/
 │   │   ├── authRoutes.js
+│   │   ├── wardrobeRoutes.js
 │   │   └── weatherRoutes.js
 │   ├── services/
 │   │   ├── forecastService.js
@@ -48,6 +51,7 @@ weather-app/
 │   │   │   ├── MapSection.jsx
 │   │   │   ├── Navbar.jsx
 │   │   │   ├── OutfitHero.jsx
+│   │   |   ├── WardrobeManager.jsx 
 │   │   │   ├── OutfitRecommendation.jsx
 │   │   │   ├── ProtectedRoute.jsx
 │   │   │   ├── WeatherAnalytics.jsx
@@ -65,6 +69,7 @@ weather-app/
 │   │   │   ├── api.js
 │   │   │   ├── authService.js
 │   │   │   ├── locationService.js
+│   │   |   ├── wardrobeService.js 
 │   │   │   ├── outfitService.js
 │   │   │   └── weatherService.js
 │   │   ├── styles/

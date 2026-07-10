@@ -19,32 +19,11 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/weather-map" element={<WeatherMapPage />} />
 
-          <Route
-            path="/weather-map"
-            element={
-              <ProtectedRoute>
-                <WeatherMapPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/outfit"
-            element={
-              <ProtectedRoute>
-                <OutfitPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/outfit" element={<OutfitPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

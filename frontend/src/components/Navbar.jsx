@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
-import { toast } from "react-toastify";
 import { FiCloud } from "react-icons/fi";
+import { toast } from "react-toastify";
+
 import { getCurrentUser, logoutUser } from "../services/authService";
+
 const navLinks = [
   { label: "Home", id: null },
   { label: "Map", id: "map" },
@@ -22,7 +24,7 @@ export default function Navbar() {
       try {
         const data = await getCurrentUser();
         setUser(data);
-      } catch (err) {
+      } catch {
         setUser(null);
       }
     };
@@ -41,7 +43,7 @@ export default function Navbar() {
       setTimeout(() => {
         navigate("/");
       }, 500);
-    } catch (err) {
+    } catch {
       toast.error("Logout failed");
     }
   };
@@ -56,6 +58,7 @@ export default function Navbar() {
 
     if (location.pathname !== "/") {
       navigate("/");
+
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({
           behavior: "smooth",
@@ -72,7 +75,8 @@ export default function Navbar() {
     <header className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          <FiCloud  className="logo-icon" />
+          <FiCloud className="logo-icon" />
+
           <h1 className="logo-text">
             <span>Sky</span>
             <span className="logo-accent">Cast</span>
@@ -90,11 +94,9 @@ export default function Navbar() {
             </button>
           ))}
 
-          {user && (
-            <Link to="/dashboard" className="nav-link">
-              Dashboard
-            </Link>
-          )}
+          <Link to="/dashboard" className="nav-link">
+            Dashboard
+          </Link>
         </nav>
 
         <div className="navbar-auth">
@@ -107,6 +109,7 @@ export default function Navbar() {
               <Link to="/login" className="btn btn-outline">
                 Login
               </Link>
+
               <Link to="/signup" className="btn btn-primary">
                 Sign Up
               </Link>
@@ -114,13 +117,11 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Toggle */}
         <button className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <HiX size={28} /> : <HiMenuAlt3 size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
         <div className="mobile-menu">
           {navLinks.map((item) => (
@@ -133,15 +134,13 @@ export default function Navbar() {
             </button>
           ))}
 
-          {user && (
-            <Link
-              to="/dashboard"
-              onClick={() => setMenuOpen(false)}
-              className="mobile-link"
-            >
-              Dashboard
-            </Link>
-          )}
+          <Link
+            to="/dashboard"
+            onClick={() => setMenuOpen(false)}
+            className="mobile-link"
+          >
+            Dashboard
+          </Link>
 
           <div className="mobile-auth">
             {user ? (
@@ -153,6 +152,7 @@ export default function Navbar() {
                 <Link to="/login" className="btn btn-outline full">
                   Login
                 </Link>
+
                 <Link to="/signup" className="btn btn-primary full">
                   Sign Up
                 </Link>

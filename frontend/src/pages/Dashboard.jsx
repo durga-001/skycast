@@ -11,6 +11,8 @@ import {
 } from "../services/locationService";
 import { FiSearch, FiMapPin, FiTrash2 } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
+import { getCurrentUser } from "../services/authService";
+import { FiLock } from "react-icons/fi";
 import {
   WiDaySunny,
   WiCloud,
@@ -45,7 +47,8 @@ function Dashboard() {
   const navigate = useNavigate();
   const debounceRef = useRef(null);
   const [alerts, setAlerts] = useState([]);
-
+  const [loggedIn, setLoggedIn] = useState(false);
+  
   const fetchWeather = async (cityName = city) => {
     try {
       console.log("Fetching weather for:", cityName);
@@ -182,9 +185,22 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    fetchWeather(city);
-    fetchForecast(city);
-    fetchSavedCities();
+    const init = async () => {
+      fetchWeather(city);
+      fetchForecast(city);
+
+      try {
+        await getCurrentUser();
+
+        setLoggedIn(true);
+
+        fetchSavedCities();
+      } catch {
+        setLoggedIn(false);
+      }
+    };
+
+    init();
   }, []);
 
   useEffect(() => {
@@ -261,37 +277,65 @@ function Dashboard() {
               <h2 className="section-title">Saved Cities</h2>
             </div>
 
-            {savedCities.map((savedCity) => (
-              <div
-                className="city-item"
-                key={savedCity._id}
-                onClick={() => {
-                  setCity(savedCity.city_name);
-
-                  fetchWeather(savedCity.city_name);
-                  fetchForecast(savedCity.city_name);
-                }}
-              >
-                <div className="city-left">
-                  <FiMapPin className="city-item-icon" />
-
-                  <span className="city-item-name">
-                    {savedCity.city_name.charAt(0).toUpperCase() +
-                      savedCity.city_name.slice(1).toLowerCase()}
-                  </span>
-                </div>
-
-                <button
-                  className="delete-city-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteLocation(savedCity._id);
+            {loggedIn ? (
+              savedCities.map((savedCity) => (
+                <div
+                  className="city-item"
+                  key={savedCity._id}
+                  onClick={() => {
+                    setCity(savedCity.city_name);
+                    fetchWeather(savedCity.city_name);
+                    fetchForecast(savedCity.city_name);
                   }}
                 >
-                  <FiTrash2 />
-                </button>
+                  <div className="city-left">
+                    <FiMapPin className="city-item-icon" />
+
+                    <span className="city-item-name">
+                      {savedCity.city_name.charAt(0).toUpperCase() +
+                        savedCity.city_name.slice(1).toLowerCase()}
+                    </span>
+                  </div>
+
+                  <button
+                    className="delete-city-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteLocation(savedCity._id);
+                    }}
+                  >
+                    <FiTrash2 />
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="login-required-card">
+                <FiLock className="login-lock" />
+
+                <h3>Save Your Favourite Cities</h3>
+
+                <p>
+                  Login or create an account to save cities and access them
+                  instantly.
+                </p>
+
+                <div className="login-required-buttons">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </button>
+
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => navigate("/signup")}
+                  >
+                    Sign Up
+                  </button>
+                </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
 
@@ -324,9 +368,14 @@ function Dashboard() {
               Search
             </button>
 
-            <button className="btn btn-secondary" onClick={handleSaveLocation}>
-              + Save City
-            </button>
+            {loggedIn &&
+              <button
+                className="btn btn-secondary"
+                onClick={handleSaveLocation}
+              >
+                + Save City
+              </button>
+            }
           </div>
           {weather && (
             <>

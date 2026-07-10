@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 
 const weatherRoutes = require("./routes/weatherRoutes");
+const wardrobeRoutes = require("./routes/wardrobeRoutes");
 const authRoutes = require("./routes/authRoutes");
 const errorHandler = require("./middleware/errorMiddleware");
 
@@ -27,6 +28,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api", weatherRoutes);
+app.use("/api/wardrobe", wardrobeRoutes);
 
 app.use(errorHandler);
 
