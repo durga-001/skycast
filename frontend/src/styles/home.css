@@ -572,6 +572,7 @@
   width: 100% !important;
   height: 100% !important;
 }
+.map-wrapper .leaflet-container{height: 100%;}
 
 .map-weather-card {
   margin-top: 20px;
