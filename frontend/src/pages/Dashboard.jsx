@@ -76,9 +76,10 @@ function Dashboard() {
       ];
       setSavedCities(uniqueCities);
     } catch (error) {
-      console.error(error);
-
-      toast.error("City not found");
+      if (error.response?.status !== 401) {
+        console.error(error);
+        toast.error("Failed to load saved cities.");
+      }
     }
   };
 
@@ -187,14 +188,14 @@ function Dashboard() {
       fetchWeather(currentCity);
       fetchForecast(currentCity);
 
-      try {
-        await getCurrentUser();
+      const user = await getCurrentUser();
 
+      if (user) {
         setLoggedIn(true);
-
         fetchSavedCities();
-      } catch {
+      } else {
         setLoggedIn(false);
+        setSavedCities([]);
       }
     };
 
@@ -277,16 +278,15 @@ function Dashboard() {
               >
                 Search
               </button>
+              {loggedIn && (
+                <button
+                  className="btn btn-secondary"
+                  onClick={handleSaveLocation}
+                >
+                  Save City
+                </button>
+              )}
             </div>
-
-            {loggedIn && (
-              <button
-                className="btn btn-secondary save-city-btn"
-                onClick={handleSaveLocation}
-              >
-                Save City
-              </button>
-            )}
           </div>
           {weather && (
             <>

@@ -362,7 +362,7 @@
     margin-top:25px;
     display:flex;
     justify-content:center;
-    gap:15px;
+    gap:16px;
 }
 
 .wardrobe-lock-buttons a{
@@ -528,7 +528,7 @@
 
     opacity:0;
 
-    color:var(--text-secondary);
+    color:var(--accent);
 
     cursor:pointer;
 
@@ -581,16 +581,6 @@
     color:var(--text-secondary);
 
     line-height:1.7;
-
-}
-
-.wardrobe-lock-buttons{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:16px;
 
 }
 

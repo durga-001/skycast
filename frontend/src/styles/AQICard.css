@@ -195,13 +195,7 @@
         padding:20px;
     }
 
-    .aqi-content{
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        gap:24px;
-        text-align:center;
-    }
+    
 
     .aqi-gauge{
         width:200px;

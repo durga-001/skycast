@@ -263,6 +263,7 @@ transition:.25s;
 .password-toggle:hover{
 
 color:white;
+cursor: pointer;
 
 }
 

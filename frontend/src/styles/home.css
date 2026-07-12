@@ -548,10 +548,12 @@
   margin-top: 8px;
 }
 
-.map-wrapper {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+.map-wrapper{
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  height:500px;
 }
+.map-wrapper, .leaflet-container{height: 100%;}
 
 .map-weather-card {
   margin-top: 20px;

@@ -31,23 +31,24 @@ function WeatherMapPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  if (passedWeather) {
-    setWeather(passedWeather);
-    return;
-  }
-
-  const loadWeather = async () => {
-    try {
-      const data = await getWeather(currentCity);
-      setWeather(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
+    if (passedWeather) {
+      setWeather(passedWeather);
       setLoading(false);
+      return;
     }
-  };
 
-  loadWeather();
+    const loadWeather = async () => {
+      try {
+        const data = await getWeather(currentCity);
+        setWeather(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadWeather();
   }, [passedWeather, currentCity]);
   
   useEffect(() => {
@@ -176,7 +177,7 @@ function WeatherMapPage() {
             <div className="weather-stat-card">
               <h3>Visibility</h3>
 
-              <p>{weather.visibility / 1000}.toFixed(1) km</p>
+              <p>{(weather.visibility / 1000).toFixed(1)} km</p>
             </div>
 
             <div className="weather-stat-card">

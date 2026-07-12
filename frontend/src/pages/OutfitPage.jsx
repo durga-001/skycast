@@ -43,17 +43,18 @@ export default function OutfitPage() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        await getCurrentUser();
+      const user = await getCurrentUser();
+      console.log(user);
+      console.log("loggedIn:", !!user);
+      if (user) {
         setLoggedIn(true);
-      } catch {
+      } else {
         setLoggedIn(false);
       }
     };
 
     checkAuth();
   }, []);
-
   return (
     <WeatherLayout weather={weather}>
       <div className="outfit-container">
