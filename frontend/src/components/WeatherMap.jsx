@@ -16,15 +16,12 @@ function RecenterMap({ latitude, longitude }) {
 
   return null;
 }
-function WeatherMap({ latitude, longitude, city }) {
+function WeatherMap({ latitude, longitude, city, className = "weather-map" }) {
   return (
     <MapContainer
       center={[latitude, longitude]}
       zoom={10}
-      style={{
-        height: "240px",
-        width: "100%",
-      }}
+      className={className}
     >
       <RecenterMap latitude={latitude} longitude={longitude} />
 

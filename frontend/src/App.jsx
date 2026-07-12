@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
 import WeatherMapPage from "./pages/WeatherMapPage";
 import OutfitPage from "./pages/OutfitPage";
 import "./index.css";

@@ -561,3 +561,669 @@
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
+/* ========================= */
+/* RESPONSIVE NAVBAR */
+/* ========================= */
+
+.navbar {
+  width: 100%;
+}
+
+.menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.25s;
+}
+
+.menu-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  width: 100%;
+
+  background: rgba(10,10,10,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border-top: 1px solid rgba(255,255,255,.05);
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px;
+
+  animation: slideDown .25s ease;
+}
+
+.mobile-link {
+  width: 100%;
+  text-align: left;
+
+  background: transparent;
+  color: white;
+
+  border: none;
+
+  padding: 14px 0;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  text-decoration: none;
+}
+
+.mobile-auth{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:18px;
+}
+
+.mobile-auth .btn{
+  width:100%;
+}
+
+.full{
+  width:100%;
+}
+
+@keyframes slideDown{
+
+  from{
+
+    opacity:0;
+
+    transform:translateY(-12px);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+  }
+
+}
+
+/* ========================= */
+/* TABLET */
+/* ========================= */
+
+@media (max-width:1024px){
+
+  .navbar-container{
+
+    padding:0 18px;
+
+  }
+
+  .navbar-links{
+
+    gap:32px;
+
+  }
+
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media (max-width:768px){
+
+  .navbar{
+
+    height:68px;
+
+  }
+
+  .navbar-logo{
+
+    height:68px;
+
+  }
+
+  .logo-text{
+
+    font-size:1.15rem;
+
+  }
+
+  .navbar-links{
+
+    display:none;
+
+  }
+
+  .navbar-auth{
+
+    display:none;
+
+  }
+
+  .menu-btn{
+
+    display:flex;
+
+  }
+
+}
+
+/* ========================= */
+/* SMALL PHONES */
+/* ========================= */
+
+@media (max-width:480px){
+
+  .navbar-container{
+
+    padding:0 14px;
+
+  }
+
+  .logo-text{
+
+    font-size:1rem;
+
+  }
+
+  .logo-icon{
+
+    font-size:20px;
+
+  }
+
+  .mobile-menu{
+
+    padding:18px 16px;
+
+  }
+
+}
+
+/* ==========================================
+        HERO RESPONSIVE
+========================================== */
+
+@media (max-width:768px){
+
+.hero{
+    padding:20px 16px 40px;
+}
+
+.hero-container{
+
+    padding:34px 24px;
+
+    border-radius:22px;
+
+    text-align:center;
+}
+
+.hero-container::before{
+
+    left:18px;
+    right:18px;
+}
+
+.hero h1{
+
+    font-size:2.3rem;
+
+    line-height:1.08;
+
+    letter-spacing:-1.4px;
+}
+
+.hero p{
+
+    margin-top:18px;
+
+    font-size:.98rem;
+
+    line-height:1.8;
+
+    max-width:100%;
+}
+
+.hero-buttons{
+
+    margin-top:28px;
+
+    flex-direction:column;
+
+    gap:14px;
+}
+
+.hero-btn{
+
+    width:100%;
+
+    justify-content:center;
+
+    height:52px;
+
+    font-size:.95rem;
+}
+
+}
+
+@media(max-width:480px){
+
+.hero{
+
+    padding:14px 12px 32px;
+}
+
+.hero-container{
+
+    padding:28px 18px;
+}
+
+.hero h1{
+
+    font-size:2rem;
+}
+
+.hero p{
+
+    font-size:.92rem;
+}
+
+}
+
+/* ==========================================
+        FEATURES RESPONSIVE
+========================================== */
+
+@media(max-width:900px){
+
+.features{
+
+    padding:60px 16px;
+}
+
+.features-header{
+
+    margin-bottom:34px;
+}
+
+.features-title{
+
+    font-size:2rem;
+}
+
+.features-subtitle{
+
+    font-size:.95rem;
+}
+
+.features-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+}
+
+.feature-card{
+
+    padding:22px;
+}
+
+}
+
+@media(max-width:600px){
+
+.features{
+
+    padding:50px 14px;
+}
+
+.features-grid{
+
+    grid-template-columns:1fr;
+
+    gap:18px;
+}
+
+.feature-card{
+
+    padding:26px 20px;
+
+    border-radius:20px;
+}
+
+.feature-icon{
+
+    margin-bottom:16px;
+}
+
+.feature-title{
+
+    font-size:1.05rem;
+}
+
+.feature-desc{
+
+    font-size:.92rem;
+}
+
+}
+
+/* ==========================================
+            MAP RESPONSIVE
+========================================== */
+
+@media(max-width:768px){
+
+.map-section-container{
+
+    padding:50px 16px;
+}
+
+.map-header{
+
+    margin-bottom:20px;
+}
+
+.map-header h2{
+
+    font-size:2rem;
+}
+
+.map-header p{
+
+    font-size:.92rem;
+}
+
+.map-wrapper{
+
+    border-radius:22px;
+    overflow:hidden;
+}
+
+.map-wrapper .leaflet-container{
+
+    height:360px !important;
+}
+
+}
+
+@media(max-width:480px){
+
+.map-section-container{
+
+    padding:40px 12px;
+}
+
+.map-header h2{
+
+    font-size:1.7rem;
+}
+
+.map-wrapper .leaflet-container{
+
+    height:300px !important;
+}
+
+}
+
+/* ==========================================
+        WEATHER PREVIEW
+========================================== */
+
+@media(max-width:768px){
+
+.map-weather-card{
+
+    margin-top:18px;
+
+    padding:18px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+}
+
+.map-weather-card p{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.05);
+}
+
+}
+
+/* ==========================================
+        MOBILE SPACING
+========================================== */
+
+@media(max-width:768px){
+
+.features,
+.hero,
+.map-section-container{
+
+    max-width:100%;
+}
+
+.hero-container,
+.feature-card,
+.map-wrapper,
+.map-weather-card{
+
+    box-shadow:
+        0 14px 35px rgba(0,0,0,.45);
+}
+
+}
+
+/* ==========================================
+        MAP WEATHER PREVIEW
+========================================== */
+
+.map-weather-card{
+
+    margin-top:24px;
+
+    padding:28px;
+
+    border-radius:24px;
+}
+
+.preview-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:26px;
+
+    gap:18px;
+}
+
+.preview-label{
+
+    color:var(--accent);
+
+    font-size:.75rem;
+
+    letter-spacing:2px;
+
+    font-weight:700;
+}
+
+.preview-header h3{
+
+    margin-top:6px;
+
+    font-size:1.6rem;
+}
+
+.preview-badge{
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    background:rgba(var(--accent-rgb),.10);
+
+    border:1px solid rgba(var(--accent-rgb),.20);
+
+    color:var(--accent);
+
+    font-size:.85rem;
+}
+
+.preview-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:18px;
+}
+
+.preview-stat{
+
+    padding:24px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.05);
+
+    backdrop-filter:blur(16px);
+
+    transition:.3s;
+}
+
+.preview-stat:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(var(--accent-rgb),.25);
+
+    box-shadow:
+    0 15px 30px rgba(0,0,0,.35);
+}
+
+.preview-icon{
+
+    width:54px;
+    height:54px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:16px;
+
+    background:rgba(var(--accent-rgb),.10);
+
+    color:var(--accent);
+
+    font-size:24px;
+
+    margin-bottom:18px;
+}
+
+.preview-stat h2{
+
+    font-size:1.45rem;
+
+    margin-bottom:8px;
+}
+
+.preview-stat p{
+
+    color:var(--text-secondary);
+
+    font-size:.9rem;
+}
+
+
+.preview-value{
+    font-size:1.1rem;
+    line-height:1.3;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* ==========================================
+        MAP WEATHER MOBILE
+========================================== */
+
+@media (max-width:768px){
+
+  .preview-header{
+    flex-direction:column;
+    align-items:flex-start;
+    margin-bottom:20px;
+  }
+
+  .preview-header h3{
+    font-size:1.35rem;
+  }
+
+  .preview-badge{
+    font-size:.8rem;
+  }
+
+  .preview-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .preview-stat{
+    width:100%;
+    padding:20px;
+  }
+
+}
+
+@media (max-width:480px){
+
+  .map-weather-card{
+    padding:20px;
+  }
+
+  .preview-icon{
+    width:46px;
+    height:46px;
+    font-size:20px;
+  }
+
+  .preview-stat h2{
+    font-size:1.15rem;
+  }
+
+}

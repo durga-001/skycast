@@ -28,7 +28,9 @@ export const getWeatherNews = async () => {
 };
 
 export const getAirQuality = async (lat, lon) => {
-  const response = await API.get(`/air-quality?lat=${lat}&lon=${lon}`);
+  const { data } = await API.get("/air-quality", {
+    params: { lat, lon },
+  });
 
-  return response.data;
+  return data;
 };

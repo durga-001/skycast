@@ -35,7 +35,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <FiHeart />
 
-        <span>Built with React • Express • PostgreSQL</span>
+        <span>Built with React • Express • MongoDB</span>
       </div>
     </footer>
   );

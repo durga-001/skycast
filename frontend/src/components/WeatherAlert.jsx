@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   FiAlertTriangle,
   FiInfo,
@@ -16,26 +17,38 @@ const iconMap = {
 };
 
 function WeatherAlert({ alerts }) {
+  const [open, setOpen] = useState(false);
+
   if (!alerts?.length) return null;
 
   return (
-    <div className="weather-alert-wrapper">
-      <h3 className="weather-alert-title">Today's Alerts</h3>
+    <div className="weather-alert-dropdown">
+      <div className="weather-alert-header" onClick={() => setOpen(!open)}>
+        <h3>⚠ Today's Alerts ({alerts.length})</h3>
 
-      {alerts.slice(0, 3).map((alert, index) => (
-        <div
-          key={index}
-          className={`weather-alert ${
-            alert.severity === "danger" ? "danger" : ""
-          }`}
-        >
-          <div className="alert-icon">{iconMap[alert.type] || <FiInfo />}</div>
+        <span>{open ? "▲" : "▼"}</span>
+      </div>
 
-          <div className="alert-content">
-            <p>{alert.message}</p>
-          </div>
+      {open && (
+        <div className="weather-alert-wrapper">
+          {alerts.slice(0, 3).map((alert, index) => (
+            <div
+              key={index}
+              className={`weather-alert ${
+                alert.severity === "danger" ? "danger" : ""
+              }`}
+            >
+              <div className="alert-icon">
+                {iconMap[alert.type] || <FiInfo />}
+              </div>
+
+              <div className="alert-content">
+                <p>{alert.message}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 }

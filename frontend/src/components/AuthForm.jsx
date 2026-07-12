@@ -162,8 +162,6 @@ export default function AuthForm({ mode = "login" }) {
         toast.success("Account created successfully!");
       }
 
-      toast.success("Login successful!");
-
       setTimeout(() => {
         navigate("/dashboard");
       }, 500);

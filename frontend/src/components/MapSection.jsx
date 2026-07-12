@@ -66,18 +66,48 @@ export default function MapSection() {
         </MapContainer>
       </div>
 
-      {/* Minimal Weather Preview */}
       {weather && (
         <div className="map-weather-card glass-card">
-          <p>
-            <FaTemperatureHalf /> Temp: {weather.temperature}°C
-          </p>
-          <p>
-            <FaCloud /> Condition: {weather.description}
-          </p>
-          <p>
-            <FaWind /> Wind: {weather.wind_speed} m/s
-          </p>
+          <div className="preview-header">
+            <div>
+              <span className="preview-label">LIVE WEATHER</span>
+              <h3>{weather.city}</h3>
+            </div>
+
+            <span className="preview-badge">{weather.description}</span>
+          </div>
+
+          <div className="preview-grid">
+            <div className="preview-stat">
+              <div className="preview-icon">
+                <FaTemperatureHalf />
+              </div>
+
+              <h2>{Math.round(weather.temperature)}°C</h2>
+
+              <p>Temperature</p>
+            </div>
+
+            <div className="preview-stat">
+              <div className="preview-icon">
+                <FaCloud />
+              </div>
+
+              <h2 className="preview-value">{weather.description}</h2>
+
+              <p>Condition</p>
+            </div>
+
+            <div className="preview-stat">
+              <div className="preview-icon">
+                <FaWind />
+              </div>
+
+              <h2>{weather.wind_speed} m/s</h2>
+
+              <p>Wind Speed</p>
+            </div>
+          </div>
         </div>
       )}
     </section>

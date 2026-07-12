@@ -7,6 +7,8 @@ import OutfitRecommendation from "../components/OutfitRecommendation";
 import { getCurrentUser } from "../services/authService";
 import "../styles/OutfitRecommendation.css";
 import WeatherLayout from "../components/WeatherLayout";
+import { useWeatherContext } from "../context/WeatherContext";
+import { toast } from "react-toastify";
 
 export default function OutfitPage() {
   const [weather, setWeather] = useState(null);
@@ -15,6 +17,8 @@ export default function OutfitPage() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const passedWeather = location.state?.weather;
+  const { currentCity } = useWeatherContext();
+
   useEffect(() => {
     if (passedWeather) {
       setWeather(passedWeather);
@@ -23,14 +27,19 @@ export default function OutfitPage() {
     }
 
     const fetchData = async () => {
-      const data = await getWeather("Delhi");
+      try {
+        const data = await getWeather(currentCity);
 
-      setWeather(data);
-      setRecommendation(getOutfitRecommendation(data));
+        setWeather(data);
+        setRecommendation(getOutfitRecommendation(data));
+      } catch (err) {
+        console.log(err);
+        toast.error("Failed to fetch weather details.");
+      }
     };
 
     fetchData();
-  }, [passedWeather]);
+  }, [passedWeather, currentCity]);
 
   useEffect(() => {
     const checkAuth = async () => {

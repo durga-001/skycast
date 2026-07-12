@@ -48,12 +48,12 @@ weather-app/
 │   │   │   ├── Layout.jsx
 │   │   │   ├── LocationInfo.jsx
 │   │   │   ├── MapLegend.jsx
+|   │   │   ├── DashboardSidebar.jsx
 │   │   │   ├── MapSection.jsx
 │   │   │   ├── Navbar.jsx
 │   │   │   ├── OutfitHero.jsx
 │   │   |   ├── WardrobeManager.jsx 
 │   │   │   ├── OutfitRecommendation.jsx
-│   │   │   ├── ProtectedRoute.jsx
 │   │   │   ├── WeatherAnalytics.jsx
 │   │   │   ├── WeatherLayout.jsx
 │   │   │   ├── WeatherMap.jsx
@@ -65,6 +65,8 @@ weather-app/
 │   │   │   ├── OutfitPage.jsx
 │   │   │   ├── Signup.jsx
 │   │   │   └── WeatherMapPage.jsx
+│   │   ├── context/
+|   │   │   └── WeatherMapContext.jsx
 │   │   ├── services/
 │   │   │   ├── api.js
 │   │   │   ├── authService.js

@@ -1,10 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import LargeWeatherMap from "../components/LargeWeatherMap";
 import WeatherAnalytics from "../components/WeatherAnalytics";
-
+import { getWeather, getForecast } from "../services/weatherService";
+import { useWeatherContext } from "../context/WeatherContext";
 import {
   WiThermometer,
   WiHumidity,
@@ -17,24 +17,47 @@ import "../styles/WeatherMap.css";
 import WeatherLayout from "../components/WeatherLayout";
 
 function WeatherMapPage() {
-  const { state } = useLocation();
+  const location = useLocation();
 
-  const weather = state?.weather;
+  const passedWeather = location.state?.weather;
+
+  const { currentCity } = useWeatherContext();
+
+  const [weather, setWeather] = useState(passedWeather || null);
 
   const [selectedLayer, setSelectedLayer] = useState("temp");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [forecastData, setForecastData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+  if (passedWeather) {
+    setWeather(passedWeather);
+    return;
+  }
+
+  const loadWeather = async () => {
+    try {
+      const data = await getWeather(currentCity);
+      setWeather(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadWeather();
+  }, [passedWeather, currentCity]);
+  
   useEffect(() => {
     if (!weather?.city) return;
 
     const fetchForecast = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/forecast/${weather.city}`,
-        );
+        const data = await getForecast(weather.city);
 
-        const formattedData = res.data.list.slice(0, 12).map((item) => ({
+        const formattedData = data.list.slice(0, 12).map((item) => ({
           time: new Date(item.dt_txt).toLocaleString("en-US", {
             month: "short",
             day: "numeric",
@@ -54,6 +77,10 @@ function WeatherMapPage() {
 
     fetchForecast();
   }, [weather]);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
   if (!weather) {
     return <h2>No weather data available.</h2>;
@@ -149,7 +176,7 @@ function WeatherMapPage() {
             <div className="weather-stat-card">
               <h3>Visibility</h3>
 
-              <p>{weather.visibility / 1000} km</p>
+              <p>{weather.visibility / 1000}.toFixed(1) km</p>
             </div>
 
             <div className="weather-stat-card">

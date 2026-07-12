@@ -184,3 +184,108 @@
     }
 
 }
+
+/* ===========================
+      RESPONSIVE
+=========================== */
+
+@media (max-width: 768px) {
+
+    .aqi-card{
+        padding:20px;
+    }
+
+    .aqi-content{
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:24px;
+        text-align:center;
+    }
+
+    .aqi-gauge{
+        width:200px;
+        height:100px;
+        border-radius:200px 200px 0 0;
+    }
+
+    .aqi-gauge::before{
+        left:15px;
+        right:15px;
+        height:85px;
+        border-radius:180px 180px 0 0;
+    }
+
+    .aqi-needle{
+        height:85px;
+    }
+
+    .aqi-center{
+        width:82px;
+        height:82px;
+    }
+
+    .aqi-center h1{
+        font-size:1.5rem;
+    }
+
+    .aqi-center span{
+        font-size:.72rem;
+    }
+
+    .aqi-info h3{
+        font-size:1.4rem;
+        margin-bottom:10px;
+    }
+
+    .aqi-info p{
+        max-width:100%;
+        font-size:.9rem;
+        line-height:1.5;
+    }
+
+}
+
+@media (max-width: 420px){
+
+    .aqi-card{
+        padding:16px;
+    }
+
+    .aqi-gauge{
+        width:170px;
+        height:85px;
+    }
+
+    .aqi-gauge::before{
+        left:12px;
+        right:12px;
+        height:72px;
+    }
+
+    .aqi-needle{
+        height:72px;
+    }
+
+    .aqi-center{
+        width:70px;
+        height:70px;
+    }
+
+    .aqi-center h1{
+        font-size:1.2rem;
+    }
+
+    .aqi-center span{
+        font-size:.65rem;
+    }
+
+    .aqi-info h3{
+        font-size:1.15rem;
+    }
+
+    .aqi-info p{
+        font-size:.82rem;
+    }
+
+}

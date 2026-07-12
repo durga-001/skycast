@@ -4,7 +4,7 @@ export const getOutfitRecommendation = (weather) => {
   if (!weather) return null;
 
   const temp = weather.temperature;
-  const condition = weather.weather?.toLowerCase();
+  const condition = weather.weather?.toLowerCase() ?? "";
 
   if (
     condition.includes("rain") ||

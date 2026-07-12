@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getWeather,
   getForecast,
@@ -9,10 +9,9 @@ import {
   saveLocation,
   deleteLocation,
 } from "../services/locationService";
-import { FiSearch, FiMapPin, FiTrash2 } from "react-icons/fi";
-import { ToastContainer, toast } from "react-toastify";
+import { FiSearch, FiMapPin } from "react-icons/fi";
+import { toast } from "react-toastify";
 import { getCurrentUser } from "../services/authService";
-import { FiLock } from "react-icons/fi";
 import {
   WiDaySunny,
   WiCloud,
@@ -26,8 +25,7 @@ import { FaWind } from "react-icons/fa";
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { MdOutlineVisibility } from "react-icons/md";
 import { GiPressureCooker } from "react-icons/gi";
-
-import WeatherMap from "../components/WeatherMap";
+import { useWeatherContext } from "../context/WeatherContext";
 import WeatherNews from "../components/WeatherNews";
 import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
@@ -36,31 +34,31 @@ import WeatherLayout from "../components/WeatherLayout";
 import AQICard from "../components/AQICard";
 import WeatherAlert from "../components/WeatherAlert";
 import { generateWeatherAlerts } from "../utils/weatherAlerts";
+import DashboardSidebar from "../components/DashboardSidebar";
 
 function Dashboard() {
   const [weather, setWeather] = useState(null);
-  const [city, setCity] = useState("Delhi");
+  const { currentCity, setCurrentCity } = useWeatherContext();
+  const [city, setCity] = useState(currentCity);
   const [savedCities, setSavedCities] = useState([]);
   const [forecast, setForecast] = useState([]);
   const [dailyForecast, setDailyForecast] = useState([]);
   const [aqi, setAqi] = useState(null);
   const navigate = useNavigate();
-  const debounceRef = useRef(null);
   const [alerts, setAlerts] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   
   const fetchWeather = async (cityName = city) => {
     try {
-      console.log("Fetching weather for:", cityName);
+      
 
       const data = await getWeather(cityName);
 
-      console.log(data);
+      
 
       setWeather(data);
       fetchAQI(data.latitude, data.longitude);
     } catch (error) {
-      console.log(error.response);
       console.log(error.response?.data);
 
       toast.error("City not found");
@@ -76,7 +74,6 @@ function Dashboard() {
           locations.map((city) => [city.city_name.toLowerCase(), city]),
         ).values(),
       ];
-      console.log(uniqueCities);
       setSavedCities(uniqueCities);
     } catch (error) {
       console.error(error);
@@ -117,7 +114,6 @@ function Dashboard() {
 
   const fetchForecast = async (cityName = city) => {
     try {
-      console.log("Fetching weather for:", cityName);
       const data = await getForecast(cityName);
       const dailyData = [];
 
@@ -185,9 +181,11 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    setCity(currentCity);
+
     const init = async () => {
-      fetchWeather(city);
-      fetchForecast(city);
+      fetchWeather(currentCity);
+      fetchForecast(currentCity);
 
       try {
         await getCurrentUser();
@@ -201,11 +199,7 @@ function Dashboard() {
     };
 
     init();
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimeout(debounceRef.current);
-  }, []);
+  }, [currentCity]);
 
   const getWeatherIcon = (condition, size) => {
     switch (condition?.toLowerCase()) {
@@ -241,141 +235,58 @@ function Dashboard() {
     <WeatherLayout weather={weather}>
       <div className="dashboard-layout">
         {/* Left Panel */}
-        <div className="left-panel">
-          <div className="map-card glass-card">
-            {weather && (
-              <>
-                <div className="section-header">
-                  <div>
-                    <p className="map-label">Current Location</p>
-                    <h3 className="map-city">{weather.city}</h3>
-                  </div>
-
-                  <FiMapPin className="map-pin-icon" />
-                </div>
-
-                <div
-                  className="map-section"
-                  onClick={() =>
-                    navigate("/weather-map", {
-                      state: { weather },
-                    })
-                  }
-                >
-                  <WeatherMap
-                    latitude={weather.latitude}
-                    longitude={weather.longitude}
-                    city={weather.city}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-
-          <div className="saved-cities glass-card">
-            <div className="section-header">
-              <h2 className="section-title">Saved Cities</h2>
-            </div>
-
-            {loggedIn ? (
-              savedCities.map((savedCity) => (
-                <div
-                  className="city-item"
-                  key={savedCity._id}
-                  onClick={() => {
-                    setCity(savedCity.city_name);
-                    fetchWeather(savedCity.city_name);
-                    fetchForecast(savedCity.city_name);
-                  }}
-                >
-                  <div className="city-left">
-                    <FiMapPin className="city-item-icon" />
-
-                    <span className="city-item-name">
-                      {savedCity.city_name.charAt(0).toUpperCase() +
-                        savedCity.city_name.slice(1).toLowerCase()}
-                    </span>
-                  </div>
-
-                  <button
-                    className="delete-city-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteLocation(savedCity._id);
-                    }}
-                  >
-                    <FiTrash2 />
-                  </button>
-                </div>
-              ))
-            ) : (
-              <div className="login-required-card">
-                <FiLock className="login-lock" />
-
-                <h3>Save Your Favourite Cities</h3>
-
-                <p>
-                  Login or create an account to save cities and access them
-                  instantly.
-                </p>
-
-                <div className="login-required-buttons">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => navigate("/login")}
-                  >
-                    Login
-                  </button>
-
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => navigate("/signup")}
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+        <div className="left-panel desktop-sidebar">
+          <DashboardSidebar
+            weather={weather}
+            savedCities={savedCities}
+            loggedIn={loggedIn}
+            setCurrentCity={setCurrentCity}
+            setCity={setCity}
+            fetchWeather={fetchWeather}
+            fetchForecast={fetchForecast}
+            handleDeleteLocation={handleDeleteLocation}
+          />
         </div>
 
         {/* Right Panel */}
 
         <div className="right-panel">
-          <div className="search-section">
-            <div className="search-box">
-              <FiSearch className="search-icon" />
+          <div className="search-wrapper glass-card">
+            <div className="search-section">
+              <div className="search-box">
+                <FiSearch className="search-icon" />
 
-              <input
-                type="text"
-                placeholder="Search city..."
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-            </div>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                if (!city.trim()) {
-                  toast.error("Please enter a city.");
-                  return;
-                }
+                <input
+                  type="text"
+                  placeholder="Search city..."
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </div>
 
-                fetchWeather(city);
-                fetchForecast(city);
-              }}
-            >
-              Search
-            </button>
-
-            {loggedIn &&
               <button
-                className="btn btn-secondary"
+                className="btn btn-primary"
+                onClick={() => {
+                  if (!city.trim()) {
+                    toast.error("Please enter a city.");
+                    return;
+                  }
+
+                  setCurrentCity(city);
+                }}
+              >
+                Search
+              </button>
+            </div>
+
+            {loggedIn && (
+              <button
+                className="btn btn-secondary save-city-btn"
                 onClick={handleSaveLocation}
               >
-                + Save City
+                Save City
               </button>
-            }
+            )}
           </div>
           {weather && (
             <>
@@ -548,7 +459,7 @@ function Dashboard() {
                     </div>
                   </div>
                 )}
-                {aqi && <AQICard aqi={aqi} />}
+                {aqi != null && <AQICard aqi={aqi} />}
                 {weather && (
                   <div className="outfit-preview glass-card">
                     <div className="outfit-preview-content">
@@ -586,8 +497,19 @@ function Dashboard() {
           )}
         </div>
       </div>
+      <div className="mobile-sidebar">
+        <DashboardSidebar
+          weather={weather}
+          savedCities={savedCities}
+          loggedIn={loggedIn}
+          setCurrentCity={setCurrentCity}
+          setCity={setCity}
+          fetchWeather={fetchWeather}
+          fetchForecast={fetchForecast}
+          handleDeleteLocation={handleDeleteLocation}
+        />
+      </div>
       <WeatherNews />
-      <ToastContainer />
     </WeatherLayout>
   );
 }
