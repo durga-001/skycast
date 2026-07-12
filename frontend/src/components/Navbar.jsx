@@ -9,7 +9,6 @@ import { getCurrentUser, logoutUser } from "../services/authService";
 const navLinks = [
   { label: "Home", id: null },
   { label: "Map", id: "map" },
-  { label: "Features", id: "features" },
 ];
 
 export default function Navbar() {

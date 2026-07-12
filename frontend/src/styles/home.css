@@ -105,6 +105,7 @@
   background-color: var(--bg);
   color: white;
   border: none;
+  text-decoration: none;
 }
 
 .nav-link:hover {
