@@ -553,7 +553,7 @@
   overflow:hidden;
   height:500px;
 }
-.map-wrapper, .leaflet-container{height: 100%;}
+.map-wrapper .leaflet-container{height: 100%;}
 
 .map-weather-card {
   margin-top: 20px;
