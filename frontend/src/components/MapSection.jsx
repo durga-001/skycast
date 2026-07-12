@@ -10,6 +10,7 @@ import L from "leaflet";
 import { FaCloud, FaTemperatureHalf } from "react-icons/fa6";
 import { FaWind } from "react-icons/fa";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import { useTheme } from "../context/ThemeContext";
 
 const markerIcon = new L.Icon({
   iconUrl: markerIconPng,
@@ -48,6 +49,7 @@ function LocationSelector({ onSelect }) {
 }
 
 export default function MapSection() {
+  const { theme } = useTheme();
   const [position, setPosition] = useState(null);
   const [weather, setWeather] = useState(null);
 
@@ -69,6 +71,11 @@ export default function MapSection() {
     fetchWeather(latlng.lat, latlng.lng);
   };
 
+  const tileUrl =
+    theme === "light"
+      ? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+      : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+
   return (
     <section className="map-section-container">
       <div className="map-header">
@@ -85,7 +92,8 @@ export default function MapSection() {
           <MapResizeFix />
 
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            key={theme}
+            url={tileUrl}
             attribution="&copy; OpenStreetMap contributors &copy; CARTO"
           />
 

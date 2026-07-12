@@ -5,6 +5,7 @@ import { FiCloud } from "react-icons/fi";
 import { toast } from "react-toastify";
 
 import { getCurrentUser, logoutUser } from "../services/authService";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { label: "Home", id: null },
@@ -99,6 +100,8 @@ export default function Navbar() {
         </nav>
 
         <div className="navbar-auth">
+          <ThemeToggle />
+
           {user ? (
             <button onClick={handleLogout} className="btn btn-danger">
               Logout
@@ -142,6 +145,8 @@ export default function Navbar() {
           </Link>
 
           <div className="mobile-auth">
+            <ThemeToggle />
+
             {user ? (
               <button
                 onClick={() => {
