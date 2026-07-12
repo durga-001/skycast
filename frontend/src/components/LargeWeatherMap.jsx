@@ -10,6 +10,7 @@ import {
 import LocationInfo from "./LocationInfo";
 import L from "leaflet";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useTheme } from "../context/ThemeContext";
 
 function RecenterMap({ latitude, longitude }) {
   const map = useMap();
@@ -22,6 +23,8 @@ function RecenterMap({ latitude, longitude }) {
 }
 
 function LargeWeatherMap({ weather, selectedLayer }) {
+  const { theme } = useTheme();
+
   if (!weather) {
     return null;
   }
@@ -52,6 +55,12 @@ function LargeWeatherMap({ weather, selectedLayer }) {
 
     popupAnchor: [0, -50],
   });
+
+  const tileUrl =
+    theme === "light"
+      ? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+      : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+
   return (
     <div className="map-wrapper map-container">
       <MapContainer
@@ -66,7 +75,8 @@ function LargeWeatherMap({ weather, selectedLayer }) {
 
         {/* Base Map */}
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          key={theme}
+          url={tileUrl}
           attribution="&copy; OpenStreetMap & CARTO"
         />
 

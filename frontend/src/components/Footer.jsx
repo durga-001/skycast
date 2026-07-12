@@ -11,31 +11,13 @@ export default function Footer() {
 
           <div>
             <h3>SkyCast</h3>
-            <p>Premium Weather Intelligence</p>
+            <p>Premium Weather Dashboard</p>
           </div>
         </div>
 
-        <div className="footer-center">
-          <span>Powered by OpenWeather</span>
-          <span>•</span>
-          <span>NewsAPI</span>
-        </div>
-
         <div className="footer-right">
-          <button className="footer-icon">
-            <a href="https://github.com/durga-001/skycast" target="_blank">
-              <FiGithub />
-            </a>
-          </button>
-
           <span className="footer-copy">© 2026 SkyCast</span>
         </div>
-      </div>
-
-      <div className="footer-bottom">
-        <FiHeart />
-
-        <span>Built with React • Express • MongoDB</span>
       </div>
     </footer>
   );

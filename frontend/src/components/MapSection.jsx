@@ -1,15 +1,43 @@
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import { useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
+import { useState, useEffect } from "react";
 import L from "leaflet";
 import { FaCloud, FaTemperatureHalf } from "react-icons/fa6";
 import { FaWind } from "react-icons/fa";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import { useTheme } from "../context/ThemeContext";
 
 const markerIcon = new L.Icon({
   iconUrl: markerIconPng,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
+
+// Fix: forces Leaflet to recalc size after layout settles / on resize
+function MapResizeFix() {
+  const map = useMap();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 300);
+
+    const handleResize = () => map.invalidateSize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [map]);
+
+  return null;
+}
 
 function LocationSelector({ onSelect }) {
   useMapEvents({
@@ -21,6 +49,7 @@ function LocationSelector({ onSelect }) {
 }
 
 export default function MapSection() {
+  const { theme } = useTheme();
   const [position, setPosition] = useState(null);
   const [weather, setWeather] = useState(null);
 
@@ -42,6 +71,11 @@ export default function MapSection() {
     fetchWeather(latlng.lat, latlng.lng);
   };
 
+  const tileUrl =
+    theme === "light"
+      ? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+      : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+
   return (
     <section className="map-section-container">
       <div className="map-header">
@@ -49,14 +83,17 @@ export default function MapSection() {
         <p>Click anywhere to get live weather details</p>
       </div>
 
-      <div className="map-wrapper glass-card">
+      <div className="home-map-wrapper glass-card">
         <MapContainer
-          center={[20.5937, 78.9629]} // India center
+          className="home-map-leaflet"
+          center={[20.5937, 78.9629]}
           zoom={4}
-          style={{ height: "500px", width: "100%" }}
         >
+          <MapResizeFix />
+
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            key={theme}
+            url={tileUrl}
             attribution="&copy; OpenStreetMap contributors &copy; CARTO"
           />
 
