@@ -15,16 +15,16 @@ function LocationInfo({ city, latitude, longitude, selectedLayer }) {
 
       <p>
         <MdMyLocation />
-        {latitude.toFixed(4)}
+        {latitude?.toFixed(4)}
       </p>
 
       <p>
         <MdMyLocation />
-        {longitude.toFixed(4)}
+        {longitude?.toFixed(4)}
       </p>
 
       <p>
-        <strong>Layer:</strong> {selectedLayer.toUpperCase()}
+        <strong>Layer:</strong> {selectedLayer?.toUpperCase()}
       </p>
     </div>
   );

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   getWeather,
   getForecast,
@@ -9,9 +11,8 @@ import {
   saveLocation,
   deleteLocation,
 } from "../services/locationService";
-import { FiSearch, FiMapPin } from "react-icons/fi";
-import { toast } from "react-toastify";
 import { getCurrentUser } from "../services/authService";
+import { FiSearch, FiMapPin } from "react-icons/fi";
 import {
   WiDaySunny,
   WiCloud,
@@ -24,17 +25,16 @@ import {
 import { FaWind } from "react-icons/fa";
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { MdOutlineVisibility } from "react-icons/md";
+import { FiArrowRight } from "react-icons/fi";
 import { GiPressureCooker } from "react-icons/gi";
 import { useWeatherContext } from "../context/WeatherContext";
 import WeatherNews from "../components/WeatherNews";
-import { useNavigate } from "react-router-dom";
-import "../styles/Dashboard.css";
-import { FiArrowRight } from "react-icons/fi";
 import WeatherLayout from "../components/WeatherLayout";
 import AQICard from "../components/AQICard";
+import DashboardSidebar from "../components/DashboardSidebar";
 import WeatherAlert from "../components/WeatherAlert";
 import { generateWeatherAlerts } from "../utils/weatherAlerts";
-import DashboardSidebar from "../components/DashboardSidebar";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
   const [weather, setWeather] = useState(null);
@@ -50,14 +50,11 @@ function Dashboard() {
   
   const fetchWeather = async (cityName = city) => {
     try {
-      
-
       const data = await getWeather(cityName);
-
-      
-
       setWeather(data);
-      fetchAQI(data.latitude, data.longitude);
+      if (data.latitude != null && data.longitude != null) {
+        await fetchAQI(data.latitude, data.longitude);
+      }
     } catch (error) {
       console.log(error.response?.data);
 
@@ -175,7 +172,12 @@ function Dashboard() {
         5: 250,
       };
 
-      setAqi(aqiLevels[data.list[0].main.aqi]);
+      if (!data?.list?.length) {
+        setAqi(null);
+        return;
+      }
+
+      setAqi(aqiLevels[data.list[0].main.aqi] ?? null);
     } catch (error) {
       console.error(error);
     }
@@ -185,8 +187,10 @@ function Dashboard() {
     setCity(currentCity);
 
     const init = async () => {
-      fetchWeather(currentCity);
-      fetchForecast(currentCity);
+      await Promise.all([
+        fetchWeather(currentCity),
+        fetchForecast(currentCity),
+      ]);
 
       const user = await getCurrentUser();
 
@@ -208,6 +212,9 @@ function Dashboard() {
         return <WiDaySunny size={size} color="#FDB813" />;
 
       case "clouds":
+      case "mist":
+      case "fog":
+      case "haze":
         return <WiCloud size={size} color="#7f8c8d" />;
 
       case "rain":
@@ -222,6 +229,8 @@ function Dashboard() {
   };
   
   const formatTime = (timestamp) => {
+    if (!timestamp) return "--";
+
     return new Date(timestamp * 1000).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -229,7 +238,7 @@ function Dashboard() {
   };
 
   const formatVisibility = (visibility) => {
-    return (visibility / 1000).toFixed(1);
+    return visibility ? (visibility / 1000).toFixed(1) : "--";
   };
 
   return (
@@ -268,12 +277,18 @@ function Dashboard() {
               <button
                 className="btn btn-primary"
                 onClick={() => {
-                  if (!city.trim()) {
+                  const trimmedCity = city.trim();
+
+                  if (!trimmedCity) {
                     toast.error("Please enter a city.");
                     return;
                   }
 
-                  setCurrentCity(city);
+                  if (trimmedCity === currentCity) {
+                    return;
+                  }
+
+                  setCurrentCity(trimmedCity);
                 }}
               >
                 Search
@@ -334,7 +349,7 @@ function Dashboard() {
 
                     <div className="temp-info">
                       <div className="celsius">
-                        {Math.round(weather.temperature)}°C
+                        {Math.round(weather.temperature ?? 0)}°C
                       </div>
 
                       <div className="fahrenheit">
@@ -343,7 +358,9 @@ function Dashboard() {
                     </div>
 
                     <div className="weather-info">
-                      <p className="condition-text">{weather.weather}</p>
+                      <p className="condition-text">
+                        {weather.weather || "--"}
+                      </p>
 
                       <h2 className="day-name">
                         {new Date().toLocaleDateString("en-US", {
@@ -364,8 +381,8 @@ function Dashboard() {
                   </div>
 
                   <div className="forecast-scroll">
-                    {forecast.slice(0, 6).map((item, index) => (
-                      <div className="forecast-card" key={index}>
+                    {forecast.slice(0, 6).map((item) => (
+                      <div className="forecast-card" key={item.dt}>
                         <p className="forecast-time">
                           {new Date(item.dt_txt).toLocaleTimeString([], {
                             hour: "numeric",
@@ -391,8 +408,11 @@ function Dashboard() {
                   </div>
 
                   <div className="weekly-grid">
-                    {dailyForecast.map((day, index) => (
-                      <div key={index} className="weekly-card">
+                    {dailyForecast.map((day) => (
+                      <div
+                        key={`${day.date}-${day.day}`}
+                        className="weekly-card"
+                      >
                         <p className="forecast-day">{day.day}</p>
 
                         <span className="forecast-date">{day.date}</span>

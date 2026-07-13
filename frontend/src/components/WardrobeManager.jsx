@@ -6,14 +6,17 @@ import {
 } from "../services/wardrobeService";
 import { toast } from "react-toastify";
 import { GiShirt, GiRunningShoe, GiBilledCap } from "react-icons/gi";
-
 import { FiTrash2 } from "react-icons/fi";
 import { PiPants } from "react-icons/pi";
 
 export default function WardrobeManager({ weatherType }) {
   const [items, setItems] = useState([]);
-  const weatherItems = items.filter((item) =>
-    item.seasons.includes(weatherType),
+
+  const weatherItems = items.filter(
+    (item) =>
+      Array.isArray(item.seasons) &&
+      weatherType &&
+      item.seasons.includes(weatherType),
   );
 
   const groupedItems = {
@@ -22,54 +25,13 @@ export default function WardrobeManager({ weatherType }) {
     Footwear: weatherItems.filter((i) => i.category === "Footwear"),
     Accessory: weatherItems.filter((i) => i.category === "Accessory"),
   };
+
   const [form, setForm] = useState({
     category: "Top",
     name: "",
     color: "",
     seasons: [],
   });
-
-  const loadWardrobe = async () => {
-    const data = await getWardrobe();
-    setItems(data);
-  };
-
-  const toggleSeason = (season) => {
-    if (form.seasons.includes(season)) {
-      setForm({
-        ...form,
-        seasons: form.seasons.filter((s) => s !== season),
-      });
-    } else {
-      setForm({
-        ...form,
-        seasons: [...form.seasons, season],
-      });
-    }
-  };
-
-  const submit = async (e) => {
-    e.preventDefault();
-
-    if (!form.name.trim()) return;
-
-    await addWardrobeItem(form);
-    toast.success("Item added to wardrobe.");
-    setForm({
-      category: "Top",
-      name: "",
-      color: "",
-      seasons: [],
-    });
-
-    loadWardrobe();
-  };
-
-  const remove = async (id) => {
-    await deleteWardrobeItem(id);
-
-    loadWardrobe();
-  };
 
   const seasons = ["Hot", "Warm", "Cold", "Rainy", "Snowy"];
 
@@ -92,10 +54,77 @@ export default function WardrobeManager({ weatherType }) {
     },
   ];
 
+  const loadWardrobe = async () => {
+    try {
+      const data = await getWardrobe();
+      setItems(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error(error);
+      setItems([]);
+      toast.error("Failed to load wardrobe.");
+    }
+  };
+
+  const toggleSeason = (season) => {
+    if (form.seasons.includes(season)) {
+      setForm({
+        ...form,
+        seasons: form.seasons.filter((s) => s !== season),
+      });
+    } else {
+      setForm({
+        ...form,
+        seasons: [...form.seasons, season],
+      });
+    }
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+
+    if (!form.name.trim()) {
+      toast.error("Please enter a clothing name.");
+      return;
+    }
+
+    if (form.seasons.length === 0) {
+      toast.error("Please select at least one season.");
+      return;
+    }
+
+    try {
+      await addWardrobeItem(form);
+
+      toast.success("Item added to wardrobe.");
+
+      setForm({
+        category: "Top",
+        name: "",
+        color: "",
+        seasons: [],
+      });
+
+      await loadWardrobe();
+    } catch (error) {
+      console.error(error);
+      toast.error("Unable to add wardrobe item.");
+    }
+  };
+
+  const remove = async (id) => {
+    try {
+      await deleteWardrobeItem(id);
+      await loadWardrobe();
+    } catch (error) {
+      console.error(error);
+      toast.error("Unable to delete item.");
+    }
+  };
+
   useEffect(() => {
     loadWardrobe();
   }, []);
-  
+
   return (
     <section className="glass-card wardrobe-section">
       <h2>My Wardrobe</h2>
@@ -139,7 +168,7 @@ export default function WardrobeManager({ weatherType }) {
         </select>
 
         <div className="season-grid">
-          {["Hot", "Warm", "Cold", "Rainy", "Snowy"].map((season) => (
+          {seasons.map((season) => (
             <button
               type="button"
               key={season}
@@ -157,6 +186,7 @@ export default function WardrobeManager({ weatherType }) {
 
         <button className="save-btn">Add To My Wardrobe</button>
       </form>
+
       <h3
         style={{
           marginTop: "50px",
@@ -183,6 +213,7 @@ export default function WardrobeManager({ weatherType }) {
                 const seasonItems = items.filter(
                   (item) =>
                     item.category === category.name &&
+                    Array.isArray(item.seasons) &&
                     item.seasons.includes(season),
                 );
 
@@ -215,6 +246,7 @@ export default function WardrobeManager({ weatherType }) {
           </div>
         ))}
       </div>
+
       <h3
         style={{
           marginTop: "35px",

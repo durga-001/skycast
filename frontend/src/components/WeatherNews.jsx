@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState, useRef } from "react";
+import API from "../services/api";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useRef } from "react";
 
 function WeatherNews() {
   const [news, setNews] = useState([]);
@@ -9,9 +8,8 @@ function WeatherNews() {
 
   const fetchNews = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/news");
-
-      setNews(response.data);
+      const { data } = await API.get("/news");
+      setNews(data);
     } catch (error) {
       console.error(error);
     }
@@ -30,6 +28,7 @@ function WeatherNews() {
       behavior: "smooth",
     });
   };
+
   useEffect(() => {
     fetchNews();
   }, []);
@@ -43,36 +42,40 @@ function WeatherNews() {
         </div>
 
         <div className="news-controls">
-          <button onClick={scrollLeft}>
+          <button type="button" onClick={scrollLeft}>
             <FaChevronLeft />
           </button>
 
-          <button onClick={scrollRight}>
+          <button type="button" onClick={scrollRight}>
             <FaChevronRight />
           </button>
         </div>
       </div>
 
       <div className="news-slider" ref={sliderRef}>
-        {news.map((article, index) => (
+        {news.map((article) => (
           <a
-            key={index}
+            key={article.url}
             href={article.url}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="news-card"
           >
             <img
               src={article.urlToImage || "/news-placeholder.jpg"}
               alt={article.title}
+              loading="lazy"
             />
 
             <h3>{article.title}</h3>
 
             <p>{article.description}</p>
+
             <div className="news-footer">
               <span className="news-date">
-                {new Date(article.publishedAt).toLocaleDateString()}
+                {article.publishedAt
+                  ? new Date(article.publishedAt).toLocaleDateString()
+                  : ""}
               </span>
 
               <span className="news-read">Read →</span>

@@ -8,7 +8,7 @@ export const generateWeatherAlerts = (forecast) => {
   forecast
     .filter((item) => new Date(item.dt_txt).toDateString() === today)
     .forEach((item) => {
-      const weather = item.weather[0].main.toLowerCase() ?? "";
+      const weather = item.weather?.[0]?.main?.toLowerCase() || "";
       const temp = item.main.temp;
       const wind = item.wind.speed;
       const humidity = item.main.humidity;

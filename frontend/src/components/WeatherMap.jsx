@@ -15,6 +15,7 @@ function RecenterMap({ latitude, longitude }) {
 
   useEffect(() => {
     map.setView([latitude, longitude], 10);
+    map.invalidateSize();
   }, [latitude, longitude, map]);
 
   return null;
@@ -36,11 +37,7 @@ function WeatherMap({ latitude, longitude, city, className = "weather-map" }) {
     >
       <RecenterMap latitude={latitude} longitude={longitude} />
 
-      <TileLayer
-        key={theme}
-        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-        url={tileUrl}
-      />
+      <TileLayer key={theme} attribution="&copy; CARTO" url={tileUrl} />
 
       <Marker position={[latitude, longitude]} icon={weatherMarker}>
         <Popup>{city}</Popup>

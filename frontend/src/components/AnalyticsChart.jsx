@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,68 +23,77 @@ ChartJS.register(
 );
 
 function AnalyticsChart({ title, data, dataKey, strokeColor, unit }) {
-  const chartData = {
-    labels: data.map((item) => item.time),
+  const chartData = useMemo(
+    () => ({
+      labels: data.map((item) => item.time),
 
-    datasets: [
-      {
-        label: title,
-        data: data.map((item) => item[dataKey]),
-        borderColor: strokeColor,
-        backgroundColor: strokeColor,
-        borderWidth: 3,
-        tension: 0.4,
-        pointRadius: 0,
-        pointHoverRadius: 6,
+      datasets: [
+        {
+          label: title,
+          data: data.map((item) => item[dataKey]),
+          borderColor: strokeColor,
+          backgroundColor: strokeColor,
+          borderWidth: 3,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+        },
+      ],
+    }),
+    [title, data, dataKey, strokeColor],
+  );
+
+  const options = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+
+      interaction: {
+        mode: "index",
+        intersect: false,
       },
-    ],
-  };
 
-  const options = {
-    responsive: true,
+      plugins: {
+        legend: {
+          display: false,
+        },
 
-    interaction: {
-      mode: "index",
-      intersect: false, // hover anywhere on chart
-    },
-
-    plugins: {
-      legend: {
-        display: false,
-      },
-
-      tooltip: { //for degree celsius, %for humidity - resuable function 
-        callbacks: {
-          label: function (context) {
-            return `${context.parsed.y}${unit}`;
+        tooltip: {
+          callbacks: {
+            label(context) {
+              return `${context.parsed.y}${unit}`;
+            },
           },
         },
       },
-    },
 
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Time",
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Time",
+          },
+        },
+
+        y: {
+          title: {
+            display: true,
+            text: unit,
+          },
+          beginAtZero: false,
         },
       },
-
-      y: {
-        title: {
-          display: true,
-          text: unit,
-        },
-        beginAtZero: false,
-      },
-    },
-  };
+    }),
+    [unit],
+  );
 
   return (
     <div className="analytics-card">
       <h3>{title}</h3>
 
-      <Line data={chartData} options={options} />
+      <div className="chart-wrapper">
+        <Line data={chartData} options={options} />
+      </div>
     </div>
   );
 }

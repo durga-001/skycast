@@ -11,14 +11,13 @@ import { FaCloud, FaTemperatureHalf } from "react-icons/fa6";
 import { FaWind } from "react-icons/fa";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import { useTheme } from "../context/ThemeContext";
+import { getWeatherByCoords } from "../services/weatherService";
 
 const markerIcon = new L.Icon({
   iconUrl: markerIconPng,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
-
-// Fix: forces Leaflet to recalc size after layout settles / on resize
 function MapResizeFix() {
   const map = useMap();
 
@@ -55,14 +54,15 @@ export default function MapSection() {
 
   const fetchWeather = async (lat, lon) => {
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/coords?lat=${lat}&lon=${lon}`,
-      );
-
-      const data = await res.json();
-      setWeather(data);
+      const data = await getWeatherByCoords(lat, lon);
+      if (data) {
+        setWeather(data);
+      } else {
+        setWeather(null);
+      }
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      setWeather(null);
     }
   };
 
@@ -88,6 +88,7 @@ export default function MapSection() {
           className="home-map-leaflet"
           center={[20.5937, 78.9629]}
           zoom={4}
+          scrollWheelZoom={true}
         >
           <MapResizeFix />
 
@@ -120,7 +121,7 @@ export default function MapSection() {
                 <FaTemperatureHalf />
               </div>
 
-              <h2>{Math.round(weather.temperature)}°C</h2>
+              <h2>{Math.round(weather.temperature ?? 0)}°C</h2>
 
               <p>Temperature</p>
             </div>
@@ -130,7 +131,7 @@ export default function MapSection() {
                 <FaCloud />
               </div>
 
-              <h2 className="preview-value">{weather.description}</h2>
+              <h2 className="preview-value">{weather.description || "--"}</h2>
 
               <p>Condition</p>
             </div>
@@ -140,7 +141,7 @@ export default function MapSection() {
                 <FaWind />
               </div>
 
-              <h2>{weather.wind_speed} m/s</h2>
+              <h2>{weather.wind_speed ?? "--"} m/s</h2>
 
               <p>Wind Speed</p>
             </div>

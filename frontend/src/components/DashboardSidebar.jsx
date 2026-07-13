@@ -15,8 +15,13 @@ function DashboardSidebar({
   handleDeleteLocation,
 }) {
   const navigate = useNavigate();
+
   const [showSavedCities, setShowSavedCities] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false,
+  );
+
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
@@ -28,10 +33,13 @@ function DashboardSidebar({
       }
     };
 
+    handleResize();
+
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   return (
     <div className="left-panel">
       <div className="map-card glass-card">
@@ -40,6 +48,7 @@ function DashboardSidebar({
             <div className="section-header">
               <div>
                 <p className="map-label">Current Location</p>
+
                 <h3 className="map-city">{weather.city}</h3>
               </div>
 
@@ -70,14 +79,16 @@ function DashboardSidebar({
           className="section-header saved-header"
           onClick={() => isMobile && setShowSavedCities((prev) => !prev)}
         >
-          <h2 className="section-title">Saved Cities ({savedCities.length})</h2>
+          <h2 className="section-title">
+            Saved Cities ({savedCities?.length || 0})
+          </h2>
 
           {isMobile && (showSavedCities ? <FiChevronUp /> : <FiChevronDown />)}
         </div>
 
         {showSavedCities &&
           (loggedIn ? (
-            savedCities.map((savedCity) => (
+            (savedCities || []).map((savedCity) => (
               <div
                 className="city-item"
                 key={savedCity._id}

@@ -1,6 +1,6 @@
 import AnalyticsChart from "./AnalyticsChart";
 
-function WeatherAnalytics({ forecastData }) {
+function WeatherAnalytics({ forecastData = [] }) {
   return (
     <>
       <AnalyticsChart
