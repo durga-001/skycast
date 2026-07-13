@@ -1,5 +1,5 @@
 weather-app/
-<!-- ├── backend/
+├── backend/
 │   ├── config/
 │   │   └── db.js
 │   ├── controllers/
@@ -30,43 +30,43 @@ weather-app/
 ├── .env
 ├── app.js
 ├── package.json
-├── package-lock.json -->
-<!-- ├── frontend/
+├── package-lock.json
+├── frontend/
 │   ├── node_modules/
 │   ├── public/
 │   ├── src/
-│   │   ├── assets/ -->
-<!-- │   │   ├── components/
+│   │   ├── assets/
+│   │   ├── components/
 │   │   │   ├── AnalyticsChart.jsx
-│   │   |   ├── AQICard.jsx -->
-<!-- │   │   |   ├── WeatherAlert.jsx -->
-<!-- │   │   │   ├── AuthForm.jsx -->
-<!-- │   │   │   ├── Features.jsx -->
-<!-- │   │   │   ├── Footer.jsx -->
-<!-- │   │   │   ├── Hero.jsx -->
-<!-- │   │   │   ├── LargeWeatherMap.jsx
+│   │   |   ├── AQICard.jsx
+│   │   |   ├── WeatherAlert.jsx
+│   │   │   ├── AuthForm.jsx
+│   │   │   ├── Features.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Hero.jsx
+│   │   │   ├── LargeWeatherMap.jsx
 │   │   │   ├── Layout.jsx
-│   │   │   ├── LocationInfo.jsx -->
-<!-- │   │   │   ├── MapLegend.jsx -->
-<!-- |   │   │   ├── DashboardSidebar.jsx -->
-<!-- │   │   │   ├── MapSection.jsx -->
-<!-- │   │   │   ├── Navbar.jsx -->
-<!-- │   │   │   ├── OutfitHero.jsx -->
-<!-- │   │   |   ├── WardrobeManager.jsx  -->
-<!-- │   │   │   ├── OutfitRecommendation.jsx -->
-<!-- │   │   │   ├── WeatherAnalytics.jsx -->
-<!-- │   │   │   ├── WeatherLayout.jsx -->
-<!-- │   │   │   ├── ThemeToggle.jsx -->
-<!-- │   │   │   ├── WeatherMap.jsx -->
-<!-- │   │   │   └── WeatherNews.jsx -->
+│   │   │   ├── LocationInfo.jsx
+│   │   │   ├── MapLegend.jsx
+|   │   │   ├── DashboardSidebar.jsx
+│   │   │   ├── MapSection.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── OutfitHero.jsx
+│   │   |   ├── WardrobeManager.jsx 
+│   │   │   ├── OutfitRecommendation.jsx
+│   │   │   ├── WeatherAnalytics.jsx
+│   │   │   ├── WeatherLayout.jsx
+│   │   │   ├── ThemeToggle.jsx
+│   │   │   ├── WeatherMap.jsx
+│   │   │   └── WeatherNews.jsx
 │   │   ├── pages/
-<!-- │   │   │   ├── Dashboard.jsx
-│   │   │   ├── Home.jsx -->
-<!-- │   │   │   ├── Login.jsx -->
-<!-- │   │   │   ├── OutfitPage.jsx -->
-<!-- │   │   │   ├── Signup.jsx -->
-<!-- │   │   │   └── WeatherMapPage.jsx -->
-<!-- │   │   ├── context/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── OutfitPage.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   └── WeatherMapPage.jsx
+│   │   ├── context/
 │   │   │   ├── ThemeContext.jsx
 |   │   │   └── WeatherMapContext.jsx
 │   │   ├── services/
@@ -75,7 +75,7 @@ weather-app/
 │   │   │   ├── locationService.js
 │   │   |   ├── wardrobeService.js 
 │   │   │   ├── outfitService.js
-│   │   │   └── weatherService.js -->
+│   │   │   └── weatherService.js
 │   │   ├── styles/
 │   │   |   ├── AQICard.css
 │   │   │   ├── auth.css
@@ -83,7 +83,7 @@ weather-app/
 │   │   │   ├── OutfitRecommendation.css
 │   │   │   ├── WeatherMap.css
 │   │   │   └── home.css
-<!-- │   │   ├── utils/
+│   │   ├── utils/
 │   │   │   ├── outfitRules.js
 │   │   |   ├── weatherAlert.js
 │   │   │   └── getBackgroundImage.js
@@ -97,7 +97,7 @@ weather-app/
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── README.md
-│   └── vite.config.js -->
+│   └── vite.config.js
 ├── .gitignore
 ├── README.md
 └── weather app.md
