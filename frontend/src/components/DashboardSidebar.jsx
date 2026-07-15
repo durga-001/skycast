@@ -106,6 +106,7 @@ function DashboardSidebar({
                   <span className="city-item-name">
                     {savedCity.city_name.charAt(0).toUpperCase() +
                       savedCity.city_name.slice(1).toLowerCase()}
+                    {savedCity.country && `, ${savedCity.country}`}
                   </span>
                 </div>
 

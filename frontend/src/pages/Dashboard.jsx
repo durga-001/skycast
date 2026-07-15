@@ -65,7 +65,6 @@ function Dashboard() {
   const fetchSavedCities = async () => {
     try {
       const locations = await getSavedLocations();
-
       const uniqueCities = [
         ...new Map(
           locations.map((city) => [city.city_name.toLowerCase(), city]),
@@ -82,8 +81,8 @@ function Dashboard() {
 
   const handleSaveLocation = async () => {
     try {
-      await saveLocation(city);
-
+      await saveLocation(weather.city, weather.country);
+      console.log(weather.country);
       toast.success("City saved successfully!");
 
       fetchSavedCities();
