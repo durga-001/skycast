@@ -2,14 +2,23 @@ import {
   MapContainer,
   TileLayer,
   Marker,
-  useMapEvents,
+  Popup,
   useMap,
+  useMapEvents,
 } from "react-leaflet";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import L from "leaflet";
-import { FaCloud, FaTemperatureHalf } from "react-icons/fa6";
-import { FaWind } from "react-icons/fa";
+
+import {
+  FaCloud,
+  FaTemperatureHalf,
+  FaWind,
+  FaArrowRight,
+} from "react-icons/fa6";
+
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
+
 import { useTheme } from "../context/ThemeContext";
 
 const markerIcon = new L.Icon({
@@ -18,7 +27,6 @@ const markerIcon = new L.Icon({
   iconAnchor: [12, 41],
 });
 
-// Fix: forces Leaflet to recalc size after layout settles / on resize
 function MapResizeFix() {
   const map = useMap();
 
@@ -27,12 +35,11 @@ function MapResizeFix() {
       map.invalidateSize();
     }, 300);
 
-    const handleResize = () => map.invalidateSize();
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", map.invalidateSize);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", map.invalidateSize);
     };
   }, [map]);
 
@@ -45,106 +52,197 @@ function LocationSelector({ onSelect }) {
       onSelect(e.latlng);
     },
   });
+
   return null;
 }
 
 export default function MapSection() {
+  const navigate = useNavigate();
   const { theme } = useTheme();
+
   const [position, setPosition] = useState(null);
   const [weather, setWeather] = useState(null);
-
-  const fetchWeather = async (lat, lon) => {
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/coords?lat=${lat}&lon=${lon}`,
-      );
-
-      const data = await res.json();
-      setWeather(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleSelect = (latlng) => {
-    setPosition(latlng);
-    fetchWeather(latlng.lat, latlng.lng);
-  };
+  const [loading, setLoading] = useState(false);
+  const [isOcean, setIsOcean] = useState(false);
 
   const tileUrl =
     theme === "light"
       ? "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
 
+  const fetchWeather = async (lat, lon) => {
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/coords?lat=${lat}&lon=${lon}`,
+      );
+
+      const data = await res.json();
+
+      console.log(data);
+
+      setWeather(data);
+
+      if (!data.city || data.city === "Unknown" || data.city === "Ocean") {
+        setIsOcean(true);
+      } else {
+        setIsOcean(false);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelect = ({ lat, lng }) => {
+    setPosition([lat, lng]);
+    fetchWeather(lat, lng);
+  };
+
   return (
     <section className="map-section-container">
       <div className="map-header">
         <h2>Explore Weather Map</h2>
-        <p>Click anywhere to get live weather details</p>
+        <p>Click anywhere to view live weather.</p>
       </div>
 
       <div className="home-map-wrapper glass-card">
         <MapContainer
-          className="home-map-leaflet"
           center={[20.5937, 78.9629]}
           zoom={4}
+          className="home-map-leaflet"
         >
           <MapResizeFix />
 
           <TileLayer
             key={theme}
             url={tileUrl}
-            attribution="&copy; OpenStreetMap contributors &copy; CARTO"
+            attribution="© OpenStreetMap © CARTO"
           />
 
           <LocationSelector onSelect={handleSelect} />
 
-          {position && <Marker position={position} icon={markerIcon} />}
+          {position && (
+            <Marker position={position} icon={markerIcon}>
+              <Popup>
+                {loading && <p>Loading...</p>}
+
+                {!loading && weather && (
+                  <>
+                    <h3>{isOcean ? "Ocean Location" : weather.city}</h3>
+
+                    {!isOcean ? (
+                      <>
+                        <p>🌡 {Math.round(weather.temperature)}°C</p>
+
+                        <p>{weather.description}</p>
+
+                        <button
+                          className="explore-btn"
+                          onClick={() =>
+                            navigate(`/dashboard?city=${weather.city}`)
+                          }
+                        >
+                          Explore More
+                          <FaArrowRight />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <p>Latitude :{position[0].toFixed(2)}</p>
+
+                        <p>Longitude :{position[1].toFixed(2)}</p>
+
+                        <button className="explore-btn" disabled>
+                          Ocean Dashboard
+                          <br />
+                          Coming Soon
+                        </button>
+                      </>
+                    )}
+                  </>
+                )}
+              </Popup>
+            </Marker>
+          )}
         </MapContainer>
       </div>
 
-      {weather && (
+      {weather && !loading && (
         <div className="map-weather-card glass-card">
           <div className="preview-header">
             <div>
               <span className="preview-label">LIVE WEATHER</span>
-              <h3>{weather.city}</h3>
+
+              <h3>{isOcean ? "Ocean" : weather.city}</h3>
             </div>
 
-            <span className="preview-badge">{weather.description}</span>
+            {!isOcean && (
+              <span className="preview-badge">{weather.description}</span>
+            )}
           </div>
 
-          <div className="preview-grid">
-            <div className="preview-stat">
-              <div className="preview-icon">
-                <FaTemperatureHalf />
+          {!isOcean ? (
+            <>
+              <div className="preview-grid">
+                <div className="preview-stat">
+                  <div className="preview-icon">
+                    <FaTemperatureHalf />
+                  </div>
+
+                  <h2>{Math.round(weather.temperature)}°C</h2>
+
+                  <p>Temperature</p>
+                </div>
+
+                <div className="preview-stat">
+                  <div className="preview-icon">
+                    <FaCloud />
+                  </div>
+
+                  <h2>{weather.description}</h2>
+
+                  <p>Condition</p>
+                </div>
+
+                <div className="preview-stat">
+                  <div className="preview-icon">
+                    <FaWind />
+                  </div>
+
+                  <h2>{weather.wind_speed} m/s</h2>
+
+                  <p>Wind Speed</p>
+                </div>
               </div>
 
-              <h2>{Math.round(weather.temperature)}°C</h2>
+              <button
+                className="explore-btn large"
+                onClick={() => navigate(`/dashboard?city=${weather.city}`)}
+              >
+                Explore More Features
+                <FaArrowRight />
+              </button>
+            </>
+          ) : (
+            <>
+              <p>
+                <strong>Latitude:</strong> {position[0].toFixed(2)}
+              </p>
 
-              <p>Temperature</p>
-            </div>
+              <p>
+                <strong>Longitude:</strong> {position[1].toFixed(2)}
+              </p>
 
-            <div className="preview-stat">
-              <div className="preview-icon">
-                <FaCloud />
-              </div>
-
-              <h2 className="preview-value">{weather.description}</h2>
-
-              <p>Condition</p>
-            </div>
-
-            <div className="preview-stat">
-              <div className="preview-icon">
-                <FaWind />
-              </div>
-
-              <h2>{weather.wind_speed} m/s</h2>
-
-              <p>Wind Speed</p>
-            </div>
-          </div>
+              <button className="explore-btn large" disabled>
+                Ocean Dashboard
+                <br />
+                Coming Soon
+              </button>
+            </>
+          )}
         </div>
       )}
     </section>
