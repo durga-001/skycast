@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   getWeather,
   getForecast,
@@ -39,22 +40,27 @@ import DashboardSidebar from "../components/DashboardSidebar";
 function Dashboard() {
   const [weather, setWeather] = useState(null);
   const { currentCity, setCurrentCity } = useWeatherContext();
-  const [city, setCity] = useState(currentCity);
+  const [searchParams] = useSearchParams();
+
+  const initialCity = decodeURIComponent(searchParams.get("city") || "Delhi");
+
+  const [city, setCity] = useState(initialCity);
   const [savedCities, setSavedCities] = useState([]);
   const [forecast, setForecast] = useState([]);
   const [dailyForecast, setDailyForecast] = useState([]);
   const [aqi, setAqi] = useState(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const urlCity = decodeURIComponent(
+    searchParams.get("city") || currentCity || "Delhi",
+  );
   const [alerts, setAlerts] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  
+
   const fetchWeather = async (cityName = city) => {
     try {
-      
-
       const data = await getWeather(cityName);
-
-      
 
       setWeather(data);
       fetchAQI(data.latitude, data.longitude);
@@ -182,11 +188,17 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    setCity(currentCity);
+    const selectedCity = urlCity || currentCity || "Delhi";
+
+    setCity(selectedCity);
+
+    if (selectedCity !== currentCity) {
+      setCurrentCity(selectedCity);
+    }
 
     const init = async () => {
-      fetchWeather(currentCity);
-      fetchForecast(currentCity);
+      await fetchWeather(selectedCity);
+      await fetchForecast(selectedCity);
 
       const user = await getCurrentUser();
 
@@ -200,7 +212,7 @@ function Dashboard() {
     };
 
     init();
-  }, [currentCity]);
+  }, [urlCity]);
 
   const getWeatherIcon = (condition, size) => {
     switch (condition?.toLowerCase()) {
@@ -220,7 +232,7 @@ function Dashboard() {
         return <WiDaySunny size={size} color="#FDB813" />;
     }
   };
-  
+
   const formatTime = (timestamp) => {
     return new Date(timestamp * 1000).toLocaleTimeString([], {
       hour: "2-digit",

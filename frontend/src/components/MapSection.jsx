@@ -142,7 +142,9 @@ export default function MapSection() {
                         <button
                           className="explore-btn"
                           onClick={() =>
-                            navigate(`/dashboard?city=${weather.city}`)
+                            navigate(
+                              `/dashboard?city=${encodeURIComponent(weather.city)}`,
+                            )
                           }
                         >
                           Explore More
@@ -155,7 +157,7 @@ export default function MapSection() {
 
                         <p>Longitude :{position[1].toFixed(2)}</p>
 
-                        <button className="explore-btn" disabled>
+                        <button className="map-dashboard-btn" disabled>
                           Ocean Dashboard
                           <br />
                           Coming Soon
@@ -219,7 +221,7 @@ export default function MapSection() {
               </div>
 
               <button
-                className="explore-btn large"
+                className="map-dashboard-btn large"
                 onClick={() => navigate(`/dashboard?city=${weather.city}`)}
               >
                 Explore More Features
@@ -236,7 +238,7 @@ export default function MapSection() {
                 <strong>Longitude:</strong> {position[1].toFixed(2)}
               </p>
 
-              <button className="explore-btn large" disabled>
+              <button className="map-dashboard-btn large" disabled>
                 Ocean Dashboard
                 <br />
                 Coming Soon
