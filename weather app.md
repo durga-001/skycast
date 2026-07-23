@@ -56,6 +56,7 @@ weather-app/
 │   │   │   ├── OutfitRecommendation.jsx
 │   │   │   ├── WeatherAnalytics.jsx
 │   │   │   ├── WeatherLayout.jsx
+│   │   │   ├── ThemeToggle.jsx
 │   │   │   ├── WeatherMap.jsx
 │   │   │   └── WeatherNews.jsx
 │   │   ├── pages/
@@ -66,6 +67,7 @@ weather-app/
 │   │   │   ├── Signup.jsx
 │   │   │   └── WeatherMapPage.jsx
 │   │   ├── context/
+│   │   │   ├── ThemeContext.jsx
 |   │   │   └── WeatherMapContext.jsx
 │   │   ├── services/
 │   │   │   ├── api.js
@@ -96,9 +98,6 @@ weather-app/
 │   ├── package.json
 │   ├── README.md
 │   └── vite.config.js
-├── node_modules/
 ├── .gitignore
-├── package-lock.json
-├── package.json
 ├── README.md
 └── weather app.md

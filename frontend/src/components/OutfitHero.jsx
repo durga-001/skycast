@@ -9,8 +9,10 @@ import {
 export default function OutfitHero({ weather }) {
   if (!weather) return null;
 
+  const weatherType = weather?.weather?.toLowerCase() || "";
+
   const getIcon = () => {
-    switch (weather.weather.toLowerCase()) {
+    switch (weatherType) {
       case "clear":
         return <WiDaySunny size={90} />;
 
@@ -50,15 +52,19 @@ export default function OutfitHero({ weather }) {
           </p>
 
           <div className="outfit-weather-info">
-            <span>{weather.city}</span>
+            <span>{weather.city || "Unknown Location"}</span>
 
             <span>•</span>
 
-            <span>{Math.round(weather.temperature)}°C</span>
+            <span>
+              {weather.temperature !== undefined && weather.temperature !== null
+                ? `${Math.round(weather.temperature)}°C`
+                : "--°C"}
+            </span>
 
             <span>•</span>
 
-            <span>{weather.weather}</span>
+            <span>{weather.weather || "Unknown"}</span>
           </div>
         </div>
 

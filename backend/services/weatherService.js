@@ -1,30 +1,37 @@
-// weatherService.js
 const axios = require("axios");
 
+const API_KEY = process.env.API_KEY;
+
 const getWeatherByCity = async (city) => {
+  if (!API_KEY) {
+    throw new Error("OpenWeather API key is not configured");
+  }
+
   try {
-    const API_KEY = process.env.API_KEY;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+      city,
+    )}&appid=${API_KEY}&units=metric`;
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
-
-    const response = await axios.get(url);
+    const { data } = await axios.get(url, {
+      timeout: 10000,
+    });
 
     return {
-      city: response.data.name,
-      country: response.data.sys.country,
-      latitude: response.data.coord.lat,
-      longitude: response.data.coord.lon,
-      temperature: response.data.main.temp,
-      feels_like: response.data.main.feels_like,
-      humidity: response.data.main.humidity,
-      pressure: response.data.main.pressure,
-      visibility: response.data.visibility,
-      wind_speed: response.data.wind.speed,
-      weather: response.data.weather[0].main,
-      description: response.data.weather[0].description,
-      icon: response.data.weather[0].icon,
-      sunrise: response.data.sys.sunrise,
-      sunset: response.data.sys.sunset,
+      city: data.name,
+      country: data.sys.country,
+      latitude: data.coord.lat,
+      longitude: data.coord.lon,
+      temperature: data.main.temp,
+      feels_like: data.main.feels_like,
+      humidity: data.main.humidity,
+      pressure: data.main.pressure,
+      visibility: data.visibility,
+      wind_speed: data.wind.speed,
+      weather: data.weather[0].main,
+      description: data.weather[0].description,
+      icon: data.weather[0].icon,
+      sunrise: data.sys.sunrise,
+      sunset: data.sys.sunset,
     };
   } catch (error) {
     throw new Error(
@@ -34,24 +41,33 @@ const getWeatherByCity = async (city) => {
 };
 
 const getWeatherByCoordsService = async (lat, lon) => {
-  try {
-    const API_KEY = process.env.API_KEY;
+  if (!API_KEY) {
+    throw new Error("OpenWeather API key is not configured");
+  }
 
+  try {
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
-    const response = await axios.get(url);
+    const { data } = await axios.get(url, {
+      timeout: 10000,
+    });
 
     return {
-      city: response.data.name,
-      country: response.data.sys.country,
-      latitude: response.data.coord.lat,
-      longitude: response.data.coord.lon,
-      temperature: response.data.main.temp,
-      feels_like: response.data.main.feels_like,
-      humidity: response.data.main.humidity,
-      wind_speed: response.data.wind.speed,
-      weather: response.data.weather[0].main,
-      description: response.data.weather[0].description,
+      city: data.name,
+      country: data.sys.country,
+      latitude: data.coord.lat,
+      longitude: data.coord.lon,
+      temperature: data.main.temp,
+      feels_like: data.main.feels_like,
+      humidity: data.main.humidity,
+      pressure: data.main.pressure,
+      visibility: data.visibility,
+      wind_speed: data.wind.speed,
+      weather: data.weather[0].main,
+      description: data.weather[0].description,
+      icon: data.weather[0].icon,
+      sunrise: data.sys.sunrise,
+      sunset: data.sys.sunset,
     };
   } catch (error) {
     throw new Error(
@@ -59,4 +75,8 @@ const getWeatherByCoordsService = async (lat, lon) => {
     );
   }
 };
-module.exports = { getWeatherByCity, getWeatherByCoordsService };
+
+module.exports = {
+  getWeatherByCity,
+  getWeatherByCoordsService,
+};

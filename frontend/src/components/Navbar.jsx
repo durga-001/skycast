@@ -20,29 +20,39 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
+    let mounted = true;
+
     const fetchUser = async () => {
       try {
         const data = await getCurrentUser();
-        setUser(data);
+
+        if (mounted) {
+          setUser(data);
+        }
       } catch {
-        setUser(null);
+        if (mounted) {
+          setUser(null);
+        }
       }
     };
 
     fetchUser();
-  }, [location]);
+
+    return () => {
+      mounted = false;
+    };
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     try {
       await logoutUser();
 
       setUser(null);
+      setMenuOpen(false);
 
       toast.success("Logged out successfully");
 
-      setTimeout(() => {
-        navigate("/");
-      }, 500);
+      navigate("/", { replace: true });
     } catch {
       toast.error("Logout failed");
     }
@@ -74,7 +84,7 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
+        <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
           <FiCloud className="logo-icon" />
 
           <h1 className="logo-text">
@@ -119,7 +129,10 @@ export default function Navbar() {
           )}
         </div>
 
-        <button className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+        <button
+          className="menu-btn"
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
           {menuOpen ? <HiX size={28} /> : <HiMenuAlt3 size={28} />}
         </button>
       </div>
@@ -148,13 +161,7 @@ export default function Navbar() {
             <ThemeToggle />
 
             {user ? (
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  handleLogout();
-                }}
-                className="btn btn-danger full"
-              >
+              <button onClick={handleLogout} className="btn btn-danger full">
                 Logout
               </button>
             ) : (

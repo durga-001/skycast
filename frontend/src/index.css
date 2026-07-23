@@ -91,6 +91,7 @@ html {
 }
 
 body {
+  min-height: 100vh;
   background: var(--bg);
   color: var(--text);
   font-family: "Inter", sans-serif;
@@ -98,8 +99,9 @@ body {
   transition:
     background var(--transition),
     color var(--transition);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
 button,
 input,
 textarea,
@@ -121,8 +123,8 @@ img {
 }
 
 /* Hide scrollbar globally (clean glass UI) */
-* {
-  scrollbar-width: none; /* Firefox */
+html {
+  scrollbar-width: none;
 }
 
 *::-webkit-scrollbar {

@@ -7,11 +7,14 @@ import { HiLightBulb } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { FiLock } from "react-icons/fi";
 import WardrobeManager from "./WardrobeManager";
+
 export default function OutfitRecommendation({
   recommendation,
   weather,
   loggedIn,
 }) {
+  if (!recommendation) return null;
+
   return (
     <>
       <section className="outfit-grid">
@@ -22,15 +25,19 @@ export default function OutfitRecommendation({
           </h2>
 
           <ul className="outfit-list">
-            {recommendation.clothing.map((item) => (
+            {(recommendation.clothing || []).map((item) => (
               <li key={item} className="outfit-item">
                 <GiShirt className="outfit-item-icon" />
                 <span>{item}</span>
               </li>
             ))}
           </ul>
+
           <div className="outfit-card-footer">
-            Best for {Math.round(weather.temperature)}°C
+            Best for{" "}
+            {weather?.temperature !== undefined && weather?.temperature !== null
+              ? `${Math.round(weather.temperature)}°C`
+              : "--°C"}
           </div>
         </div>
 
@@ -40,13 +47,14 @@ export default function OutfitRecommendation({
           </h2>
 
           <ul className="outfit-list">
-            {recommendation.footwear.map((item) => (
+            {(recommendation.footwear || []).map((item) => (
               <li key={item} className="outfit-item">
                 <FaShoePrints className="outfit-item-icon" />
                 <span>{item}</span>
               </li>
             ))}
           </ul>
+
           <div className="outfit-card-footer">
             Comfortable throughout the day
           </div>
@@ -58,13 +66,14 @@ export default function OutfitRecommendation({
           </h2>
 
           <ul className="outfit-list">
-            {recommendation.accessories.map((item) => (
+            {(recommendation.accessories || []).map((item) => (
               <li key={item} className="outfit-item">
                 <PiBaseballCapDuotone className="outfit-item-icon" />
                 <span>{item}</span>
               </li>
             ))}
           </ul>
+
           <div className="outfit-card-footer">
             Selected for today's conditions
           </div>
@@ -77,12 +86,12 @@ export default function OutfitRecommendation({
           </h2>
 
           <ul className="outfit-list">
-            {recommendation.colors.map((color) => (
+            {(recommendation.colors || []).map((color) => (
               <li key={color} className="outfit-item outfit-color-item">
                 <span
                   className="color-dot"
                   style={{
-                    backgroundColor: color.toLowerCase().replace(" ", ""),
+                    backgroundColor: color.toLowerCase().replace(/\s+/g, ""),
                   }}
                 ></span>
 
@@ -90,6 +99,7 @@ export default function OutfitRecommendation({
               </li>
             ))}
           </ul>
+
           <div className="outfit-card-footer">
             Matches today's weather palette
           </div>
@@ -101,7 +111,7 @@ export default function OutfitRecommendation({
           </h2>
 
           <ul className="outfit-list">
-            {recommendation.tips.map((item) => (
+            {(recommendation.tips || []).map((item) => (
               <li key={item} className="outfit-item">
                 <HiLightBulb className="outfit-item-icon" />
                 <span>{item}</span>
@@ -110,6 +120,7 @@ export default function OutfitRecommendation({
           </ul>
         </div>
       </section>
+
       {loggedIn ? (
         <div className="outfit-card-full">
           <WardrobeManager weatherType={recommendation.weatherType} />

@@ -1,15 +1,22 @@
-// forecastService.js
 const axios = require("axios");
 
 const getForecastByCity = async (city) => {
+  const API_KEY = process.env.API_KEY;
+
+  if (!API_KEY) {
+    throw new Error("OpenWeather API key is not configured");
+  }
+
   try {
-    const API_KEY = process.env.API_KEY;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(
+      city,
+    )}&appid=${API_KEY}&units=metric`;
 
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`;
+    const { data } = await axios.get(url, {
+      timeout: 10000,
+    });
 
-    const response = await axios.get(url);
-
-    return response.data;
+    return data;
   } catch (error) {
     throw new Error(
       error.response?.data?.message || "Failed to fetch forecast data",
@@ -17,4 +24,6 @@ const getForecastByCity = async (city) => {
   }
 };
 
-module.exports = { getForecastByCity };
+module.exports = {
+  getForecastByCity,
+};

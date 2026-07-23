@@ -72,14 +72,16 @@ export default function AuthForm({ mode = "login" }) {
     // Email
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!emailRegex.test(formData.email)) {
+    } else if (!emailRegex.test(formData.email.trim())) {
       newErrors.email = "Enter a valid email";
     }
 
     // Password
-    if (!formData.password) {
+    const password = formData.password.trim();
+
+    if (!password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
+    } else if (password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
     }
 
@@ -134,6 +136,7 @@ export default function AuthForm({ mode = "login" }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (loading) return;
     // Frontend validation
     const validationErrors = validateForm();
 
@@ -147,24 +150,21 @@ export default function AuthForm({ mode = "login" }) {
 
       if (isLogin) {
         await loginUser({
-          email: formData.email,
+          email: formData.email.trim(),
           password: formData.password,
         });
 
         toast.success("Login successful!");
       } else {
-        await registerUser({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        });
+       await registerUser({
+         name: formData.name.trim(),
+         email: formData.email.trim(),
+         password: formData.password,
+       });
 
         toast.success("Account created successfully!");
       }
-
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 500);
+      navigate("/dashboard");
     } catch (error) {
       // Backend validation errors
       if (error.response?.data?.errors) {
@@ -186,6 +186,7 @@ export default function AuthForm({ mode = "login" }) {
       // Other backend errors
       toast.error(
         error.response?.data?.message ||
+          error.message ||
           "Something went wrong. Please try again.",
       );
     } finally {
@@ -234,6 +235,7 @@ export default function AuthForm({ mode = "login" }) {
                   onChange={handleChange}
                   className="form-input"
                   autoComplete="name"
+                  spellCheck={false}
                 />
               </div>
 
@@ -254,6 +256,7 @@ export default function AuthForm({ mode = "login" }) {
                 onChange={handleChange}
                 className="form-input"
                 autoComplete="email"
+                spellCheck={false}
               />
             </div>
 
@@ -278,6 +281,7 @@ export default function AuthForm({ mode = "login" }) {
               <button
                 type="button"
                 className="password-toggle"
+                aria-label={showPassword ? "Hide password" : "Show password"}
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <HiEyeOff /> : <HiEye />}
@@ -308,6 +312,7 @@ export default function AuthForm({ mode = "login" }) {
                 <button
                   type="button"
                   className="password-toggle"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? <HiEyeOff /> : <HiEye />}

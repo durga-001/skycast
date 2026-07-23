@@ -18,31 +18,34 @@ import WeatherLayout from "../components/WeatherLayout";
 
 function WeatherMapPage() {
   const location = useLocation();
-
   const passedWeather = location.state?.weather;
 
   const { currentCity } = useWeatherContext();
 
   const [weather, setWeather] = useState(passedWeather || null);
-
   const [selectedLayer, setSelectedLayer] = useState("temp");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (passedWeather) {
-      setWeather(passedWeather);
-      setLoading(false);
-      return;
-    }
-
     const loadWeather = async () => {
       try {
+        if (passedWeather) {
+          setWeather(passedWeather);
+          return;
+        }
+
         const data = await getWeather(currentCity);
-        setWeather(data);
+
+        if (data) {
+          setWeather(data);
+        } else {
+          setWeather(null);
+        }
       } catch (err) {
         console.error(err);
+        setWeather(null);
       } finally {
         setLoading(false);
       }
@@ -50,13 +53,21 @@ function WeatherMapPage() {
 
     loadWeather();
   }, [passedWeather, currentCity]);
-  
+
   useEffect(() => {
-    if (!weather?.city) return;
+    if (!weather?.city) {
+      setForecastData([]);
+      return;
+    }
 
     const fetchForecast = async () => {
       try {
         const data = await getForecast(weather.city);
+
+        if (!data?.list) {
+          setForecastData([]);
+          return;
+        }
 
         const formattedData = data.list.slice(0, 12).map((item) => ({
           time: new Date(item.dt_txt).toLocaleString("en-US", {
@@ -73,6 +84,7 @@ function WeatherMapPage() {
         setForecastData(formattedData);
       } catch (err) {
         console.error(err);
+        setForecastData([]);
       }
     };
 
@@ -80,32 +92,40 @@ function WeatherMapPage() {
   }, [weather]);
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return (
+      <WeatherLayout weather={weather}>
+        <div className="weather-map-page">
+          <h2>Loading...</h2>
+        </div>
+      </WeatherLayout>
+    );
   }
 
   if (!weather) {
-    return <h2>No weather data available.</h2>;
+    return (
+      <WeatherLayout weather={null}>
+        <div className="weather-map-page">
+          <h2>No weather data available.</h2>
+        </div>
+      </WeatherLayout>
+    );
   }
+
   return (
     <WeatherLayout weather={weather}>
       <div className="weather-map-page">
-        {/* ================= TOP SECTION ================= */}
-
         <div className="top-section">
-          {/* MAP */}
-
           <div className="map-area">
             <button
               className="fullscreen-btn"
               onClick={() => setIsFullscreen(true)}
+              aria-label="Open fullscreen map"
             >
               <FiMaximize />
             </button>
 
             <LargeWeatherMap weather={weather} selectedLayer={selectedLayer} />
           </div>
-
-          {/* SIDEBAR */}
 
           <div className="info-sidebar">
             <p className="layer-instruction">
@@ -123,7 +143,7 @@ function WeatherMapPage() {
                 Temperature
               </h3>
 
-              <p>{Math.round(weather.temperature)}°C</p>
+              <p>{Math.round(weather.temperature ?? 0)}°C</p>
             </div>
 
             <div
@@ -137,7 +157,7 @@ function WeatherMapPage() {
                 Humidity
               </h3>
 
-              <p>{weather.humidity}%</p>
+              <p>{weather.humidity ?? "--"}%</p>
             </div>
 
             <div
@@ -151,7 +171,7 @@ function WeatherMapPage() {
                 Pressure
               </h3>
 
-              <p>{weather.pressure} hPa</p>
+              <p>{weather.pressure ?? "--"} hPa</p>
             </div>
 
             <div
@@ -165,19 +185,23 @@ function WeatherMapPage() {
                 Wind Speed
               </h3>
 
-              <p>{weather.wind_speed} m/s</p>
+              <p>{weather.wind_speed ?? "--"} m/s</p>
             </div>
 
             <div className="weather-stat-card">
               <h3>Feels Like</h3>
 
-              <p>{Math.round(weather.feels_like)}°C</p>
+              <p>{Math.round(weather.feels_like ?? 0)}°C</p>
             </div>
 
             <div className="weather-stat-card">
               <h3>Visibility</h3>
 
-              <p>{(weather.visibility / 1000).toFixed(1)} km</p>
+              <p>
+                {weather.visibility
+                  ? `${(weather.visibility / 1000).toFixed(1)} km`
+                  : "--"}
+              </p>
             </div>
 
             <div className="weather-stat-card">
@@ -188,20 +212,17 @@ function WeatherMapPage() {
           </div>
         </div>
 
-        {/* ================= CHARTS ================= */}
-
         <div className="charts-grid">
           <WeatherAnalytics forecastData={forecastData} />
         </div>
       </div>
-
-      {/* ================= FULLSCREEN MAP ================= */}
 
       {isFullscreen && (
         <div className="fullscreen-map-overlay">
           <button
             className="close-fullscreen-btn"
             onClick={() => setIsFullscreen(false)}
+            aria-label="Close fullscreen map"
           >
             <FiMinimize />
           </button>

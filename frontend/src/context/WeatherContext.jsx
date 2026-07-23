@@ -18,5 +18,11 @@ export function WeatherProvider({ children }) {
 }
 
 export function useWeatherContext() {
-  return useContext(WeatherContext);
+  const context = useContext(WeatherContext);
+
+  if (!context) {
+    throw new Error("useWeatherContext must be used within WeatherProvider");
+  }
+
+  return context;
 }
