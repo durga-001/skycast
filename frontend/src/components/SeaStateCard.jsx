@@ -15,6 +15,7 @@ function SeaStateCard({ seaState }) {
           style={{ "--degree": `${degree}deg`, "--aqi-color": seaState.color }}
         >
           <div className="aqi-needle"></div>
+
           <div className="aqi-center">
             <h1>{seaState.level}</h1>
             <span>{seaState.label}</span>
@@ -22,7 +23,9 @@ function SeaStateCard({ seaState }) {
         </div>
 
         <div className="aqi-info">
-          <h3 style={{ color: seaState.color }}>{seaState.label}</h3>
+          <h3 style={{ color: seaState.color }}>
+            {seaState.label} ({seaState.level}/10)
+          </h3>
           <p>Sea state scale ranges from 1 (Calm) to 10 (Extreme).</p>
         </div>
       </div>

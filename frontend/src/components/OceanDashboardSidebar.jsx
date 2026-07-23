@@ -49,7 +49,10 @@ function OceanDashboardSidebar({
               <FiMapPin className="map-pin-icon" />
             </div>
 
-            <div className="desktop-map-preview">
+            <div
+              className="desktop-map-preview"
+              onClick={() => navigate("/ocean-map", { state: { data } })}
+            >
               <OceanMap
                 latitude={data.lat}
                 longitude={data.lon}
