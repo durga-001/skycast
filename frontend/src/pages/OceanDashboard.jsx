@@ -27,6 +27,7 @@ import "../styles/OceanDashboard.css";
 function OceanDashboard() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
   const [lat, setLat] = useState(searchParams.get("lat") || "8.5");
   const [lon, setLon] = useState(searchParams.get("lon") || "76.9");
   const [data, setData] = useState(null);
@@ -213,7 +214,7 @@ function OceanDashboard() {
 
                 <button
                   className="change-location-btn"
-                  onClick={() => navigate("/ocean-map", { state: { data } })}
+                  onClick={() => navigate("/")}
                 >
                   <FiMapPin />
                   Explore Map

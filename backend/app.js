@@ -53,6 +53,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api", weatherRoutes);
 app.use("/api/wardrobe", wardrobeRoutes);
+app.use("/api/ocean", oceanRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
@@ -62,7 +63,6 @@ app.use((req, res) => {
 });
 
 app.use(errorHandler);
-app.use("/api/ocean", oceanRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
