@@ -11,9 +11,9 @@ export default function Hero() {
 
         <p>
           SkyCast allows you to explore live weather information from anywhere
-          in the world. Click on the interactive globe to view temperature,
-          humidity, wind speed, pressure, and weather forecast using the
-          OpenWeather API.
+          in the world. Click anywhere on the interactive map to view
+          temperature, humidity, wind speed, pressure, and weather forecast
+          using the OpenWeather API.
         </p>
 
         <div className="hero-buttons">

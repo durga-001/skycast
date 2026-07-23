@@ -1,4 +1,4 @@
-import { FiCloud, FiGithub, FiGlobe, FiHeart } from "react-icons/fi";
+import { FiCloud } from "react-icons/fi";
 
 export default function Footer() {
   return (
@@ -16,7 +16,9 @@ export default function Footer() {
         </div>
 
         <div className="footer-right">
-          <span className="footer-copy">© 2026 SkyCast</span>
+          <span className="footer-copy">
+            © {new Date().getFullYear()} SkyCast
+          </span>
         </div>
       </div>
     </footer>

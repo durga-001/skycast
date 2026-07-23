@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import MapLegend from "./MapLegend";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   WiThermometer,
   WiHumidity,
@@ -17,6 +17,7 @@ function RecenterMap({ latitude, longitude }) {
 
   useEffect(() => {
     map.setView([latitude, longitude], 10);
+    map.invalidateSize();
   }, [latitude, longitude, map]);
 
   return null;
@@ -28,7 +29,9 @@ function LargeWeatherMap({ weather, selectedLayer }) {
   if (!weather) {
     return null;
   }
+
   const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
   const {
     latitude,
     longitude,
@@ -40,21 +43,24 @@ function LargeWeatherMap({ weather, selectedLayer }) {
     description,
     icon,
   } = weather;
+
   const weatherLayers = {
     temp: "temp_new",
     wind: "wind_new",
     clouds: "clouds_new",
     pressure: "pressure_new",
   };
-  const weatherIcon = L.icon({
-    iconUrl: `https://openweathermap.org/img/wn/${icon}@2x.png`,
 
-    iconSize: [60, 60],
-
-    iconAnchor: [30, 60],
-
-    popupAnchor: [0, -50],
-  });
+  const weatherIcon = useMemo(
+    () =>
+      L.icon({
+        iconUrl: `https://openweathermap.org/img/wn/${icon}@2x.png`,
+        iconSize: [60, 60],
+        iconAnchor: [30, 60],
+        popupAnchor: [0, -50],
+      }),
+    [icon],
+  );
 
   const tileUrl =
     theme === "light"
@@ -73,20 +79,20 @@ function LargeWeatherMap({ weather, selectedLayer }) {
       >
         <RecenterMap latitude={latitude} longitude={longitude} />
 
-        {/* Base Map */}
         <TileLayer
           key={theme}
           url={tileUrl}
           attribution="&copy; OpenStreetMap & CARTO"
         />
 
-        {/* Temperature Overlay */}
-        <TileLayer
-          opacity={1}
-          url={`https://tile.openweathermap.org/map/${
-            weatherLayers[selectedLayer]
-          }/{z}/{x}/{y}.png?appid=${apiKey}`}
-        />
+        {apiKey && (
+          <TileLayer
+            opacity={1}
+            url={`https://tile.openweathermap.org/map/${
+              weatherLayers[selectedLayer] || weatherLayers.temp
+            }/{z}/{x}/{y}.png?appid=${apiKey}`}
+          />
+        )}
 
         <Marker position={[latitude, longitude]} icon={weatherIcon}>
           <Popup>
@@ -119,6 +125,7 @@ function LargeWeatherMap({ weather, selectedLayer }) {
           </Popup>
         </Marker>
       </MapContainer>
+
       <LocationInfo
         city={city}
         latitude={latitude}

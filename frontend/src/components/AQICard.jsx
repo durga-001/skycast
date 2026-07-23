@@ -1,28 +1,29 @@
+import { useMemo } from "react";
 import "../styles/AQICard.css";
 
 function AQICard({ aqi }) {
-  if (!aqi) return null;
+  if (aqi == null) return null;
 
-  const getAQIData = (value) => {
-    if (value <= 50)
+  const data = useMemo(() => {
+    if (aqi <= 50)
       return {
         label: "Good",
         color: "#22c55e",
       };
 
-    if (value <= 100)
+    if (aqi <= 100)
       return {
         label: "Moderate",
         color: "#facc15",
       };
 
-    if (value <= 150)
+    if (aqi <= 150)
       return {
         label: "Unhealthy",
         color: "#f97316",
       };
 
-    if (value <= 200)
+    if (aqi <= 200)
       return {
         label: "Very Unhealthy",
         color: "#ef4444",
@@ -32,11 +33,9 @@ function AQICard({ aqi }) {
       label: "Hazardous",
       color: "#991b1b",
     };
-  };
+  }, [aqi]);
 
-  const data = getAQIData(aqi);
-
-  const degree = (aqi / 300) * 180;
+  const degree = Math.min((aqi / 300) * 180, 180);
 
   return (
     <div className="aqi-card glass-card">

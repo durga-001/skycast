@@ -6,6 +6,7 @@ const wardrobeSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
     category: {
@@ -23,6 +24,7 @@ const wardrobeSchema = new mongoose.Schema(
     color: {
       type: String,
       default: "",
+      trim: true,
     },
 
     seasons: [

@@ -5,6 +5,8 @@ import {
   FiCloudRain,
   FiWind,
   FiSun,
+  FiChevronDown,
+  FiChevronUp,
 } from "react-icons/fi";
 
 const iconMap = {
@@ -16,24 +18,29 @@ const iconMap = {
   humidity: <FiInfo />,
 };
 
-function WeatherAlert({ alerts }) {
+function WeatherAlert({ alerts = [] }) {
   const [open, setOpen] = useState(false);
 
-  if (!alerts?.length) return null;
+  if (alerts.length === 0) return null;
 
   return (
     <div className="weather-alert-dropdown">
-      <div className="weather-alert-header" onClick={() => setOpen(!open)}>
-        <h3>⚠ Today's Alerts ({alerts.length})</h3>
+      <button
+        type="button"
+        className="weather-alert-header"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+      >
+        <h3>Today's Alerts ({alerts.length})</h3>
 
-        <span>{open ? "▲" : "▼"}</span>
-      </div>
+        {open ? <FiChevronUp /> : <FiChevronDown />}
+      </button>
 
       {open && (
         <div className="weather-alert-wrapper">
-          {alerts.slice(0, 3).map((alert, index) => (
+          {alerts.slice(0, 3).map((alert) => (
             <div
-              key={index}
+              key={alert.message}
               className={`weather-alert ${
                 alert.severity === "danger" ? "danger" : ""
               }`}

@@ -1,18 +1,27 @@
-// newsService.js
 const axios = require("axios");
 
 const getWeatherNews = async () => {
-  try {
-    const API_KEY = process.env.NEWS_API_KEY;
+  const API_KEY = process.env.NEWS_API_KEY;
 
+  if (!API_KEY) {
+    throw new Error("News API key is not configured");
+  }
+
+  try {
     const url = `https://newsapi.org/v2/everything?q=weather&language=en&sortBy=publishedAt&pageSize=10&apiKey=${API_KEY}`;
 
-    const response = await axios.get(url);
+    const { data } = await axios.get(url, {
+      timeout: 10000,
+    });
 
-    return response.data.articles || [];
+    return data.articles || [];
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Failed to fetch news");
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch weather news",
+    );
   }
 };
 
-module.exports = { getWeatherNews };
+module.exports = {
+  getWeatherNews,
+};

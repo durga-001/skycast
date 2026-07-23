@@ -20,13 +20,13 @@ import {
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 
 import { useTheme } from "../context/ThemeContext";
+import { getWeatherByCoords } from "../services/weatherService";
 
 const markerIcon = new L.Icon({
   iconUrl: markerIconPng,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
-
 function MapResizeFix() {
   const map = useMap();
 
@@ -62,8 +62,25 @@ export default function MapSection() {
 
   const [position, setPosition] = useState(null);
   const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [isOcean, setIsOcean] = useState(false);
+
+  const fetchWeather = async (lat, lon) => {
+    try {
+      const data = await getWeatherByCoords(lat, lon);
+      if (data) {
+        setWeather(data);
+      } else {
+        setWeather(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setWeather(null);
+    }
+  };
+
+  const handleSelect = (latlng) => {
+    setPosition(latlng);
+    fetchWeather(latlng.lat, latlng.lng);
+  };
 
   const tileUrl =
     theme === "light"
@@ -112,7 +129,7 @@ export default function MapSection() {
         <MapContainer
           center={[20.5937, 78.9629]}
           zoom={4}
-          className="home-map-leaflet"
+          scrollWheelZoom={true}
         >
           <MapResizeFix />
 
@@ -220,37 +237,32 @@ export default function MapSection() {
                 </div>
               </div>
 
-              <button
-                className="map-dashboard-btn large"
-                onClick={() => navigate(`/dashboard?city=${weather.city}`)}
-              >
-                Explore More Features
-                <FaArrowRight />
-              </button>
-            </>
-          ) : (
-            <>
-              <p>
-                <strong>Latitude:</strong> {position[0].toFixed(2)}
-              </p>
+              <h2>{Math.round(weather.temperature ?? 0)}°C</h2>
 
               <p>
                 <strong>Longitude:</strong> {position[1].toFixed(2)}
               </p>
 
-              <button
-                className="map-dashboard-btn"
-                onClick={() =>
-                  navigate(
-                    `/ocean-dashboard?lat=${position[0]}&lon=${position[1]}`,
-                  )
-                }
-              >
-                Ocean Dashboard
-                <FaArrowRight />
-              </button>
-            </>
-          )}
+            <div className="preview-stat">
+              <div className="preview-icon">
+                <FaCloud />
+              </div>
+
+              <h2 className="preview-value">{weather.description || "--"}</h2>
+
+              <p>Condition</p>
+            </div>
+
+            <div className="preview-stat">
+              <div className="preview-icon">
+                <FaWind />
+              </div>
+
+              <h2>{weather.wind_speed ?? "--"} m/s</h2>
+
+              <p>Wind Speed</p>
+            </div>
+          </div>
         </div>
       )}
     </section>
