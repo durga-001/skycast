@@ -16,6 +16,7 @@ import {
   FaWind,
   FaArrowRight,
 } from "react-icons/fa6";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 
@@ -62,25 +63,8 @@ export default function MapSection() {
 
   const [position, setPosition] = useState(null);
   const [weather, setWeather] = useState(null);
-
-  const fetchWeather = async (lat, lon) => {
-    try {
-      const data = await getWeatherByCoords(lat, lon);
-      if (data) {
-        setWeather(data);
-      } else {
-        setWeather(null);
-      }
-    } catch (err) {
-      console.error(err);
-      setWeather(null);
-    }
-  };
-
-  const handleSelect = (latlng) => {
-    setPosition(latlng);
-    fetchWeather(latlng.lat, latlng.lng);
-  };
+  const [loading, setLoading] = useState(false);
+  const [isOcean, setIsOcean] = useState(false);
 
   const tileUrl =
     theme === "light"
@@ -91,23 +75,23 @@ export default function MapSection() {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/coords?lat=${lat}&lon=${lon}`,
-      );
-
-      const data = await res.json();
-
-      console.log(data);
+      const data = await getWeatherByCoords(lat, lon);
 
       setWeather(data);
 
-      if (!data.city || data.city === "Unknown" || data.city === "Ocean") {
+      if (
+        !data ||
+        !data.city ||
+        data.city === "Unknown" ||
+        data.city === "Ocean"
+      ) {
         setIsOcean(true);
       } else {
         setIsOcean(false);
       }
     } catch (err) {
       console.error(err);
+      setWeather(null);
     } finally {
       setLoading(false);
     }
@@ -174,10 +158,16 @@ export default function MapSection() {
 
                         <p>Longitude :{position[1].toFixed(2)}</p>
 
-                        <button className="map-dashboard-btn" disabled>
+                        <button
+                          className="map-dashboard-btn"
+                          onClick={() =>
+                            navigate(
+                              `/ocean-dashboard?lat=${position[0]}&lon=${position[1]}`,
+                            )
+                          }
+                        >
                           Ocean Dashboard
-                          <br />
-                          Coming Soon
+                          <FaArrowRight />
                         </button>
                       </>
                     )}
@@ -231,38 +221,61 @@ export default function MapSection() {
                     <FaWind />
                   </div>
 
-                  <h2>{weather.wind_speed} m/s</h2>
+                  <h2>{weather.wind_speed ?? "--"} m/s</h2>
 
                   <p>Wind Speed</p>
                 </div>
               </div>
 
-              <h2>{Math.round(weather.temperature ?? 0)}°C</h2>
+              <button
+                className="map-dashboard-btn"
+                onClick={() =>
+                  navigate(
+                    `/dashboard?city=${encodeURIComponent(weather.city)}`,
+                  )
+                }
+              >
+                Land Dashboard
+                <FaArrowRight />
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="preview-grid">
+                <div className="preview-stat">
+                  <div className="preview-icon">
+                    <FaMapMarkerAlt />
+                  </div>
 
-              <p>
-                <strong>Longitude:</strong> {position[1].toFixed(2)}
-              </p>
+                  <h2>{position[0].toFixed(2)}</h2>
 
-            <div className="preview-stat">
-              <div className="preview-icon">
-                <FaCloud />
+                  <p>Latitude</p>
+                </div>
+
+                <div className="preview-stat">
+                  <div className="preview-icon">
+                    <FaMapMarkerAlt />
+                  </div>
+
+                  <h2>{position[1].toFixed(2)}</h2>
+
+                  <p>Longitude</p>
+                </div>
               </div>
 
-              <h2 className="preview-value">{weather.description || "--"}</h2>
-
-              <p>Condition</p>
-            </div>
-
-            <div className="preview-stat">
-              <div className="preview-icon">
-                <FaWind />
-              </div>
-
-              <h2>{weather.wind_speed ?? "--"} m/s</h2>
-
-              <p>Wind Speed</p>
-            </div>
-          </div>
+              <button
+                className="map-dashboard-btn"
+                onClick={() =>
+                  navigate(
+                    `/ocean-dashboard?lat=${position[0]}&lon=${position[1]}`,
+                  )
+                }
+              >
+                Ocean Dashboard
+                <FaArrowRight />
+              </button>
+            </>
+          )}
         </div>
       )}
     </section>

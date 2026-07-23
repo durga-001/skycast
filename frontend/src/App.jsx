@@ -24,6 +24,8 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/weather-map" element={<WeatherMapPage />} />
             <Route path="/outfit" element={<OutfitPage />} />
+            <Route path="/ocean-dashboard" element={<OceanDashboard />} />
+            <Route path="/ocean-map" element={<OceanMapPage />} />
 
             {/* Optional 404 */}
             <Route

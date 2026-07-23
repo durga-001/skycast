@@ -202,8 +202,8 @@ function Dashboard() {
 
     const init = async () => {
       await Promise.all([
-        fetchWeather(currentCity),
-        fetchForecast(currentCity),
+        fetchWeather(selectedCity),
+        fetchForecast(selectedCity),
       ]);
 
       const user = await getCurrentUser();

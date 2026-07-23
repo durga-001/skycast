@@ -13,9 +13,21 @@
   pointer-events: none;
   z-index: -1;
   background:
-    radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.14), transparent 30%),
-    radial-gradient(circle at 85% 80%, rgba(var(--accent-rgb), 0.1), transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(var(--accent-rgb), 0.06), transparent 55%);
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(var(--accent-rgb), 0.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(var(--accent-rgb), 0.1),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(var(--accent-rgb), 0.06),
+      transparent 55%
+    );
   filter: blur(70px);
   opacity: var(--glow-opacity);
   transition: 0.6s ease;
@@ -1111,4 +1123,36 @@
 
   background: linear-gradient(135deg, #ef4444, #ef4444);
 }
+
+.explore-btn {
+  margin-top: 20px;
+
+  padding: 12px 26px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, var(--accent), hsl(51, 91%, 45%));
+
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+
+  text-decoration: none;
+}
+
+.explore-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 14px 35px rgba(227, 241, 78, 0.955);
 }
