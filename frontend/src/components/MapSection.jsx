@@ -238,10 +238,16 @@ export default function MapSection() {
                 <strong>Longitude:</strong> {position[1].toFixed(2)}
               </p>
 
-              <button className="map-dashboard-btn large" disabled>
+              <button
+                className="map-dashboard-btn"
+                onClick={() =>
+                  navigate(
+                    `/ocean-dashboard?lat=${position[0]}&lon=${position[1]}`,
+                  )
+                }
+              >
                 Ocean Dashboard
-                <br />
-                Coming Soon
+                <FaArrowRight />
               </button>
             </>
           )}

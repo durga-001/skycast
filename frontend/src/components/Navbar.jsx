@@ -93,10 +93,12 @@ export default function Navbar() {
               {item.label}
             </button>
           ))}
-
           <Link to="/dashboard" className="nav-link">
-            Dashboard
+            Land
           </Link>
+          <Link to="/ocean-dashboard" className="nav-link">
+            Ocean
+          </Link>{" "}
         </nav>
 
         <div className="navbar-auth">
@@ -141,7 +143,15 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             className="mobile-link"
           >
-            Dashboard
+            Land
+          </Link>
+
+          <Link
+            to="/ocean-dashboard"
+            onClick={() => setMenuOpen(false)}
+            className="mobile-link"
+          >
+            Ocean
           </Link>
 
           <div className="mobile-auth">

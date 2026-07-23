@@ -9,6 +9,7 @@ import OutfitPage from "./pages/OutfitPage";
 import { ThemeProvider } from "./context/ThemeContext";
 import "./index.css";
 import "./styles/home.css";
+import OceanDashboard from "./pages/OceanDashboard";
 
 export default function App() {
   return (
@@ -21,9 +22,8 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
-
+            <Route path="/ocean-dashboard" element={<OceanDashboard />} />;
             <Route path="/weather-map" element={<WeatherMapPage />} />
-
             <Route path="/outfit" element={<OutfitPage />} />
           </Route>
         </Routes>

@@ -50,7 +50,6 @@ function Dashboard() {
   const [dailyForecast, setDailyForecast] = useState([]);
   const [aqi, setAqi] = useState(null);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const urlCity = decodeURIComponent(
     searchParams.get("city") || currentCity || "Delhi",
