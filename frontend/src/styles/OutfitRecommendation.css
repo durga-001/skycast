@@ -1,0 +1,833 @@
+.outfit-page {
+  min-height: 100vh;
+  color: var(--text);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.outfit-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(70px);
+  transition: 0.6s ease;
+}
+
+/* =============================
+   Dynamic Weather Background
+============================= */
+
+.outfit-page.sunny::before {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255, 193, 7, 0.22), transparent 28%),
+    radial-gradient(circle at 85% 85%, rgba(255, 152, 0, 0.16), transparent 38%);
+}
+
+.outfit-page.clouds::before {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(180, 190, 210, 0.16), transparent 30%),
+    radial-gradient(circle at 80% 85%, rgba(120, 140, 160, 0.12), transparent 40%);
+}
+
+.outfit-page.rain::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.18), transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.14), transparent 38%);
+}
+
+.outfit-page.thunderstorm::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.18), transparent 30%),
+    radial-gradient(circle at 85% 85%, rgba(250, 204, 21, 0.12), transparent 35%);
+}
+
+.outfit-page.snow::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.14), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(226, 232, 240, 0.1), transparent 40%);
+}
+
+/* ============================= */
+
+.outfit-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px 80px;
+}
+
+.outfit-hero {
+  margin-bottom: 35px;
+  padding: 42px;
+}
+
+.outfit-hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+}
+
+.outfit-badge {
+  display: inline-flex;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.12);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.outfit-title {
+  margin-top: 18px;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.outfit-subtitle {
+  margin-top: 18px;
+  max-width: 620px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.outfit-weather-info {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.outfit-weather-icon {
+  color: var(--accent);
+}
+
+/* ============================= */
+
+.outfit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.outfit-card {
+  padding: 28px;
+}
+
+.outfit-card-full {
+  grid-column: 1 / -1;
+}
+
+.outfit-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.outfit-card-title svg {
+  color: var(--accent);
+}
+
+.outfit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.outfit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--glass-border);
+  transition: var(--transition);
+}
+
+.outfit-item:last-child {
+  border-bottom: none;
+}
+
+/* =============================
+   Weather Accent
+============================= */
+
+.outfit-page.sunny {
+  --accent: #fdb813;
+  --accent-rgb: 253, 184, 19;
+}
+
+.outfit-page.clouds {
+  --accent: #94a3b8;
+  --accent-rgb: 148, 163, 184;
+}
+
+.outfit-page.rain {
+  --accent: #38bdf8;
+  --accent-rgb: 56, 189, 248;
+}
+
+.outfit-page.thunderstorm {
+  --accent: #a855f7;
+  --accent-rgb: 168, 85, 247;
+}
+
+.outfit-page.snow {
+  --accent: #e2e8f0;
+  --accent-rgb: 226, 232, 240;
+}
+
+.outfit-color-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.color-dot {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.15);
+}
+
+.outfit-card-footer {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--glass-border);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.outfit-item-icon {
+  flex-shrink: 0;
+  color: var(--accent);
+  font-size: 1.1rem;
+  transition: transform 0.25s ease;
+}
+
+.outfit-item:hover .outfit-item-icon {
+  transform: scale(1.15);
+}
+
+.wardrobe-section {
+  margin-top: 40px;
+  padding: 30px;
+}
+
+.wardrobe-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 25px;
+}
+
+.wardrobe-form input,
+.wardrobe-form select {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--glass);
+  color: var(--text);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  outline: none;
+  transition: var(--transition);
+}
+
+.wardrobe-form input::placeholder {
+  color: var(--text-secondary);
+}
+
+.wardrobe-form input:focus,
+.wardrobe-form select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
+}
+
+.wardrobe-form select option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.wardrobe-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.season-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.season-btn {
+  padding: 10px 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--text);
+  transition: var(--transition);
+}
+
+.season-btn:hover {
+  border-color: rgba(var(--accent-rgb), 0.3);
+  background: var(--surface-hover);
+}
+
+.season-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #050505;
+  font-weight: 700;
+}
+
+.save-btn {
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #050505;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.save-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.wardrobe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+  margin-top: 35px;
+}
+
+.wardrobe-item {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition);
+}
+
+.wardrobe-item:hover {
+  border-color: rgba(var(--accent-rgb), 0.25);
+}
+
+.wardrobe-item h4 {
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.wardrobe-item p {
+  margin: 5px 0;
+  color: var(--text-secondary);
+}
+
+.wardrobe-item small {
+  display: block;
+  margin-top: 10px;
+  color: var(--text-secondary);
+}
+
+.wardrobe-item button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #ef4444;
+  color: #fff;
+  transition: var(--transition);
+}
+
+.wardrobe-item button:hover {
+  filter: brightness(1.05);
+}
+
+.wardrobe-lock {
+  margin-top: 40px;
+  padding: 40px;
+  text-align: center;
+}
+
+.wardrobe-lock h2 {
+  margin-bottom: 15px;
+  color: var(--text);
+}
+
+.wardrobe-lock p {
+  max-width: 550px;
+  margin: auto;
+  color: var(--text-secondary);
+}
+
+.wardrobe-lock-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 25px;
+}
+
+.wardrobe-lock-buttons a {
+  padding: 12px 22px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #050505;
+  text-decoration: none;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.wardrobe-lock-buttons a:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.wardrobe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wardrobe-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+}
+
+.wardrobe-list span {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.wardrobe-category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.wardrobe-category-card {
+  display: flex;
+  flex-direction: column;
+  height: 520px;
+  overflow: hidden;
+}
+
+.wardrobe-category-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: var(--overlay-strong);
+  border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.category-icon {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.wardrobe-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+}
+
+.season-block {
+  margin-bottom: 28px;
+}
+
+.season-block h4 {
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.empty-season {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.wardrobe-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition);
+}
+
+.wardrobe-list-item:hover {
+  background: var(--surface-hover);
+  border-color: rgba(var(--accent-rgb), 0.25);
+}
+
+.wardrobe-list-item small {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+}
+
+.delete-icon {
+  opacity: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 18px;
+  transition: var(--transition);
+}
+
+.wardrobe-list-item:hover .delete-icon {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.wardrobe-lock-card {
+  margin-top: 35px;
+  padding: 45px;
+  text-align: center;
+}
+
+.wardrobe-lock-icon {
+  margin-bottom: 18px;
+  font-size: 58px;
+  color: var(--accent);
+}
+
+.wardrobe-lock-card h2 {
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.wardrobe-lock-card p {
+  max-width: 650px;
+  margin: 0 auto 30px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1024px) {
+  .outfit-container {
+    padding: 32px 18px 70px;
+  }
+
+  .outfit-hero {
+    padding: 34px;
+  }
+
+  .outfit-title {
+    font-size: 2.6rem;
+  }
+
+  .outfit-grid {
+    gap: 22px;
+  }
+
+  .wardrobe-category-card {
+    height: 480px;
+  }
+}
+
+@media (max-width: 900px) {
+  .outfit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .outfit-card-full {
+    grid-column: auto;
+  }
+
+  .outfit-hero {
+    padding: 32px 26px;
+  }
+
+  .outfit-hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .outfit-weather-info {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .outfit-title {
+    font-size: 2.2rem;
+  }
+
+  .outfit-subtitle {
+    margin-inline: auto;
+  }
+
+  .outfit-weather-icon svg {
+    width: 82px;
+    height: 82px;
+  }
+
+  .wardrobe-category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wardrobe-category-card {
+    height: 440px;
+  }
+}
+
+@media (max-width: 768px) {
+  .outfit-container {
+    padding: 26px 16px 60px;
+  }
+
+  .outfit-hero {
+    margin-bottom: 28px;
+    padding: 26px 22px;
+  }
+
+  .outfit-badge {
+    padding: 7px 14px;
+    font-size: 0.82rem;
+  }
+
+  .outfit-title {
+    font-size: 1.95rem;
+  }
+
+  .outfit-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .outfit-weather-info {
+    gap: 8px;
+    font-size: 0.95rem;
+  }
+
+  .outfit-card {
+    padding: 22px;
+  }
+
+  .outfit-card-title {
+    margin-bottom: 18px;
+    font-size: 1.1rem;
+  }
+
+  .outfit-item {
+    gap: 10px;
+    padding: 10px 0;
+    font-size: 0.95rem;
+  }
+
+  .outfit-card-footer {
+    margin-top: 18px;
+  }
+
+  .wardrobe-section {
+    padding: 24px;
+  }
+
+  .wardrobe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wardrobe-lock-card {
+    padding: 34px 24px;
+  }
+
+  .wardrobe-lock-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wardrobe-lock-buttons a {
+    width: 100%;
+    max-width: 260px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .outfit-container {
+    padding: 20px 12px 50px;
+  }
+
+  .outfit-hero {
+    padding: 22px 18px;
+    border-radius: 20px;
+  }
+
+  .outfit-badge {
+    font-size: 0.76rem;
+  }
+
+  .outfit-title {
+    font-size: 1.65rem;
+    margin-top: 14px;
+  }
+
+  .outfit-subtitle {
+    margin-top: 14px;
+    font-size: 0.9rem;
+  }
+
+  .outfit-weather-info {
+    margin-top: 18px;
+    font-size: 0.88rem;
+  }
+
+  .outfit-weather-icon svg {
+    width: 70px;
+    height: 70px;
+  }
+
+  .outfit-grid {
+    gap: 16px;
+  }
+
+  .outfit-card {
+    padding: 18px;
+  }
+
+  .outfit-card-title {
+    font-size: 1rem;
+  }
+
+  .outfit-item {
+    font-size: 0.9rem;
+  }
+
+  .color-dot {
+    width: 15px;
+    height: 15px;
+  }
+
+  .outfit-card-footer {
+    font-size: 0.82rem;
+  }
+
+  .wardrobe-section {
+    padding: 18px;
+    margin-top: 28px;
+  }
+
+  .wardrobe-form {
+    gap: 14px;
+  }
+
+  .wardrobe-form input,
+  .wardrobe-form select {
+    padding: 12px 14px;
+    font-size: 0.92rem;
+  }
+
+  .season-grid {
+    gap: 8px;
+  }
+
+  .season-btn {
+    padding: 9px 14px;
+    font-size: 0.82rem;
+  }
+
+  .save-btn {
+    padding: 12px;
+    font-size: 0.92rem;
+  }
+
+  .wardrobe-category-card {
+    height: 390px;
+  }
+
+  .wardrobe-category-header {
+    padding: 16px;
+  }
+
+  .wardrobe-scroll {
+    padding: 14px;
+  }
+
+  .wardrobe-list-item {
+    padding: 10px 12px;
+  }
+
+  .delete-icon {
+    opacity: 1;
+  }
+
+  .wardrobe-lock-card {
+    padding: 28px 18px;
+  }
+
+  .wardrobe-lock-icon {
+    font-size: 46px;
+  }
+
+  .wardrobe-lock-card h2 {
+    font-size: 1.25rem;
+  }
+
+  .wardrobe-lock-card p {
+    font-size: 0.9rem;
+    margin-bottom: 22px;
+  }
+}
+
+@media (max-width: 360px) {
+  .outfit-title {
+    font-size: 1.45rem;
+  }
+
+  .outfit-card {
+    padding: 16px;
+  }
+
+  .outfit-item {
+    font-size: 0.85rem;
+  }
+
+  .wardrobe-section {
+    padding: 16px;
+  }
+
+  .wardrobe-category-card {
+    height: 360px;
+  }
+
+  .wardrobe-lock-card {
+    padding: 22px 16px;
+  }
+}

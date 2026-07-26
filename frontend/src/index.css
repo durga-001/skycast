@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root,
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg: #050505;
+  --surface: #0d0d0d;
+  --surface-hover: #141414;
+
+  /* Glass */
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Overlay (navbar / footer / mobile-menu) */
+  --overlay: rgba(10, 10, 10, 0.65);
+  --overlay-strong: rgba(10, 10, 10, 0.96);
+
+  /* Typography */
+  --text: #f5f5f5;
+  --text-secondary: #9ca3af;
+
+  /* Accent */
+  --accent: #fbbf24;
+  --accent-rgb: 251, 191, 36;
+
+  /* Radius */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 22px;
+
+  /* Shadows */
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+
+  /* Animation */
+  --transition: 250ms ease;
+
+  /* Layout */
+  --sidebar-width: 300px;
+  --content-max-width: 1800px;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 20px;
+  --space-lg: 28px;
+  --space-xl: 40px;
+
+  --glow-opacity: 0.85;
+  --accent-dark: #d97706;
+  --brand: #d97706;
+}
+
+[data-theme="light"] {
+  /* Backgrounds */
+  --accent-dark: #d97706;
+
+  --bg: #eef0f3;
+  --surface: #ffffff;
+  --surface-hover: #f5f6f8;
+
+  /* Glass */
+  --glass: #ffffff;
+  --glass-border: rgba(0, 0, 0, 0.12);
+
+  /* Overlay */
+  --overlay: rgba(255, 255, 255, 0.85);
+  --overlay-strong: rgba(255, 255, 255, 0.97);
+
+  /* Typography */
+  --text: #111111;
+  --text-secondary: #5b5f66;
+
+  /* Accent */
+  --accent: #f59e0b;
+  --accent-rgb: 245, 158, 11;
+
+  /* Shadows */
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  transition:
+    background var(--transition),
+    color var(--transition);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Hide scrollbar globally (clean glass UI) */
+html {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
