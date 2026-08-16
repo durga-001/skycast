@@ -1,4 +1,4 @@
-# SkyCast 🌤🌊
+# SkyCast 
 
 🔗 **Live Demo:** [skycast.com](https://skycast-frontend-vqhq.onrender.com/ocean-dashboard)
 
